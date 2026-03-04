@@ -1,0 +1,12 @@
+{
+  "name": "夢幻計算機大全",
+  "short_name": "計算機大全",
+  "description": "72種免費線上計算機，涵蓋數學、財務、健康、日期、工程等各類計算工具",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fbc2eb",
+  "theme_color": "#a18cd1",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
