@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="照片沖印尺寸計算機，輸入照片像素，自動判斷可沖印的照片尺寸與畫質評級。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/photo-print.html">
+<meta property="og:title" content="照片沖印尺寸計算機 | 夢幻計算機大全">
+<meta property="og:description" content="照片沖印尺寸計算機，輸入照片像素，自動判斷可沖印的照片尺寸與畫質評級。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/photo-print.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"照片沖印尺寸計算機","description":"照片沖印尺寸計算機，輸入照片像素，自動判斷可沖印的照片尺寸與畫質評級。","url":"https://calc.sotshau.fun/calculators/life/photo-print.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>照片沖印尺寸計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fef9d0 0%,#faeea8 30%,#f5d76e 60%,#d4a520 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#f5d76e;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#d4a520;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#8a6a10;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(180,140,20,.18);padding:40px 36px;max-width:520px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#8a6a10;font-size:1.55rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#b89030;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#8a6a10;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #f0d888;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fffdf0;color:#8a6a10;margin-bottom:18px}
+input:focus{border-color:#d4a520}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f5d76e,#d4a520);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(180,140,20,.35)}
+.result{margin-top:22px;display:none}
+.print-item{background:linear-gradient(135deg,#fefce8,#fef5c0);border-radius:14px;padding:14px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.print-name{color:#8a6a10;font-weight:800;font-size:.95rem}
+.print-size{color:#b89030;font-size:.82rem}
+.print-status{font-weight:700;font-size:.88rem;padding:4px 10px;border-radius:10px}
+.ok{background:rgba(74,173,142,.15);color:#2a8a6e}
+.warn{background:rgba(212,165,32,.15);color:#8a6a10}
+.bad{background:rgba(208,90,90,.12);color:#d05a5a}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4a520;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>照片沖印尺寸計算機</h1>
+<p class="subtitle">輸入像素 → 查看可沖印的照片尺寸</p>
+<label for="pw">照片寬度（像素）</label>
+<input type="number" id="pw" placeholder="例如：4000" min="1" step="1">
+<label for="ph">照片高度（像素）</label>
+<input type="number" id="ph" placeholder="例如：3000" min="1" step="1">
+<button class="calc-btn" onclick="calculate()">計算可沖印尺寸</button>
+<div class="result" id="result"></div>
+</div>
+<script>
+var sizes=[
+  {name:'2吋（護照）',w:413,h:531,label:'413×531 px'},
+  {name:'3吋',w:900,h:1200,label:'900×1200 px'},
+  {name:'4吋（10×15cm）',w:1200,h:1800,label:'1200×1800 px'},
+  {name:'5吋（13×18cm）',w:1500,h:2100,label:'1500×2100 px'},
+  {name:'6吋（15×20cm）',w:1800,h:2400,label:'1800×2400 px'},
+  {name:'8吋（20×25cm）',w:2400,h:3000,label:'2400×3000 px'},
+  {name:'10吋（25×30cm）',w:3000,h:3600,label:'3000×3600 px'},
+  {name:'A4（21×29.7cm）',w:2480,h:3508,label:'2480×3508 px @ 300dpi'},
+  {name:'A3（29.7×42cm）',w:3508,h:4961,label:'3508×4961 px @ 300dpi'}
+];
+function calculate(){
+  var pw=parseFloat(document.getElementById('pw').value);
+  var ph=parseFloat(document.getElementById('ph').value);
+  if(!pw||!ph||pw<=0||ph<=0){alert('請輸入有效的像素尺寸');return;}
+  var html='';
+  sizes.forEach(function(s){
+    var needW=Math.min(s.w,s.h);var needH=Math.max(s.w,s.h);
+    var longSide=Math.max(pw,ph);var shortSide=Math.min(pw,ph);
+    var ratio=longSide/shortSide;var needRatio=needH/needW;
+    var fits=longSide>=needH&&shortSide>=needW;
+    var margin=Math.min(longSide/needH,shortSide/needW);
+    var status,cls;
+    if(margin>=1.2){status='✓ 高畫質';cls='ok';}
+    else if(margin>=1){status='△ 勉強可印';cls='warn';}
+    else{status='✗ 像素不足';cls='bad';}
+    html+='<div class="print-item"><div><div class="print-name">'+s.name+'</div><div class="print-size">需 '+s.label+'</div></div><span class="print-status '+cls+'">'+status+'</span></div>';
+  });
+  document.getElementById('result').innerHTML=html;
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

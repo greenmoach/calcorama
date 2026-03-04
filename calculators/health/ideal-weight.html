@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="理想體重計算機，根據身高計算理想體重範圍，了解健康體重目標區間。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/health/ideal-weight.html">
+<meta property="og:title" content="理想體重計算機 | 夢幻計算機大全">
+<meta property="og:description" content="理想體重計算機，根據身高計算理想體重範圍，了解健康體重目標區間。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/health/ideal-weight.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"理想體重計算機","description":"理想體重計算機，根據身高計算理想體重範圍，了解健康體重目標區間。","url":"https://calc.sotshau.fun/calculators/health/ideal-weight.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>理想體重計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8f5e6 0%,#a0e8d0 30%,#7ecfc0 60%,#5cb8a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.float-circle{position:fixed;border-radius:50%;background:rgba(255,255,255,0.12);pointer-events:none;animation:floatUp 8s ease-in-out infinite;}
+.fc1{width:120px;height:120px;top:10%;left:5%;animation-delay:0s;}
+.fc2{width:80px;height:80px;top:60%;right:8%;animation-delay:2s;}
+.fc3{width:60px;height:60px;bottom:15%;left:15%;animation-delay:4s;}
+.fc4{width:100px;height:100px;top:25%;right:20%;animation-delay:1s;}
+.fc5{width:45px;height:45px;bottom:30%;right:30%;animation-delay:3s;}
+@keyframes floatUp{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.08);}}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(60,160,130,0.18);padding:48px 40px;max-width:460px;width:100%;position:relative;z-index:2;}
+h1{text-align:center;color:#2a8a6e;font-size:1.8rem;margin-bottom:8px;font-weight:800;}
+.subtitle{text-align:center;color:#6abfa8;font-size:0.95rem;margin-bottom:28px;}
+label{display:block;color:#3a9a80;font-weight:700;margin-bottom:6px;font-size:0.92rem;}
+input{width:100%;padding:14px 16px;border:2px solid #b8e8d8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:rgba(255,255,255,0.7);margin-bottom:18px;}
+input:focus{border-color:#4aad8e;}
+.gender-group{display:flex;gap:12px;margin-bottom:18px;}
+.gender-btn{flex:1;padding:14px;border:2px solid #b8e8d8;border-radius:14px;background:rgba(255,255,255,0.7);font-size:1rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;text-align:center;transition:all .3s;color:#6abfa8;}
+.gender-btn.active{border-color:#4aad8e;background:#4aad8e;color:#fff;}
+.btn{width:100%;padding:15px;background:linear-gradient(135deg,#5cb8a8,#3a9a80);color:#fff;border:none;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,160,130,0.35);}
+.result{margin-top:24px;display:none;}
+.res-box{padding:18px;background:rgba(74,173,142,0.08);border-radius:14px;margin-bottom:12px;}
+.res-title{color:#3a9a80;font-weight:700;font-size:0.9rem;margin-bottom:8px;}
+.res-range{color:#2a8a6e;font-weight:800;font-size:1.6rem;text-align:center;}
+.res-sub{color:#6abfa8;font-size:0.82rem;text-align:center;margin-top:4px;}
+.devine-box{background:rgba(74,173,142,0.12);border-radius:14px;padding:18px;text-align:center;}
+.devine-val{color:#2a8a6e;font-weight:800;font-size:1.4rem;}
+@media(max-width:500px){.card{padding:32px 20px;border-radius:20px;}h1{font-size:1.5rem;}.res-range{font-size:1.3rem;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4aad8e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="float-circle fc1"></div>
+<div class="float-circle fc2"></div>
+<div class="float-circle fc3"></div>
+<div class="float-circle fc4"></div>
+<div class="float-circle fc5"></div>
+<div class="card">
+<h1>理想體重計算機</h1>
+<p class="subtitle">根據身高與性別計算理想體重</p>
+<label>性別</label>
+<div class="gender-group">
+<div class="gender-btn active" id="gMale" onclick="setGender('male')">男性</div>
+<div class="gender-btn" id="gFemale" onclick="setGender('female')">女性</div>
+</div>
+<label for="height">身高（公分）</label>
+<input type="number" id="height" placeholder="例如：170" min="100" max="250" step="0.1">
+<button class="btn" onclick="calc()">計算理想體重</button>
+<div class="result" id="result">
+<div class="res-box">
+<div class="res-title">BMI 健康體重範圍（BMI 18.5 ~ 24.9）</div>
+<div class="res-range" id="bmiRange"></div>
+<div class="res-sub">公斤</div>
+</div>
+<div class="devine-box">
+<div class="res-title">Devine 公式理想體重</div>
+<div class="devine-val" id="devineVal"></div>
+<div class="res-sub" id="devineSub"></div>
+</div>
+</div>
+</div>
+<script>
+var gender='male';
+function setGender(g){
+  gender=g;
+  document.getElementById('gMale').className='gender-btn'+(g==='male'?' active':'');
+  document.getElementById('gFemale').className='gender-btn'+(g==='female'?' active':'');
+}
+function calc(){
+  var h=parseFloat(document.getElementById('height').value);
+  if(!h||h<=0){alert('請輸入有效的身高');return;}
+  var hm=h/100;
+  var low=Math.round(18.5*hm*hm*10)/10;
+  var high=Math.round(24.9*hm*hm*10)/10;
+  document.getElementById('bmiRange').textContent=low+' ~ '+high;
+  // Devine formula: Male: 50 + 2.3*(height_in - 60), Female: 45.5 + 2.3*(height_in - 60)
+  var inches=h/2.54;
+  var devine;
+  if(gender==='male'){devine=50+2.3*(inches-60);}
+  else{devine=45.5+2.3*(inches-60);}
+  devine=Math.round(devine*10)/10;
+  document.getElementById('devineVal').textContent=devine+' 公斤';
+  document.getElementById('devineSub').textContent=gender==='male'?'男性：50 + 2.3 × (身高英吋 - 60)':'女性：45.5 + 2.3 × (身高英吋 - 60)';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

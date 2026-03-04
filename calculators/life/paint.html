@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="塗料用量計算機，輸入牆面尺寸與塗料覆蓋率，計算需要購買幾罐油漆。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/paint.html">
+<meta property="og:title" content="塗料面積計算機 | 夢幻計算機大全">
+<meta property="og:description" content="塗料用量計算機，輸入牆面尺寸與塗料覆蓋率，計算需要購買幾罐油漆。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/paint.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"塗料面積計算機","description":"塗料用量計算機，輸入牆面尺寸與塗料覆蓋率，計算需要購買幾罐油漆。","url":"https://calc.sotshau.fun/calculators/life/paint.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>塗料面積計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fff8e0 0%,#f5e6b8 30%,#f5d76e 60%,#e8c840 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;}
+.f1{width:180px;height:180px;background:#e8c840;top:-40px;right:-40px;}
+.f2{width:120px;height:120px;background:#f5d76e;bottom:60px;left:-30px;}
+.f3{width:90px;height:90px;background:#c4960e;top:40%;right:10%;}
+.f4{width:60px;height:60px;background:#f5e6b8;bottom:20%;left:15%;}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,170,50,0.18);max-width:560px;width:100%;padding:40px 34px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#a07800;font-size:1.65rem;margin-bottom:6px;}
+.subtitle{text-align:center;color:#b89a30;font-size:0.92rem;margin-bottom:22px;}
+.section-title{font-weight:700;color:#8a6d00;font-size:1rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid #f0dfa0;}
+.row{display:flex;gap:12px;margin-bottom:14px;}
+.row .group{flex:1;}
+.group{margin-bottom:14px;}
+.group label{display:block;font-weight:700;color:#8a6d00;margin-bottom:5px;font-size:0.9rem;}
+.group input{width:100%;padding:11px 14px;border:2px solid #e8d88a;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;background:#fffef5;outline:none;transition:border 0.2s;}
+.group input:focus{border-color:#d4b030;}
+.sub-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;background:#fffde8;padding:10px 12px;border-radius:12px;}
+.sub-row input{width:80px;padding:8px 10px;border:2px solid #e8d88a;border-radius:10px;font-size:0.92rem;font-family:'Nunito',sans-serif;background:#fff;outline:none;}
+.sub-row span{color:#8a6d00;font-weight:600;font-size:0.88rem;white-space:nowrap;}
+.sub-row input:focus{border-color:#d4b030;}
+.btn-add{background:none;border:2px dashed #d4b030;border-radius:12px;padding:9px;width:100%;color:#a07800;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;font-size:0.9rem;margin-bottom:14px;transition:background 0.2s;}
+.btn-add:hover{background:#fffde8;}
+button.calc{width:100%;padding:13px;border:none;border-radius:14px;background:linear-gradient(135deg,#f5d76e,#e8c840);color:#7a5c00;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(200,170,50,0.25);transition:transform 0.15s;}
+button.calc:hover{transform:scale(1.02);}
+.result{margin-top:18px;background:#fffde8;border-radius:16px;padding:18px;display:none;}
+.result h3{color:#a07800;font-size:1rem;margin-bottom:10px;}
+.r-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0dfa0;color:#7a5c00;font-size:0.95rem;}
+.r-row:last-child{border:none;}
+.r-row .rv{font-weight:800;font-size:1.05rem;}
+.btn-rm{background:none;border:none;color:#c49000;font-weight:800;cursor:pointer;font-size:1.1rem;padding:0 6px;line-height:1;}
+@media(max-width:500px){.card{padding:28px 16px 28px;}h1{font-size:1.3rem;}.row{flex-direction:column;gap:0;}.sub-row input{width:60px;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#c4960e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+<h1>塗料面積計算機</h1>
+<p class="subtitle">精準計算塗料用量，不浪費</p>
+<div class="section-title">房間尺寸</div>
+<div class="row">
+<div class="group"><label>長度（公尺）</label><input type="number" id="rLen" min="0" step="0.1" placeholder="例：5"></div>
+<div class="group"><label>寬度（公尺）</label><input type="number" id="rWid" min="0" step="0.1" placeholder="例：4"></div>
+</div>
+<div class="group"><label>牆面高度（公尺）</label><input type="number" id="rH" min="0" step="0.1" placeholder="例：2.8"></div>
+<div class="section-title">扣除門窗面積</div>
+<div id="openings">
+<div class="sub-row"><span>門窗 1</span><input type="number" min="0" step="0.1" placeholder="寬" class="ow"> <span>x</span> <input type="number" min="0" step="0.1" placeholder="高" class="oh"> <span>公尺</span><button class="btn-rm" onclick="removeOpening(this)">&times;</button></div>
+</div>
+<button class="btn-add" onclick="addOpening()">+ 新增門窗</button>
+<div class="section-title">塗料設定</div>
+<div class="row">
+<div class="group"><label>塗布率（m²/L）</label><input type="number" id="coverage" value="10" min="0.1" step="0.1"></div>
+<div class="group"><label>每罐容量（L）</label><input type="number" id="canSize" value="1" min="0.1" step="0.1"></div>
+</div>
+<button class="calc" onclick="calculate()">計算用量</button>
+<div class="result" id="res">
+<h3>計算結果</h3>
+<div id="resContent"></div>
+</div>
+</div>
+<script>
+var openingCount=1;
+function addOpening(){
+  openingCount++;
+  var d=document.createElement('div');
+  d.className='sub-row';
+  d.innerHTML='<span>門窗 '+openingCount+'</span><input type="number" min="0" step="0.1" placeholder="寬" class="ow"> <span>x</span> <input type="number" min="0" step="0.1" placeholder="高" class="oh"> <span>公尺</span><button class="btn-rm" onclick="removeOpening(this)">&times;</button>';
+  document.getElementById('openings').appendChild(d);
+}
+function removeOpening(btn){
+  var rows=document.getElementById('openings').querySelectorAll('.sub-row');
+  if(rows.length>1) btn.parentElement.remove();
+}
+function calculate(){
+  var l=parseFloat(document.getElementById('rLen').value)||0;
+  var w=parseFloat(document.getElementById('rWid').value)||0;
+  var h=parseFloat(document.getElementById('rH').value)||0;
+  if(l<=0||w<=0||h<=0){alert('請輸入有效的房間尺寸');return;}
+  var wallArea=(l+w)*2*h;
+  var openingArea=0;
+  var rows=document.getElementById('openings').querySelectorAll('.sub-row');
+  for(var i=0;i<rows.length;i++){
+    var ow=parseFloat(rows[i].querySelector('.ow').value)||0;
+    var oh=parseFloat(rows[i].querySelector('.oh').value)||0;
+    openingArea+=ow*oh;
+  }
+  var paintArea=wallArea-openingArea;
+  if(paintArea<0) paintArea=0;
+  var cov=parseFloat(document.getElementById('coverage').value)||10;
+  var canSz=parseFloat(document.getElementById('canSize').value)||1;
+  var liters=paintArea/cov;
+  var cans=Math.ceil(liters/canSz);
+  var html='';
+  html+='<div class="r-row"><span>牆面總面積</span><span class="rv">'+wallArea.toFixed(2)+' m²</span></div>';
+  html+='<div class="r-row"><span>門窗扣除面積</span><span class="rv">'+openingArea.toFixed(2)+' m²</span></div>';
+  html+='<div class="r-row"><span>實際塗刷面積</span><span class="rv">'+paintArea.toFixed(2)+' m²</span></div>';
+  html+='<div class="r-row"><span>所需塗料量</span><span class="rv">'+liters.toFixed(2)+' L</span></div>';
+  html+='<div class="r-row"><span>建議購買罐數</span><span class="rv">'+cans+' 罐（每罐 '+canSz+' L）</span></div>';
+  document.getElementById('resContent').innerHTML=html;
+  document.getElementById('res').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

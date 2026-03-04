@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="體積計算機，支援球體、圓柱、圓錐、正方體、長方體的體積與表面積計算。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/geometry/volume.html">
+<meta property="og:title" content="體積計算機 | 夢幻計算機大全">
+<meta property="og:description" content="體積計算機，支援球體、圓柱、圓錐、正方體、長方體的體積與表面積計算。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/geometry/volume.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"體積計算機","description":"體積計算機，支援球體、圓柱、圓錐、正方體、長方體的體積與表面積計算。","url":"https://calc.sotshau.fun/calculators/geometry/volume.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>體積計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8fff5 0%,#a0f0e0 30%,#55efc4 60%,#00b894 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#55efc4;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#00b894;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#007a5e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(0,184,148,.2);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#007a5e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#30b890;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#007a5e;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input,select{width:100%;padding:12px 16px;border:2px solid #a0ecd8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#f0fff8;color:#007a5e;margin-bottom:18px}
+input:focus,select:focus{border-color:#00b894}
+.fields{display:none}
+.fields.active{display:block}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#55efc4,#00b894);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,184,148,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#e8fff8,#d0f5e8);border-radius:16px;padding:22px;display:none}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(0,184,148,.12)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:#30b890;font-weight:700;font-size:.9rem}
+.result-value{color:#007a5e;font-weight:800;font-size:1.1rem}
+.highlight{text-align:center;font-size:1.4rem;font-weight:800;color:#007a5e;margin-bottom:12px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#00b894;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>體積計算機</h1>
+<p class="subtitle">球體 / 圓柱 / 圓錐 / 長方體 / 正方體</p>
+<label for="shape">選擇形狀</label>
+<select id="shape" onchange="updateFields()">
+  <option value="sphere">球體</option>
+  <option value="cylinder">圓柱體</option>
+  <option value="cone">圓錐體</option>
+  <option value="cube">正方體</option>
+  <option value="box">長方體</option>
+</select>
+<div id="fSphere" class="fields active">
+  <label>半徑 r</label>
+  <input type="number" id="sphereR" placeholder="例如：5" min="0" step="any">
+</div>
+<div id="fCylinder" class="fields">
+  <label>底面半徑 r</label>
+  <input type="number" id="cylR" placeholder="例如：5" min="0" step="any">
+  <label>高度 h</label>
+  <input type="number" id="cylH" placeholder="例如：10" min="0" step="any">
+</div>
+<div id="fCone" class="fields">
+  <label>底面半徑 r</label>
+  <input type="number" id="coneR" placeholder="例如：5" min="0" step="any">
+  <label>高度 h</label>
+  <input type="number" id="coneH" placeholder="例如：10" min="0" step="any">
+</div>
+<div id="fCube" class="fields">
+  <label>邊長 a</label>
+  <input type="number" id="cubeA" placeholder="例如：5" min="0" step="any">
+</div>
+<div id="fBox" class="fields">
+  <label>長 l</label>
+  <input type="number" id="boxL" placeholder="例如：10" min="0" step="any">
+  <label>寬 w</label>
+  <input type="number" id="boxW" placeholder="例如：5" min="0" step="any">
+  <label>高 h</label>
+  <input type="number" id="boxH" placeholder="例如：8" min="0" step="any">
+</div>
+<button class="calc-btn" onclick="calculate()">計算體積</button>
+<div class="result" id="result">
+  <div class="highlight" id="rVol"></div>
+  <div class="result-row"><span class="result-label">表面積</span><span class="result-value" id="rSA"></span></div>
+</div>
+</div>
+<script>
+function g(id){return parseFloat(document.getElementById(id).value);}
+function fmt(n){return Math.round(n*1000)/1000;}
+function updateFields(){
+  var s=document.getElementById('shape').value;
+  var map={sphere:'fSphere',cylinder:'fCylinder',cone:'fCone',cube:'fCube',box:'fBox'};
+  Object.values(map).forEach(function(id){document.getElementById(id).classList.remove('active');});
+  document.getElementById(map[s]).classList.add('active');
+  document.getElementById('result').style.display='none';
+}
+function calculate(){
+  var s=document.getElementById('shape').value;
+  var vol,sa;
+  if(s==='sphere'){var r=g('sphereR');if(!r||r<=0){alert('請輸入半徑');return;}vol=4/3*Math.PI*r*r*r;sa=4*Math.PI*r*r;}
+  else if(s==='cylinder'){var r=g('cylR'),h=g('cylH');if(!r||!h||r<=0||h<=0){alert('請輸入半徑與高度');return;}vol=Math.PI*r*r*h;sa=2*Math.PI*r*(r+h);}
+  else if(s==='cone'){var r=g('coneR'),h=g('coneH');if(!r||!h||r<=0||h<=0){alert('請輸入半徑與高度');return;}var sl=Math.sqrt(r*r+h*h);vol=1/3*Math.PI*r*r*h;sa=Math.PI*r*(r+sl);}
+  else if(s==='cube'){var a=g('cubeA');if(!a||a<=0){alert('請輸入邊長');return;}vol=a*a*a;sa=6*a*a;}
+  else{var l=g('boxL'),w=g('boxW'),h=g('boxH');if(!l||!w||!h||l<=0||w<=0||h<=0){alert('請輸入長寬高');return;}vol=l*w*h;sa=2*(l*w+l*h+w*h);}
+  document.getElementById('rVol').textContent='體積：'+fmt(vol);
+  document.getElementById('rSA').textContent=fmt(sa);
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

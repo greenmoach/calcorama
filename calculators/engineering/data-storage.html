@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="資料容量換算計算機，KB、MB、GB、TB、PB 等儲存單位快速互相換算。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/engineering/data-storage.html">
+<meta property="og:title" content="資料容量換算 | 夢幻計算機大全">
+<meta property="og:description" content="資料容量換算計算機，KB、MB、GB、TB、PB 等儲存單位快速互相換算。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/engineering/data-storage.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"資料容量換算","description":"資料容量換算計算機，KB、MB、GB、TB、PB 等儲存單位快速互相換算。","url":"https://calc.sotshau.fun/calculators/engineering/data-storage.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>資料容量換算 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#e8e0f0 0%,#d0c0e8 30%,#a29bfe 60%,#8880e0 100%);display:flex;justify-content:center;align-items:flex-start;padding:60px 16px 40px;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;animation:floatAnim 8s ease-in-out infinite;}
+.floating:nth-child(1){width:120px;height:120px;background:#a29bfe;top:10%;left:5%;animation-delay:0s;}
+.floating:nth-child(2){width:80px;height:80px;background:#6c5ce7;top:60%;right:8%;animation-delay:2s;}
+.floating:nth-child(3){width:160px;height:160px;background:#d0c0e8;bottom:10%;left:50%;animation-delay:4s;}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.05);}}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(108,92,231,0.18);max-width:640px;width:100%;padding:40px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#6c5ce7;font-size:1.6rem;font-weight:800;margin-bottom:24px;}
+h2{color:#6c5ce7;font-size:1.1rem;font-weight:700;margin:20px 0 12px;}
+label{display:block;font-weight:700;color:#5a4eb0;margin-bottom:6px;font-size:0.9rem;}
+input[type="number"]{width:100%;padding:10px 14px;border:2px solid #d0c0e8;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;}
+input:focus{border-color:#a29bfe;}
+select{width:100%;padding:10px 14px;border:2px solid #d0c0e8;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;background:#fff;transition:border-color .2s;cursor:pointer;}
+select:focus{border-color:#a29bfe;}
+.input-row{display:flex;gap:12px;margin-bottom:20px;}
+.input-row .field-val{flex:2;}
+.input-row .field-unit{flex:1;}
+table{width:100%;border-collapse:collapse;margin-top:8px;}
+th{background:#a29bfe;color:#fff;padding:10px 8px;font-size:0.85rem;font-weight:700;text-align:left;}
+th:first-child{border-radius:10px 0 0 0;}
+th:last-child{border-radius:0 10px 0 0;}
+td{padding:8px 8px;font-size:0.88rem;color:#444;border-bottom:1px solid #e8e0f0;font-family:'Nunito',monospace;}
+tr:nth-child(even) td{background:rgba(162,155,254,0.06);}
+tr:last-child td:first-child{border-radius:0 0 0 10px;}
+tr:last-child td:last-child{border-radius:0 0 10px 0;}
+td.unit-name{font-weight:700;color:#5a4eb0;}
+.highlight td{background:rgba(162,155,254,0.18) !important;font-weight:700;}
+.section-label{display:inline-block;background:#a29bfe;color:#fff;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:8px;margin-bottom:8px;}
+@media(max-width:480px){.card{padding:28px 18px;}h1{font-size:1.3rem;}.input-row{flex-direction:column;gap:8px;}td,th{padding:6px 4px;font-size:0.8rem;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#6c5ce7;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>資料容量換算</h1>
+
+<div class="input-row">
+<div class="field-val">
+<label>輸入數值</label>
+<input type="number" id="inputVal" value="1" step="any" min="0" oninput="convert()">
+</div>
+<div class="field-unit">
+<label>單位</label>
+<select id="inputUnit" onchange="convert()">
+<option value="0">Bytes</option>
+<option value="1">KB</option>
+<option value="2" selected>MB</option>
+<option value="3">GB</option>
+<option value="4">TB</option>
+<option value="5">PB</option>
+</select>
+</div>
+</div>
+
+<h2><span class="section-label">二進位</span> 1024 進位制（IEC）</h2>
+<table>
+<thead><tr><th>單位</th><th>值</th></tr></thead>
+<tbody id="binaryTable"></tbody>
+</table>
+
+<h2><span class="section-label">十進位</span> 1000 進位制（SI）</h2>
+<table>
+<thead><tr><th>單位</th><th>值</th></tr></thead>
+<tbody id="decimalTable"></tbody>
+</table>
+</div>
+
+<script>
+var binaryUnits=[
+  {name:'Bytes',abbr:'B',power:0},
+  {name:'KiB (Kibibytes)',abbr:'KiB',power:1},
+  {name:'MiB (Mebibytes)',abbr:'MiB',power:2},
+  {name:'GiB (Gibibytes)',abbr:'GiB',power:3},
+  {name:'TiB (Tebibytes)',abbr:'TiB',power:4},
+  {name:'PiB (Pebibytes)',abbr:'PiB',power:5}
+];
+
+var decimalUnits=[
+  {name:'Bytes',abbr:'B',power:0},
+  {name:'KB (Kilobytes)',abbr:'KB',power:1},
+  {name:'MB (Megabytes)',abbr:'MB',power:2},
+  {name:'GB (Gigabytes)',abbr:'GB',power:3},
+  {name:'TB (Terabytes)',abbr:'TB',power:4},
+  {name:'PB (Petabytes)',abbr:'PB',power:5}
+];
+
+// Input unit powers are in 1024-based
+var inputPowers=[0,1,2,3,4,5];
+
+function formatNumber(n){
+  if(n===0)return '0';
+  if(n>=1&&n<1e15){
+    var s=n.toFixed(10);
+    // Remove trailing zeros after decimal
+    if(s.indexOf('.')!==-1){
+      s=s.replace(/\.?0+$/,'');
+    }
+    // If number is very large, use locale string
+    if(n>=1000){
+      var parts=s.split('.');
+      parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
+      return parts.join('.');
+    }
+    return s;
+  }
+  if(n<0.000001)return n.toExponential(6);
+  return parseFloat(n.toFixed(10)).toString();
+}
+
+function convert(){
+  var val=parseFloat(document.getElementById('inputVal').value);
+  var unitIdx=parseInt(document.getElementById('inputUnit').value);
+  if(isNaN(val)||val<0){
+    clearTables();return;
+  }
+
+  // Convert input to bytes (binary 1024-based)
+  var bytes=val*Math.pow(1024,inputPowers[unitIdx]);
+
+  // Binary table
+  var bTbody=document.getElementById('binaryTable');
+  bTbody.innerHTML='';
+  for(var i=0;i<binaryUnits.length;i++){
+    var u=binaryUnits[i];
+    var converted=bytes/Math.pow(1024,u.power);
+    var tr=document.createElement('tr');
+    if(u.power===inputPowers[unitIdx])tr.classList.add('highlight');
+    var td1=document.createElement('td');td1.classList.add('unit-name');td1.textContent=u.name;
+    var td2=document.createElement('td');td2.textContent=formatNumber(converted);
+    tr.appendChild(td1);tr.appendChild(td2);
+    bTbody.appendChild(tr);
+  }
+
+  // Decimal table
+  var dTbody=document.getElementById('decimalTable');
+  dTbody.innerHTML='';
+  for(var i=0;i<decimalUnits.length;i++){
+    var u=decimalUnits[i];
+    var converted=bytes/Math.pow(1000,u.power);
+    var tr=document.createElement('tr');
+    var td1=document.createElement('td');td1.classList.add('unit-name');td1.textContent=u.name;
+    var td2=document.createElement('td');td2.textContent=formatNumber(converted);
+    tr.appendChild(td1);tr.appendChild(td2);
+    dTbody.appendChild(tr);
+  }
+}
+
+function clearTables(){
+  document.getElementById('binaryTable').innerHTML='';
+  document.getElementById('decimalTable').innerHTML='';
+}
+
+convert();
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

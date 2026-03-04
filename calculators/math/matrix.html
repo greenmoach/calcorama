@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="矩陣加減乘、行列式、轉置計算機，支援 2×2 至 3×3 矩陣運算。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/matrix.html">
+<meta property="og:title" content="矩陣計算機 | 夢幻計算機大全">
+<meta property="og:description" content="矩陣加減乘、行列式、轉置計算機，支援 2×2 至 3×3 矩陣運算。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/matrix.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"矩陣計算機","description":"矩陣加減乘、行列式、轉置計算機，支援 2×2 至 3×3 矩陣運算。","url":"https://calc.sotshau.fun/calculators/math/matrix.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>矩陣計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fbc2eb 0%,#e8a0d4 30%,#c9a0dc 60%,#a18cd1 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:28px;box-shadow:0 8px 32px rgba(180,100,160,0.25);padding:32px 24px;max-width:560px;width:100%}
+h1{text-align:center;color:#9b59b6;font-size:1.4rem;margin-bottom:12px}
+.size-sel{text-align:center;margin-bottom:14px}
+.size-sel button{padding:8px 18px;border:2px solid #e0b0d0;border-radius:10px;background:#f8e1f0;color:#7b3f8a;font-family:'Nunito',sans-serif;font-weight:600;cursor:pointer;margin:0 4px;transition:all .2s}
+.size-sel button.active{background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border-color:transparent}
+.mat-label{color:#7b3f8a;font-weight:700;text-align:center;margin:10px 0 6px}
+.mat-grid{display:grid;gap:6px;justify-content:center;margin-bottom:10px}
+.mat-grid input{width:58px;padding:8px;border:2px solid #e0b0d0;border-radius:8px;text-align:center;font-size:0.95rem;font-family:'Nunito',sans-serif;outline:none}
+.mat-grid input:focus{border-color:#d4789c}
+.ops{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0}
+.ops button{padding:8px 14px;background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s}
+.ops button:hover{transform:scale(1.05);opacity:0.9}
+.result{margin-top:14px;padding:16px;background:rgba(255,255,255,0.7);border-radius:16px;text-align:center;color:#6b3a7d;overflow-x:auto}
+.res-grid{display:inline-grid;gap:6px}
+.res-grid span{display:inline-block;min-width:50px;padding:6px;background:#f8e1f0;border-radius:8px;font-weight:600}
+.heart{position:fixed;color:#f5a0c0;opacity:0.3;animation:floatH 6s ease-in-out infinite;pointer-events:none;font-size:1.5rem}
+@keyframes floatH{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px) rotate(15deg)}}
+@media(max-width:480px){.card{padding:20px 12px}.mat-grid input{width:46px;padding:6px}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4789c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<span class="heart" style="top:8%;left:5%">&#9829;</span>
+<span class="heart" style="bottom:15%;right:6%;animation-delay:2s">&#9733;</span>
+<div class="card">
+<h1>&#128200; 矩陣計算機</h1>
+<div class="size-sel">
+  <button class="active" onclick="setSize(2)">2×2</button>
+  <button onclick="setSize(3)">3×3</button>
+</div>
+<div class="mat-label">矩陣 A</div>
+<div class="mat-grid" id="matA"></div>
+<div class="mat-label">矩陣 B</div>
+<div class="mat-grid" id="matB"></div>
+<div class="ops">
+  <button onclick="doOp('add')">A + B</button>
+  <button onclick="doOp('sub')">A − B</button>
+  <button onclick="doOp('mul')">A × B</button>
+  <button onclick="doOp('detA')">det(A)</button>
+  <button onclick="doOp('detB')">det(B)</button>
+  <button onclick="doOp('transA')">A&#7488;</button>
+  <button onclick="doOp('transB')">B&#7488;</button>
+</div>
+<div class="result" id="result" style="display:none"></div>
+</div>
+<script>
+let N=2;
+function setSize(n){
+  N=n;
+  document.querySelectorAll('.size-sel button').forEach((b,i)=>b.classList.toggle('active',i===(n-2)));
+  buildGrid('matA','a');buildGrid('matB','b');
+  document.getElementById('result').style.display='none';
+}
+function buildGrid(id,prefix){
+  let g=document.getElementById(id);g.innerHTML='';
+  g.style.gridTemplateColumns='repeat('+N+',58px)';
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){
+    let inp=document.createElement('input');inp.type='number';inp.id=prefix+i+j;inp.value=0;g.appendChild(inp);
+  }
+}
+function getMat(prefix){
+  let m=[];for(let i=0;i<N;i++){m[i]=[];for(let j=0;j<N;j++)m[i][j]=parseFloat(document.getElementById(prefix+i+j).value)||0;}return m;
+}
+function det(m){
+  if(m.length===2)return m[0][0]*m[1][1]-m[0][1]*m[1][0];
+  let d=0;for(let j=0;j<3;j++){
+    let minor=[];for(let r=1;r<3;r++){let row=[];for(let c=0;c<3;c++)if(c!==j)row.push(m[r][c]);minor.push(row)}
+    d+=((j%2===0?1:-1)*m[0][j]*(minor[0][0]*minor[1][1]-minor[0][1]*minor[1][0]));
+  }return d;
+}
+function transpose(m){let t=[];for(let i=0;i<N;i++){t[i]=[];for(let j=0;j<N;j++)t[i][j]=m[j][i]}return t}
+function showMat(m){
+  let html='<div class="res-grid" style="grid-template-columns:repeat('+N+',auto)">';
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++)html+='<span>'+m[i][j]+'</span>';
+  html+='</div>';return html;
+}
+function doOp(op){
+  let a=getMat('a'),b=getMat('b'),r=document.getElementById('result');r.style.display='block';
+  if(op==='detA'){r.innerHTML='<strong>det(A) = '+det(a)+'</strong>';return}
+  if(op==='detB'){r.innerHTML='<strong>det(B) = '+det(b)+'</strong>';return}
+  if(op==='transA'){r.innerHTML='<strong>A&#7488; =</strong><br>'+showMat(transpose(a));return}
+  if(op==='transB'){r.innerHTML='<strong>B&#7488; =</strong><br>'+showMat(transpose(b));return}
+  let res=[];
+  for(let i=0;i<N;i++){res[i]=[];for(let j=0;j<N;j++){
+    if(op==='add')res[i][j]=a[i][j]+b[i][j];
+    else if(op==='sub')res[i][j]=a[i][j]-b[i][j];
+    else{let s=0;for(let k=0;k<N;k++)s+=a[i][k]*b[k][j];res[i][j]=s;}
+  }}
+  let label=op==='add'?'A + B':op==='sub'?'A − B':'A × B';
+  r.innerHTML='<strong>'+label+' =</strong><br>'+showMat(res);
+}
+setSize(2);
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

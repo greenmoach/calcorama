@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="歐姆定律計算機，V=IR 三值互算，輸入電壓、電流、電阻任意兩值求第三值。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/engineering/ohm.html">
+<meta property="og:title" content="歐姆定律計算機 | 夢幻計算機大全">
+<meta property="og:description" content="歐姆定律計算機，V=IR 三值互算，輸入電壓、電流、電阻任意兩值求第三值。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/engineering/ohm.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"歐姆定律計算機","description":"歐姆定律計算機，V=IR 三值互算，輸入電壓、電流、電阻任意兩值求第三值。","url":"https://calc.sotshau.fun/calculators/engineering/ohm.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>歐姆定律計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#e8e0f0 0%,#d0c0e8 30%,#a29bfe 60%,#8880e0 100%);display:flex;justify-content:center;align-items:flex-start;padding:60px 16px 40px;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;animation:floatAnim 8s ease-in-out infinite;}
+.floating:nth-child(1){width:120px;height:120px;background:#a29bfe;top:10%;left:5%;animation-delay:0s;}
+.floating:nth-child(2){width:80px;height:80px;background:#6c5ce7;top:60%;right:8%;animation-delay:2s;}
+.floating:nth-child(3){width:160px;height:160px;background:#d0c0e8;bottom:10%;left:50%;animation-delay:4s;}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.05);}}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(108,92,231,0.18);max-width:520px;width:100%;padding:40px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#6c5ce7;font-size:1.6rem;font-weight:800;margin-bottom:8px;}
+.subtitle{text-align:center;color:#7c6fbf;font-size:0.9rem;margin-bottom:24px;}
+label{display:block;font-weight:700;color:#5a4eb0;margin-bottom:6px;font-size:0.9rem;}
+input[type="number"]{width:100%;padding:10px 14px;border:2px solid #d0c0e8;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;transition:border-color .2s;}
+input:focus{border-color:#a29bfe;}
+.field{margin-bottom:16px;position:relative;}
+.unit{position:absolute;right:14px;top:34px;color:#a29bfe;font-weight:700;font-size:0.9rem;}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-bottom:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3);}
+.btn-clear{background:transparent;color:#a29bfe;border:2px solid #d0c0e8;font-size:0.95rem;padding:10px;}
+.btn-clear:hover{background:rgba(162,155,254,0.1);transform:none;box-shadow:none;}
+.results{background:rgba(162,155,254,0.1);border-radius:16px;padding:20px;margin-top:20px;}
+.result-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(162,155,254,0.2);}
+.result-item:last-child{border-bottom:none;}
+.result-label{font-weight:700;color:#5a4eb0;}
+.result-val{font-size:1.2rem;font-weight:800;color:#6c5ce7;}
+.triangle{margin:20px auto;width:200px;height:180px;position:relative;}
+.tri-svg{width:100%;height:100%;}
+.hint{text-align:center;color:#999;font-size:0.8rem;margin-top:12px;}
+.error{color:#e74c3c;font-size:0.85rem;text-align:center;margin-top:8px;min-height:20px;}
+@media(max-width:480px){.card{padding:28px 18px;}h1{font-size:1.3rem;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#6c5ce7;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>歐姆定律計算機</h1>
+<p class="subtitle">V = I &times; R &nbsp;&mdash;&nbsp; 填入任意兩個值，計算第三個</p>
+
+<div class="triangle">
+<svg class="tri-svg" viewBox="0 0 200 180">
+<polygon points="100,10 10,170 190,170" fill="none" stroke="#a29bfe" stroke-width="3" stroke-linejoin="round"/>
+<line x1="10" y1="170" x2="190" y2="170" stroke="#a29bfe" stroke-width="3"/>
+<line x1="100" y1="90" x2="100" y2="170" stroke="#d0c0e8" stroke-width="2" stroke-dasharray="4"/>
+<text x="100" y="60" text-anchor="middle" font-family="Nunito" font-weight="800" fill="#6c5ce7" font-size="22">V</text>
+<text x="55" y="150" text-anchor="middle" font-family="Nunito" font-weight="800" fill="#6c5ce7" font-size="22">I</text>
+<text x="145" y="150" text-anchor="middle" font-family="Nunito" font-weight="800" fill="#6c5ce7" font-size="22">R</text>
+</svg>
+</div>
+
+<div class="field">
+<label>電壓 V（伏特）</label>
+<input type="number" id="voltage" placeholder="留空由系統計算" step="any">
+<span class="unit">V</span>
+</div>
+<div class="field">
+<label>電流 I（安培）</label>
+<input type="number" id="current" placeholder="留空由系統計算" step="any">
+<span class="unit">A</span>
+</div>
+<div class="field">
+<label>電阻 R（歐姆）</label>
+<input type="number" id="resistance" placeholder="留空由系統計算" step="any">
+<span class="unit">&Omega;</span>
+</div>
+
+<button class="btn" onclick="calculate()">計算</button>
+<button class="btn btn-clear" onclick="clearAll()">清除全部</button>
+<div class="error" id="error"></div>
+
+<div class="results" id="results" style="display:none;">
+<div class="result-item">
+<span class="result-label">電壓 (V)</span>
+<span class="result-val" id="resV">—</span>
+</div>
+<div class="result-item">
+<span class="result-label">電流 (I)</span>
+<span class="result-val" id="resI">—</span>
+</div>
+<div class="result-item">
+<span class="result-label">電阻 (R)</span>
+<span class="result-val" id="resR">—</span>
+</div>
+<div class="result-item">
+<span class="result-label">功率 (P = V&times;I)</span>
+<span class="result-val" id="resP">—</span>
+</div>
+</div>
+<p class="hint">提示：填入任意兩個值即可計算</p>
+</div>
+
+<script>
+function formatNum(n){
+  if(n===null||n===undefined||isNaN(n))return '—';
+  if(Math.abs(n)>=1000000)return parseFloat((n/1000000).toFixed(4))+' M';
+  if(Math.abs(n)>=1000)return parseFloat((n/1000).toFixed(4))+' K';
+  if(Math.abs(n)<0.001&&n!==0)return parseFloat((n*1000).toFixed(4))+' m';
+  return parseFloat(n.toFixed(6)).toString();
+}
+
+function calculate(){
+  var vStr=document.getElementById('voltage').value.trim();
+  var iStr=document.getElementById('current').value.trim();
+  var rStr=document.getElementById('resistance').value.trim();
+  var errEl=document.getElementById('error');
+  errEl.textContent='';
+
+  var v=vStr===''?null:parseFloat(vStr);
+  var i=iStr===''?null:parseFloat(iStr);
+  var r=rStr===''?null:parseFloat(rStr);
+
+  // Count provided values
+  var count=(v!==null?1:0)+(i!==null?1:0)+(r!==null?1:0);
+  if(count<2){errEl.textContent='請至少填入兩個值';return;}
+
+  // Validate numbers
+  if((v!==null&&isNaN(v))||(i!==null&&isNaN(i))||(r!==null&&isNaN(r))){
+    errEl.textContent='請輸入有效的數字';return;
+  }
+
+  if(v!==null&&i!==null&&r===null){
+    if(i===0){errEl.textContent='電流不可為零（無法計算電阻）';return;}
+    r=v/i;
+  }else if(v!==null&&r!==null&&i===null){
+    if(r===0){errEl.textContent='電阻不可為零（無法計算電流）';return;}
+    i=v/r;
+  }else if(i!==null&&r!==null&&v===null){
+    v=i*r;
+  }else{
+    // All three provided - just show results
+  }
+
+  var p=v*i;
+
+  document.getElementById('resV').textContent=formatNum(v)+' V';
+  document.getElementById('resI').textContent=formatNum(i)+' A';
+  document.getElementById('resR').textContent=formatNum(r)+' \u03A9';
+  document.getElementById('resP').textContent=formatNum(p)+' W';
+  document.getElementById('results').style.display='block';
+}
+
+function clearAll(){
+  document.getElementById('voltage').value='';
+  document.getElementById('current').value='';
+  document.getElementById('resistance').value='';
+  document.getElementById('error').textContent='';
+  document.getElementById('results').style.display='none';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

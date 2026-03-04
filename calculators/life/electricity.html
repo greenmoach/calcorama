@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="電費計算機，輸入電器瓦數與使用時間，估算每月電費消耗金額。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/electricity.html">
+<meta property="og:title" content="電費計算機 | 夢幻計算機大全">
+<meta property="og:description" content="電費計算機，輸入電器瓦數與使用時間，估算每月電費消耗金額。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/electricity.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"電費計算機","description":"電費計算機，輸入電器瓦數與使用時間，估算每月電費消耗金額。","url":"https://calc.sotshau.fun/calculators/life/electricity.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>電費計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fff8e0 0%,#f5e6b8 30%,#f5d76e 60%,#e8c840 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;}
+.f1{width:180px;height:180px;background:#e8c840;top:-40px;right:-40px;}
+.f2{width:120px;height:120px;background:#f5d76e;bottom:60px;left:-30px;}
+.f3{width:90px;height:90px;background:#c4960e;top:40%;right:10%;}
+.f4{width:60px;height:60px;background:#f5e6b8;bottom:20%;left:15%;}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,170,50,0.18);max-width:520px;width:100%;padding:40px 34px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#a07800;font-size:1.65rem;margin-bottom:6px;}
+.subtitle{text-align:center;color:#b89a30;font-size:0.92rem;margin-bottom:22px;}
+.group{margin-bottom:16px;}
+.group label{display:block;font-weight:700;color:#8a6d00;margin-bottom:5px;font-size:0.93rem;}
+.group input{width:100%;padding:12px 14px;border:2px solid #e8d88a;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;background:#fffef5;outline:none;transition:border 0.2s;}
+.group input:focus{border-color:#d4b030;}
+.group .hint{font-size:0.8rem;color:#b89a30;margin-top:3px;}
+.row{display:flex;gap:12px;}
+.row .group{flex:1;}
+button.calc{width:100%;padding:13px;border:none;border-radius:14px;background:linear-gradient(135deg,#f5d76e,#e8c840);color:#7a5c00;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(200,170,50,0.25);transition:transform 0.15s;}
+button.calc:hover{transform:scale(1.02);}
+.result{margin-top:18px;background:#fffde8;border-radius:16px;padding:18px;display:none;}
+.result h3{color:#a07800;font-size:1rem;margin-bottom:10px;}
+.r-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0dfa0;color:#7a5c00;font-size:0.95rem;}
+.r-row:last-child{border:none;}
+.r-row .rv{font-weight:800;font-size:1.05rem;}
+.highlight{background:#fff3c4;padding:12px;border-radius:12px;text-align:center;margin-top:12px;}
+.highlight .big{font-size:1.6rem;font-weight:800;color:#7a5c00;}
+.highlight .lbl{font-size:0.88rem;color:#a07800;}
+@media(max-width:500px){.card{padding:26px 16px 26px;}h1{font-size:1.3rem;}.row{flex-direction:column;gap:0;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#c4960e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+<h1>電費計算機</h1>
+<p class="subtitle">估算電器每月電費開銷</p>
+<div class="group">
+<label>電器功率（瓦特 W）</label>
+<input type="number" id="watt" min="0" step="1" placeholder="例：1000">
+<div class="hint">常見：冷氣 900~1500W、電風扇 50W、冰箱 100~200W</div>
+</div>
+<div class="row">
+<div class="group"><label>每日使用時數</label><input type="number" id="hours" min="0" max="24" step="0.5" placeholder="例：8"></div>
+<div class="group"><label>每月使用天數</label><input type="number" id="days" min="0" max="31" step="1" placeholder="例：30" value="30"></div>
+</div>
+<div class="group">
+<label>電價（元/度）</label>
+<input type="number" id="rate" min="0" step="0.1" value="4.5">
+<div class="hint">台灣住宅平均約 4~6 元/度（依累進費率不同）</div>
+</div>
+<button class="calc" onclick="calculate()">計算電費</button>
+<div class="result" id="res">
+<h3>計算結果</h3>
+<div id="resContent"></div>
+<div class="highlight">
+<div class="lbl">預估每月電費</div>
+<div class="big" id="totalCost"></div>
+</div>
+</div>
+</div>
+<script>
+function calculate(){
+  var w=parseFloat(document.getElementById('watt').value);
+  var h=parseFloat(document.getElementById('hours').value);
+  var d=parseFloat(document.getElementById('days').value);
+  var r=parseFloat(document.getElementById('rate').value);
+  if(!w||w<0||!h||h<0||!d||d<0||!r||r<0){alert('請輸入有效的數值');return;}
+  var dailyKwh=w/1000*h;
+  var monthlyKwh=dailyKwh*d;
+  var cost=monthlyKwh*r;
+  var yearCost=cost*12;
+  var html='';
+  html+='<div class="r-row"><span>每日用電量</span><span class="rv">'+dailyKwh.toFixed(2)+' 度</span></div>';
+  html+='<div class="r-row"><span>每月用電量</span><span class="rv">'+monthlyKwh.toFixed(2)+' 度</span></div>';
+  html+='<div class="r-row"><span>電價費率</span><span class="rv">NT$ '+r.toFixed(1)+' / 度</span></div>';
+  html+='<div class="r-row"><span>預估年度電費</span><span class="rv">NT$ '+yearCost.toFixed(0)+'</span></div>';
+  document.getElementById('resContent').innerHTML=html;
+  document.getElementById('totalCost').textContent='NT$ '+cost.toFixed(0);
+  document.getElementById('res').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

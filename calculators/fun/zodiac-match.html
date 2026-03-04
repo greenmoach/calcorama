@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="星座配對計算機，選擇兩個星座，分析配對指數與相處特質，趣味參考用途。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/fun/zodiac-match.html">
+<meta property="og:title" content="星座配對計算機 | 夢幻計算機大全">
+<meta property="og:description" content="星座配對計算機，選擇兩個星座，分析配對指數與相處特質，趣味參考用途。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/fun/zodiac-match.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"星座配對計算機","description":"星座配對計算機，選擇兩個星座，分析配對指數與相處特質，趣味參考用途。","url":"https://calc.sotshau.fun/calculators/fun/zodiac-match.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>星座配對計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#ffe8f5 0%,#ffc8e8 30%,#ff9fd0 60%,#fd79a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#ff9fd0;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#fd79a8;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#c0286e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,80,140,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#c0286e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#e06898;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#c0286e;font-weight:700;margin-bottom:6px;font-size:.9rem}
+select{width:100%;padding:12px 16px;border:2px solid #ffc0e0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fff5fa;color:#c0286e;margin-bottom:18px}
+select:focus{border-color:#fd79a8}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#ff9fd0,#fd79a8);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,80,140,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#fff0f8,#ffe0f0);border-radius:16px;padding:24px;display:none;text-align:center}
+.pair{font-size:2rem;margin-bottom:8px}
+.score-val{font-size:3rem;font-weight:800;color:#c0286e}
+.score-label{color:#e06898;font-size:.9rem;margin-bottom:12px}
+.score-bar{background:rgba(200,80,140,.12);border-radius:20px;height:12px;margin-bottom:16px;overflow:hidden}
+.score-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#ff9fd0,#fd79a8);transition:width .6s ease}
+.match-desc{font-size:.88rem;color:#c0286e;line-height:1.6;background:rgba(200,80,140,.06);border-radius:10px;padding:12px;text-align:left}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#fd79a8;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>星座配對計算機</h1>
+<p class="subtitle">兩星座 → 配對分析</p>
+<label for="z1">星座 A</label>
+<select id="z1"></select>
+<label for="z2">星座 B</label>
+<select id="z2"></select>
+<button class="calc-btn" onclick="calculate()">💕 計算配對</button>
+<div class="result" id="result">
+  <div class="pair" id="rPair"></div>
+  <div class="score-val" id="rScore"></div>
+  <div class="score-label">配對指數</div>
+  <div class="score-bar"><div class="score-fill" id="rBar"></div></div>
+  <div class="match-desc" id="rDesc"></div>
+</div>
+</div>
+<script>
+var zodiacs=[
+  {name:'牡羊座',icon:'♈',el:'火',mod:'基本'},
+  {name:'金牛座',icon:'♉',el:'土',mod:'固定'},
+  {name:'雙子座',icon:'♊',el:'風',mod:'變動'},
+  {name:'巨蟹座',icon:'♋',el:'水',mod:'基本'},
+  {name:'獅子座',icon:'♌',el:'火',mod:'固定'},
+  {name:'處女座',icon:'♍',el:'土',mod:'變動'},
+  {name:'天秤座',icon:'♎',el:'風',mod:'基本'},
+  {name:'天蠍座',icon:'♏',el:'水',mod:'固定'},
+  {name:'射手座',icon:'♐',el:'火',mod:'變動'},
+  {name:'摩羯座',icon:'♑',el:'土',mod:'基本'},
+  {name:'水瓶座',icon:'♒',el:'風',mod:'固定'},
+  {name:'雙魚座',icon:'♓',el:'水',mod:'變動'}
+];
+var opts=zodiacs.map(function(z,i){return '<option value="'+i+'">'+z.icon+' '+z.name+'</option>';}).join('');
+document.getElementById('z1').innerHTML=opts;
+document.getElementById('z2').innerHTML=opts;
+document.getElementById('z2').selectedIndex=3;
+var matchDescs={
+  same:'同星座配對，彼此理解深刻，有強烈共鳴。但需注意相同的缺點可能放大，要互相包容成長。',
+  trineEl:'同元素三分相，天生就能理解彼此，相處自然和諧，是靈魂伴侶般的存在。',
+  sext:'六分相，有良好的溝通基礎，互相欣賞，友誼與愛情都能發展良好。',
+  opp:'對分相，個性截然不同，但「異性相吸」，互相補足對方的不足，若能包容則非常互補。',
+  sq:'四分相，個性衝突明顯，需要更多溝通與磨合，但衝突也能帶來成長的動力。',
+  inc:'五分相或二分相，需要更多努力才能找到共同點，關係需要雙方主動經營。'
+};
+function getScore(i1,i2){
+  if(i1===i2)return{score:85,type:'same'};
+  var diff=Math.abs(i1-i2);if(diff>6)diff=12-diff;
+  var e1=zodiacs[i1].el,e2=zodiacs[i2].el;
+  var compatible={火:['風'],土:['水'],風:['火'],水:['土']};
+  var same=e1===e2;
+  var comp=compatible[e1]&&compatible[e1].indexOf(e2)>=0;
+  if(diff===4||diff===8)return{score:same?95:88,type:'trineEl'};
+  if(diff===2||diff===10)return{score:comp?80:72,type:'sext'};
+  if(diff===6)return{score:75,type:'opp'};
+  if(diff===3||diff===9)return{score:comp?65:58,type:'sq'};
+  return{score:50,type:'inc'};
+}
+function calculate(){
+  var i1=parseInt(document.getElementById('z1').value);
+  var i2=parseInt(document.getElementById('z2').value);
+  var z1=zodiacs[i1],z2=zodiacs[i2];
+  var r=getScore(i1,i2);
+  document.getElementById('rPair').textContent=z1.icon+' '+z1.name+' × '+z2.icon+' '+z2.name;
+  document.getElementById('rScore').textContent=r.score+'%';
+  document.getElementById('rBar').style.width=r.score+'%';
+  document.getElementById('rDesc').textContent=matchDescs[r.type];
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

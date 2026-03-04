@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="免費線上基本計算機，支援加減乘除四則運算，操作簡單直覺，立即使用。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculator.html">
+<meta property="og:title" content="基本計算機 | 夢幻計算機大全">
+<meta property="og:description" content="免費線上基本計算機，支援加減乘除四則運算，操作簡單直覺，立即使用。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"基本計算機","description":"免費線上基本計算機，支援加減乘除四則運算，操作簡單直覺，立即使用。","url":"https://calc.sotshau.fun/calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>基本計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fbc2eb 0%, #e8a0d4 30%, #c9a0dc 60%, #a18cd1 100%);
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 背景裝飾愛心與星星 */
+body::before, body::after {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.2rem;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.deco {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.18;
+  z-index: 0;
+  animation: float 6s ease-in-out infinite;
+  font-size: 1.4rem;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(8deg); }
+}
+
+.calculator {
+  position: relative;
+  z-index: 1;
+  width: 340px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  padding: 24px 20px 20px;
+  box-shadow:
+    0 8px 32px rgba(199, 120, 180, 0.35),
+    0 2px 8px rgba(199, 120, 180, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.calculator-title {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #d4789c;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.display {
+  background: linear-gradient(135deg, #fff0f5, #fce4f0);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  box-shadow: inset 0 2px 6px rgba(219, 150, 180, 0.2);
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.display-expression {
+  font-size: 0.95rem;
+  color: #c9829e;
+  min-height: 1.3em;
+  transition: opacity 0.2s;
+}
+
+.display-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #8b4570;
+  line-height: 1.2;
+  transition: font-size 0.2s;
+}
+
+.display-value.small {
+  font-size: 1.5rem;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 16px 0;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.btn:hover {
+  transform: scale(1.07);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* 數字鍵 */
+.btn-num {
+  background: linear-gradient(145deg, #fff5f8, #ffe8ef);
+  color: #8b4570;
+  box-shadow: 0 3px 8px rgba(219, 150, 180, 0.2);
+}
+
+.btn-num:hover {
+  background: linear-gradient(145deg, #ffe8ef, #ffd6e3);
+  box-shadow: 0 4px 12px rgba(219, 150, 180, 0.3);
+}
+
+/* 運算符號 */
+.btn-op {
+  background: linear-gradient(145deg, #f8c0d8, #f0a0c4);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(219, 120, 160, 0.3);
+}
+
+.btn-op:hover {
+  background: linear-gradient(145deg, #f0a0c4, #e888b4);
+  box-shadow: 0 4px 12px rgba(219, 120, 160, 0.4);
+}
+
+.btn-op.active {
+  background: linear-gradient(145deg, #e070a0, #d45888);
+  box-shadow: 0 2px 12px rgba(200, 80, 130, 0.5);
+}
+
+/* 功能鍵 (AC, +/-, %, ⌫) */
+.btn-func {
+  background: linear-gradient(145deg, #f0dce6, #e8c8d8);
+  color: #9b5578;
+  box-shadow: 0 3px 8px rgba(180, 130, 160, 0.2);
+}
+
+.btn-func:hover {
+  background: linear-gradient(145deg, #e8c8d8, #e0b8cc);
+  box-shadow: 0 4px 12px rgba(180, 130, 160, 0.3);
+}
+
+/* 等號 */
+.btn-eq {
+  background: linear-gradient(135deg, #f78fb3, #cf6a9e, #a855a0);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(200, 100, 150, 0.4);
+  font-size: 1.4rem;
+}
+
+.btn-eq:hover {
+  background: linear-gradient(135deg, #f07aa5, #c45890, #9a4590);
+  box-shadow: 0 6px 18px rgba(200, 100, 150, 0.5);
+  transform: scale(1.1);
+}
+
+/* 0 按鈕佔兩格 */
+.btn-zero {
+  grid-column: span 2;
+}
+
+/* 按鍵漣漪效果 */
+.btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-anim 0.5s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* RWD */
+@media (max-width: 400px) {
+  .calculator {
+    width: 95vw;
+    padding: 18px 14px 14px;
+    border-radius: 22px;
+  }
+
+  .btn {
+    padding: 14px 0;
+    font-size: 1.1rem;
+    border-radius: 14px;
+  }
+
+  .buttons {
+    gap: 8px;
+  }
+
+  .display-value {
+    font-size: 1.9rem;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 768px) {
+  .calculator {
+    width: 80vw;
+    max-width: 360px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- 裝飾元素 -->
+<span class="deco" style="top:8%;left:10%;animation-delay:0s;">&#10084;</span>
+<span class="deco" style="top:15%;right:12%;animation-delay:1.2s;font-size:1rem;">&#9733;</span>
+<span class="deco" style="top:70%;left:8%;animation-delay:2.5s;">&#9733;</span>
+<span class="deco" style="top:80%;right:10%;animation-delay:0.8s;font-size:1.1rem;">&#10084;</span>
+<span class="deco" style="top:40%;left:5%;animation-delay:3s;font-size:0.9rem;">&#10084;</span>
+<span class="deco" style="top:55%;right:6%;animation-delay:1.8s;font-size:1rem;">&#9733;</span>
+<span class="deco" style="top:25%;left:85%;animation-delay:4s;">&#10084;</span>
+<span class="deco" style="top:90%;left:50%;animation-delay:2s;font-size:0.9rem;">&#9733;</span>
+
+<div class="calculator">
+  <div class="calculator-title">&#10023; DREAMY CALC &#10023;</div>
+  <div class="display">
+    <div class="display-expression" id="expression"></div>
+    <div class="display-value" id="displayValue">0</div>
+  </div>
+  <div class="buttons">
+    <button class="btn btn-func" data-action="clear">AC</button>
+    <button class="btn btn-func" data-action="sign">+/&minus;</button>
+    <button class="btn btn-func" data-action="percent">%</button>
+    <button class="btn btn-op" data-action="operator" data-value="÷">÷</button>
+
+    <button class="btn btn-num" data-action="number" data-value="7">7</button>
+    <button class="btn btn-num" data-action="number" data-value="8">8</button>
+    <button class="btn btn-num" data-action="number" data-value="9">9</button>
+    <button class="btn btn-op" data-action="operator" data-value="×">×</button>
+
+    <button class="btn btn-num" data-action="number" data-value="4">4</button>
+    <button class="btn btn-num" data-action="number" data-value="5">5</button>
+    <button class="btn btn-num" data-action="number" data-value="6">6</button>
+    <button class="btn btn-op" data-action="operator" data-value="-">&minus;</button>
+
+    <button class="btn btn-num" data-action="number" data-value="1">1</button>
+    <button class="btn btn-num" data-action="number" data-value="2">2</button>
+    <button class="btn btn-num" data-action="number" data-value="3">3</button>
+    <button class="btn btn-op" data-action="operator" data-value="+">+</button>
+
+    <button class="btn btn-num btn-zero" data-action="number" data-value="0">0</button>
+    <button class="btn btn-num" data-action="decimal">.</button>
+    <button class="btn btn-eq" data-action="equals">=</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const displayValue = document.getElementById('displayValue');
+  const expression = document.getElementById('expression');
+
+  let currentInput = '0';
+  let previousInput = '';
+  let currentOperator = null;
+  let shouldResetInput = false;
+  let lastResult = null;
+
+  function updateDisplay() {
+    displayValue.textContent = currentInput;
+    displayValue.classList.toggle('small', currentInput.length > 10);
+  }
+
+  function formatNumber(num) {
+    if (!isFinite(num)) return 'Error';
+    const str = String(num);
+    if (str.length > 14) {
+      return parseFloat(num.toPrecision(10)).toString();
+    }
+    return str;
+  }
+
+  function calculate(a, op, b) {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+    if (isNaN(numA) || isNaN(numB)) return 'Error';
+    switch (op) {
+      case '+': return numA + numB;
+      case '-': return numA - numB;
+      case '×': return numA * numB;
+      case '÷': return numB === 0 ? 'Error' : numA / numB;
+      default: return numB;
+    }
+  }
+
+  function clearActiveOp() {
+    document.querySelectorAll('.btn-op').forEach(function(b) {
+      b.classList.remove('active');
+    });
+  }
+
+  function setActiveOp(op) {
+    clearActiveOp();
+    document.querySelectorAll('.btn-op').forEach(function(b) {
+      if (b.dataset.value === op) b.classList.add('active');
+    });
+  }
+
+  function inputNumber(num) {
+    clearActiveOp();
+    if (currentOperator) setActiveOp(currentOperator);
+
+    if (shouldResetInput) {
+      currentInput = num;
+      shouldResetInput = false;
+    } else {
+      if (currentInput === '0' && num !== '0') {
+        currentInput = num;
+      } else if (currentInput === '0' && num === '0') {
+        // do nothing
+      } else if (currentInput.replace(/[^0-9]/g, '').length < 15) {
+        currentInput += num;
+      }
+    }
+    updateDisplay();
+  }
+
+  function inputDecimal() {
+    clearActiveOp();
+    if (currentOperator) setActiveOp(currentOperator);
+
+    if (shouldResetInput) {
+      currentInput = '0.';
+      shouldResetInput = false;
+      updateDisplay();
+      return;
+    }
+    if (!currentInput.includes('.')) {
+      currentInput += '.';
+    }
+    updateDisplay();
+  }
+
+  function inputOperator(op) {
+    if (currentOperator && !shouldResetInput) {
+      const result = calculate(previousInput, currentOperator, currentInput);
+      const formatted = formatNumber(result);
+      expression.textContent = previousInput + ' ' + currentOperator + ' ' + currentInput + ' =';
+      previousInput = formatted;
+      currentInput = formatted;
+      updateDisplay();
+    } else {
+      previousInput = currentInput;
+    }
+
+    currentOperator = op;
+    shouldResetInput = true;
+    expression.textContent = previousInput + ' ' + op;
+    setActiveOp(op);
+  }
+
+  function doEquals() {
+    clearActiveOp();
+    if (currentOperator === null) {
+      expression.textContent = currentInput + ' =';
+      return;
+    }
+
+    const result = calculate(previousInput, currentOperator, currentInput);
+    const formatted = formatNumber(result);
+
+    expression.textContent = previousInput + ' ' + currentOperator + ' ' + currentInput + ' =';
+    currentInput = formatted;
+    previousInput = '';
+    currentOperator = null;
+    shouldResetInput = true;
+    lastResult = formatted;
+    updateDisplay();
+  }
+
+  function doClear() {
+    currentInput = '0';
+    previousInput = '';
+    currentOperator = null;
+    shouldResetInput = false;
+    lastResult = null;
+    expression.textContent = '';
+    clearActiveOp();
+    updateDisplay();
+  }
+
+  function doBackspace() {
+    if (shouldResetInput) return;
+    if (currentInput.length > 1) {
+      currentInput = currentInput.slice(0, -1);
+    } else {
+      currentInput = '0';
+    }
+    updateDisplay();
+  }
+
+  function doSign() {
+    if (currentInput === '0' || currentInput === 'Error') return;
+    if (currentInput.startsWith('-')) {
+      currentInput = currentInput.slice(1);
+    } else {
+      currentInput = '-' + currentInput;
+    }
+    updateDisplay();
+  }
+
+  function doPercent() {
+    const num = parseFloat(currentInput);
+    if (isNaN(num)) return;
+    currentInput = formatNumber(num / 100);
+    updateDisplay();
+  }
+
+  // 按鈕漣漪效果
+  function createRipple(e, btn) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+
+    const x = (e.clientX || e.touches && e.touches[0] && e.touches[0].clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+    const y = (e.clientY || e.touches && e.touches[0] && e.touches[0].clientY || rect.top + rect.height / 2) - rect.top - size / 2;
+
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    btn.appendChild(ripple);
+    ripple.addEventListener('animationend', function() { ripple.remove(); });
+  }
+
+  // 按鈕事件
+  document.querySelector('.buttons').addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+
+    createRipple(e, btn);
+
+    const action = btn.dataset.action;
+    const value = btn.dataset.value;
+
+    switch (action) {
+      case 'number':  inputNumber(value); break;
+      case 'decimal': inputDecimal(); break;
+      case 'operator': inputOperator(value); break;
+      case 'equals':  doEquals(); break;
+      case 'clear':   doClear(); break;
+      case 'sign':    doSign(); break;
+      case 'percent': doPercent(); break;
+    }
+  });
+
+  // 鍵盤支援
+  document.addEventListener('keydown', function(e) {
+    const key = e.key;
+
+    if (key >= '0' && key <= '9') {
+      e.preventDefault();
+      inputNumber(key);
+    } else if (key === '.') {
+      e.preventDefault();
+      inputDecimal();
+    } else if (key === '+') {
+      e.preventDefault();
+      inputOperator('+');
+    } else if (key === '-') {
+      e.preventDefault();
+      inputOperator('-');
+    } else if (key === '*') {
+      e.preventDefault();
+      inputOperator('×');
+    } else if (key === '/') {
+      e.preventDefault();
+      inputOperator('÷');
+    } else if (key === 'Enter' || key === '=') {
+      e.preventDefault();
+      doEquals();
+    } else if (key === 'Escape') {
+      e.preventDefault();
+      doClear();
+    } else if (key === 'Backspace') {
+      e.preventDefault();
+      doBackspace();
+    } else if (key === '%') {
+      e.preventDefault();
+      doPercent();
+    }
+  });
+
+  updateDisplay();
+})();
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

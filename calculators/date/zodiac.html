@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="星座計算機，輸入生日自動判斷所屬星座，並顯示星座性格特質與日期範圍。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/date/zodiac.html">
+<meta property="og:title" content="星座計算機 | 夢幻計算機大全">
+<meta property="og:description" content="星座計算機，輸入生日自動判斷所屬星座，並顯示星座性格特質與日期範圍。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/date/zodiac.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"星座計算機","description":"星座計算機，輸入生日自動判斷所屬星座，並顯示星座性格特質與日期範圍。","url":"https://calc.sotshau.fun/calculators/date/zodiac.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>星座計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#d0e8ff 0%,#a8ccf5 30%,#7aabdf 60%,#4a8fd4 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#74b9ff;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#4a8fd4;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#2a5fa8;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(50,100,200,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#2a5fa8;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#6a9fd8;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#2a5fa8;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #b0ccf0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#f0f8ff;color:#2a5fa8;margin-bottom:18px}
+input:focus{border-color:#4a8fd4}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#7aabdf,#4a8fd4);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,143,212,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#e8f4ff,#d0e8ff);border-radius:16px;padding:28px;display:none;text-align:center}
+.zodiac-icon{font-size:3.5rem;margin-bottom:8px}
+.zodiac-name{font-size:2rem;font-weight:800;color:#2a5fa8;margin-bottom:4px}
+.zodiac-date{font-size:.9rem;color:#6a9fd8;margin-bottom:16px}
+.zodiac-trait{font-size:.88rem;color:#4a7fb8;line-height:1.6;background:rgba(74,143,212,.08);border-radius:10px;padding:12px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4a8fd4;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>星座計算機</h1>
+<p class="subtitle">輸入生日 → 星座 ＋ 特質</p>
+<label for="birthday">生日</label>
+<input type="date" id="birthday">
+<button class="calc-btn" onclick="calculate()">查詢星座</button>
+<div class="result" id="result">
+  <div class="zodiac-icon" id="rIcon"></div>
+  <div class="zodiac-name" id="rName"></div>
+  <div class="zodiac-date" id="rDate"></div>
+  <div class="zodiac-trait" id="rTrait"></div>
+</div>
+</div>
+<script>
+var zodiacData=[
+  {name:'摩羯座',icon:'♑',start:[1,1],end:[1,19],trait:'務實、自律、有責任感、雄心壯志。善於規劃長遠目標，做事有條不紊，值得信賴。'},
+  {name:'水瓶座',icon:'♒',start:[1,20],end:[2,18],trait:'獨立、創新、人道主義。思維前衛，喜愛自由，擁有獨特的世界觀和社交圈。'},
+  {name:'雙魚座',icon:'♓',start:[2,19],end:[3,20],trait:'富有同理心、想像力豐富、直覺敏銳。感情細膩，善解人意，富藝術氣息。'},
+  {name:'牡羊座',icon:'♈',start:[3,21],end:[4,19],trait:'勇敢、熱情、充滿活力。天生領導者，行動力強，對新事物充滿好奇。'},
+  {name:'金牛座',icon:'♉',start:[4,20],end:[5,20],trait:'穩定、耐心、享受生活。重視物質安全感，對美食、藝術有獨特品味。'},
+  {name:'雙子座',icon:'♊',start:[5,21],end:[6,20],trait:'好奇心強、機智、善於溝通。思維靈活，能適應各種社交場合，充滿趣味。'},
+  {name:'巨蟹座',icon:'♋',start:[6,21],end:[7,22],trait:'溫柔、體貼、重視家庭。情感豐富，對親近的人非常照顧，直覺力強。'},
+  {name:'獅子座',icon:'♌',start:[7,23],end:[8,22],trait:'自信、慷慨、有魅力。天生的表演者，熱愛被關注，對自己和他人都很忠誠。'},
+  {name:'處女座',icon:'♍',start:[8,23],end:[9,22],trait:'細心、分析力強、追求完美。注重細節，工作認真，對健康和衛生非常在意。'},
+  {name:'天秤座',icon:'♎',start:[9,23],end:[10,22],trait:'追求和諧、公平、優雅迷人。善於社交，對美有敏銳感知，討厭衝突。'},
+  {name:'天蠍座',icon:'♏',start:[10,23],end:[11,21],trait:'深刻、神秘、意志堅定。感情強烈，洞察力驚人，一旦下定決心便全力以赴。'},
+  {name:'射手座',icon:'♐',start:[11,22],end:[12,21],trait:'樂觀、開朗、熱愛自由。喜愛探索和旅行，充滿哲學思維，視野廣闊。'},
+  {name:'摩羯座',icon:'♑',start:[12,22],end:[12,31],trait:'務實、自律、有責任感、雄心壯志。善於規劃長遠目標，做事有條不紊，值得信賴。'}
+];
+function getZodiac(m,d){
+  for(var i=0;i<zodiacData.length;i++){
+    var z=zodiacData[i];
+    var afterStart=m>z.start[0]||(m===z.start[0]&&d>=z.start[1]);
+    var beforeEnd=m<z.end[0]||(m===z.end[0]&&d<=z.end[1]);
+    if(afterStart&&beforeEnd)return z;
+  }
+  return zodiacData[0];
+}
+var dateRanges=['1/20-2/18','2/19-3/20','3/21-4/19','4/20-5/20','5/21-6/20','6/21-7/22','7/23-8/22','8/23-9/22','9/23-10/22','10/23-11/21','11/22-12/21','12/22-1/19'];
+function calculate(){
+  var val=document.getElementById('birthday').value;
+  if(!val){alert('請選擇生日');return;}
+  var d=new Date(val);
+  var m=d.getMonth()+1,day=d.getDate();
+  var z=getZodiac(m,day);
+  document.getElementById('rIcon').textContent=z.icon;
+  document.getElementById('rName').textContent=z.name;
+  document.getElementById('rDate').textContent=z.start[0]+'/'+z.start[1]+' ~ '+z.end[0]+'/'+z.end[1];
+  document.getElementById('rTrait').textContent=z.trait;
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

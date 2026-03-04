@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="抽籤計算機，輸入參與名單，一鍵隨機抽出幸運者，適合活動抽獎與分組使用。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/fun/lottery.html">
+<meta property="og:title" content="抽籤計算機 | 夢幻計算機大全">
+<meta property="og:description" content="抽籤計算機，輸入參與名單，一鍵隨機抽出幸運者，適合活動抽獎與分組使用。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/fun/lottery.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"抽籤計算機","description":"抽籤計算機，輸入參與名單，一鍵隨機抽出幸運者，適合活動抽獎與分組使用。","url":"https://calc.sotshau.fun/calculators/fun/lottery.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>抽籤計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#ffe8f5 0%,#ffc8e8 30%,#ff9fd0 60%,#fd79a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#ff9fd0;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#fd79a8;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#c0286e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,80,140,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#c0286e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#e06898;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#c0286e;font-weight:700;margin-bottom:6px;font-size:.9rem}
+textarea{width:100%;padding:12px 16px;border:2px solid #ffc0e0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fff5fa;color:#c0286e;margin-bottom:18px;resize:vertical;min-height:100px}
+textarea:focus{border-color:#fd79a8}
+input{width:100%;padding:12px 16px;border:2px solid #ffc0e0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fff5fa;color:#c0286e;margin-bottom:18px}
+input:focus{border-color:#fd79a8}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#ff9fd0,#fd79a8);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,80,140,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#fff0f8,#ffe0f0);border-radius:16px;padding:22px;display:none;text-align:center}
+.winner-title{color:#e06898;font-size:.9rem;font-weight:700;margin-bottom:10px}
+.winner-item{background:linear-gradient(135deg,#ff9fd0,#fd79a8);color:#fff;border-radius:14px;padding:12px 20px;margin-bottom:8px;font-size:1.2rem;font-weight:800;animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.pool-count{color:#e06898;font-size:.82rem;margin-top:8px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#fd79a8;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>抽籤計算機</h1>
+<p class="subtitle">輸入名單，隨機抽出幸運者</p>
+<label for="names">參與名單（每行一個名字）</label>
+<textarea id="names" placeholder="小明&#10;小華&#10;小美&#10;小強&#10;小玲"></textarea>
+<label for="drawCount">抽出人數</label>
+<input type="number" id="drawCount" value="1" min="1" step="1">
+<button class="calc-btn" onclick="draw()">🎉 開始抽籤</button>
+<div class="result" id="result">
+  <div class="winner-title" id="rTitle"></div>
+  <div id="rWinners"></div>
+  <div class="pool-count" id="rPool"></div>
+</div>
+</div>
+<script>
+function draw(){
+  var text=document.getElementById('names').value.trim();
+  var count=parseInt(document.getElementById('drawCount').value)||1;
+  if(!text){alert('請輸入參與名單');return;}
+  var names=text.split('\n').map(function(n){return n.trim();}).filter(function(n){return n!=='';});
+  if(names.length===0){alert('名單不能為空');return;}
+  if(count>names.length){alert('抽出人數不能超過名單人數（'+names.length+'人）');return;}
+  var pool=names.slice();
+  var winners=[];
+  for(var i=0;i<count;i++){
+    var idx=Math.floor(Math.random()*pool.length);
+    winners.push(pool.splice(idx,1)[0]);
+  }
+  document.getElementById('rTitle').textContent='🎊 中籤者（'+count+'人）';
+  document.getElementById('rWinners').innerHTML=winners.map(function(w,i){return '<div class="winner-item" style="animation-delay:'+(i*0.1)+'s">🏆 第'+(i+1)+'名：'+w+'</div>';}).join('');
+  document.getElementById('rPool').textContent='共 '+names.length+' 人參與';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

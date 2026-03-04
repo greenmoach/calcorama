@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="質因數分解計算機，輸入整數即可分解質因數，並判斷是否為質數。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/prime-factor.html">
+<meta property="og:title" content="質因數分解計算機 | 夢幻計算機大全">
+<meta property="og:description" content="質因數分解計算機，輸入整數即可分解質因數，並判斷是否為質數。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/prime-factor.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"質因數分解計算機","description":"質因數分解計算機，輸入整數即可分解質因數，並判斷是否為質數。","url":"https://calc.sotshau.fun/calculators/math/prime-factor.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>質因數分解計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fde8ee 0%,#f9b8cc 30%,#f08fad 60%,#e0688c 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#f08fad;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#e0688c;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#c44569;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(196,69,105,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#c44569;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#e07898;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#c44569;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #f5c0d0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fff8fa;color:#c44569;margin-bottom:18px}
+input:focus{border-color:#e0688c}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f08fad,#c44569);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,69,105,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#fef0f4,#fde0ec);border-radius:16px;padding:22px;display:none;text-align:center}
+.prime-label{color:#e07898;font-size:.9rem;font-weight:700;margin-bottom:8px}
+.prime-expr{color:#c44569;font-weight:800;font-size:1.3rem;word-break:break-all;margin-bottom:12px}
+.prime-tag{display:inline-block;background:rgba(196,69,105,.12);color:#c44569;border-radius:10px;padding:4px 12px;margin:3px;font-weight:700}
+.is-prime{color:#4aad8e;font-weight:800;font-size:1rem;margin-top:8px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#e0688c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>質因數分解計算機</h1>
+<p class="subtitle">質因數分解 ＋ 判斷是否為質數</p>
+<label for="num">正整數（2 以上）</label>
+<input type="number" id="num" placeholder="例如：360" min="2" step="1">
+<button class="calc-btn" onclick="calculate()">分解</button>
+<div class="result" id="result">
+  <div class="prime-label">質因數分解結果</div>
+  <div class="prime-expr" id="rExpr"></div>
+  <div id="rTags"></div>
+  <div class="is-prime" id="rIsPrime"></div>
+</div>
+</div>
+<script>
+function primeFactors(n){
+  var factors={};
+  for(var d=2;d*d<=n;d++){
+    while(n%d===0){factors[d]=(factors[d]||0)+1;n=Math.floor(n/d);}
+  }
+  if(n>1)factors[n]=(factors[n]||0)+1;
+  return factors;
+}
+function calculate(){
+  var n=parseInt(document.getElementById('num').value);
+  if(!n||n<2){alert('請輸入 2 以上的正整數');return;}
+  var factors=primeFactors(n);
+  var keys=Object.keys(factors);
+  var expr=keys.map(function(k){return factors[k]>1?k+'<sup>'+factors[k]+'</sup>':k;}).join(' × ');
+  document.getElementById('rExpr').innerHTML=n+' = '+expr;
+  var tags=keys.map(function(k){return '<span class="prime-tag">'+k+(factors[k]>1?'<sup>'+factors[k]+'</sup>':'')+'</span>';}).join('');
+  document.getElementById('rTags').innerHTML=tags;
+  var isPrime=keys.length===1&&factors[keys[0]]===1;
+  document.getElementById('rIsPrime').textContent=isPrime?n+' 是質數':n+' 不是質數';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

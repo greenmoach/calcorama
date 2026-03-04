@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="圓形面積與周長計算機，輸入半徑或直徑，即時計算圓面積、周長與直徑。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/geometry/circle.html">
+<meta property="og:title" content="圓面積/周長計算機 | 夢幻計算機大全">
+<meta property="og:description" content="圓形面積與周長計算機，輸入半徑或直徑，即時計算圓面積、周長與直徑。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/geometry/circle.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"圓面積/周長計算機","description":"圓形面積與周長計算機，輸入半徑或直徑，即時計算圓面積、周長與直徑。","url":"https://calc.sotshau.fun/calculators/geometry/circle.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>圓面積/周長計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Nunito',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#b8f0e0 0%,#7ee8d0 30%,#55efc4 60%,#48c9b0 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;overflow-x:hidden;
+}
+.floating{position:fixed;border-radius:50%;opacity:0.15;pointer-events:none;animation:floatAnim 6s ease-in-out infinite;}
+.f1{width:120px;height:120px;background:#00b894;top:10%;left:5%;animation-delay:0s;}
+.f2{width:80px;height:80px;background:#00cec9;top:60%;right:8%;animation-delay:2s;}
+.f3{width:60px;height:60px;background:#81ecec;bottom:15%;left:15%;animation-delay:4s;}
+.f4{width:100px;height:100px;background:#55efc4;top:20%;right:20%;animation-delay:1s;}
+@keyframes floatAnim{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(10deg);}}
+.card{
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:28px;
+  box-shadow:0 8px 32px rgba(0,180,148,0.18),0 2px 8px rgba(0,0,0,0.06);
+  padding:40px 36px;max-width:520px;width:100%;position:relative;z-index:2;
+}
+h1{text-align:center;color:#00b894;font-size:1.7rem;font-weight:800;margin-bottom:6px;}
+.subtitle{text-align:center;color:#48c9b0;font-size:0.9rem;margin-bottom:24px;}
+.mode-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.mode-tab{
+  flex:1;padding:10px;border:2px solid #55efc4;border-radius:14px;
+  background:transparent;color:#00b894;font-family:'Nunito',sans-serif;
+  font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.3s;
+}
+.mode-tab.active{background:linear-gradient(135deg,#55efc4,#00b894);color:#fff;border-color:transparent;}
+.mode-tab:hover:not(.active){background:rgba(85,239,196,0.15);}
+.input-group{margin-bottom:16px;}
+.input-group label{display:block;color:#00b894;font-weight:700;font-size:0.85rem;margin-bottom:6px;}
+.input-group input{
+  width:100%;padding:12px 16px;border:2px solid #b8f0e0;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-size:1rem;color:#2d3436;
+  background:rgba(255,255,255,0.7);outline:none;transition:border-color 0.3s;
+}
+.input-group input:focus{border-color:#00b894;}
+.btn{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#55efc4,#00b894);
+  color:#fff;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;margin-top:8px;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,184,148,0.35);}
+.btn:active{transform:translateY(0);}
+.result{
+  margin-top:20px;padding:20px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(85,239,196,0.12),rgba(0,184,148,0.08));
+  border:1px solid rgba(85,239,196,0.3);display:none;
+}
+.result h3{color:#00b894;font-size:1rem;margin-bottom:10px;}
+.result-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(85,239,196,0.15);}
+.result-row:last-child{border-bottom:none;}
+.result-label{color:#636e72;font-size:0.9rem;}
+.result-value{color:#00b894;font-weight:700;font-size:0.95rem;}
+.error{color:#d63031;font-size:0.85rem;margin-top:8px;display:none;text-align:center;font-weight:600;}
+.circle-visual{
+  display:flex;justify-content:center;align-items:center;margin-top:16px;
+}
+.circle-svg{max-width:200px;width:100%;}
+@media(max-width:480px){
+  .card{padding:28px 20px;}
+  h1{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#00b894;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+  <h1>圓面積/周長計算機</h1>
+  <p class="subtitle">輸入半徑或直徑，計算圓的所有數值</p>
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="switchMode('radius')">輸入半徑</button>
+    <button class="mode-tab" onclick="switchMode('diameter')">輸入直徑</button>
+  </div>
+  <div class="input-group">
+    <label id="inputLabel">半徑 (r)</label>
+    <input type="number" id="inputVal" min="0" step="any" placeholder="請輸入半徑">
+  </div>
+  <button class="btn" onclick="calc()">計算</button>
+  <div class="error" id="error"></div>
+  <div class="result" id="result"></div>
+</div>
+<script>
+var currentMode='radius';
+function switchMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.mode-tab').forEach(function(t,i){t.classList.toggle('active',i===(mode==='radius'?0:1));});
+  var label=document.getElementById('inputLabel');
+  var input=document.getElementById('inputVal');
+  if(mode==='radius'){label.textContent='半徑 (r)';input.placeholder='請輸入半徑';}
+  else{label.textContent='直徑 (d)';input.placeholder='請輸入直徑';}
+  document.getElementById('result').style.display='none';
+  document.getElementById('error').style.display='none';
+}
+function showError(msg){var e=document.getElementById('error');e.textContent=msg;e.style.display='block';document.getElementById('result').style.display='none';}
+function fmt(n){return parseFloat(n.toFixed(6)).toString();}
+function calc(){
+  var val=parseFloat(document.getElementById('inputVal').value);
+  if(isNaN(val)||val<=0){showError('請輸入有效的正數值');return;}
+  var r,d;
+  if(currentMode==='radius'){r=val;d=2*val;}
+  else{d=val;r=val/2;}
+  var area=Math.PI*r*r;
+  var circumference=2*Math.PI*r;
+  var svg='<svg class="circle-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">'+
+    '<circle cx="110" cy="110" r="90" fill="rgba(85,239,196,0.15)" stroke="#00b894" stroke-width="3"/>'+
+    '<line x1="110" y1="110" x2="200" y2="110" stroke="#00b894" stroke-width="2" stroke-dasharray="6,3"/>'+
+    '<text x="150" y="105" fill="#00b894" font-size="13" font-family="Nunito" font-weight="700">r='+fmt(r)+'</text>'+
+    '<line x1="20" y1="110" x2="200" y2="110" stroke="#48c9b0" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>'+
+    '<text x="80" y="130" fill="#48c9b0" font-size="11" font-family="Nunito" font-weight="600">d='+fmt(d)+'</text>'+
+    '<circle cx="110" cy="110" r="3" fill="#00b894"/>'+
+    '</svg>';
+  var html='<h3>計算結果</h3>'+
+    '<div class="result-row"><span class="result-label">半徑 (r)</span><span class="result-value">'+fmt(r)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">直徑 (d)</span><span class="result-value">'+fmt(d)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">面積 (πr²)</span><span class="result-value">'+fmt(area)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">周長 (2πr)</span><span class="result-value">'+fmt(circumference)+'</span></div>'+
+    '<div class="circle-visual">'+svg+'</div>';
+  var r2=document.getElementById('result');r2.innerHTML=html;r2.style.display='block';
+  document.getElementById('error').style.display='none';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="螢幕 PPI 計算機，輸入解析度與螢幕尺寸（英吋），計算像素密度並評估顯示品質。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/ppi.html">
+<meta property="og:title" content="螢幕 PPI 計算機 | 夢幻計算機大全">
+<meta property="og:description" content="螢幕 PPI 計算機，輸入解析度與螢幕尺寸（英吋），計算像素密度並評估顯示品質。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/ppi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"螢幕 PPI 計算機","description":"螢幕 PPI 計算機，輸入解析度與螢幕尺寸（英吋），計算像素密度並評估顯示品質。","url":"https://calc.sotshau.fun/calculators/life/ppi.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>螢幕 PPI 計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fef9d0 0%,#faeea8 30%,#f5d76e 60%,#d4a520 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#f5d76e;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#d4a520;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#8a6a10;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(180,140,20,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#8a6a10;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#b89030;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#8a6a10;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #f0d888;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fffdf0;color:#8a6a10;margin-bottom:18px}
+input:focus{border-color:#d4a520}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f5d76e,#d4a520);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(180,140,20,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#fefce8,#fef5c0);border-radius:16px;padding:22px;display:none;text-align:center}
+.ppi-val{font-size:3rem;font-weight:800;color:#8a6a10}
+.ppi-label{font-size:1rem;color:#b89030;margin-bottom:12px}
+.ppi-rank{display:inline-block;padding:6px 20px;border-radius:20px;color:#fff;font-weight:700;font-size:.95rem}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(180,140,20,.12);margin-top:12px}
+.result-row:last-child{border-bottom:none}
+.result-label{color:#b89030;font-size:.9rem}
+.result-value{color:#8a6a10;font-weight:800}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4a520;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>螢幕 PPI 計算機</h1>
+<p class="subtitle">解析度 + 螢幕尺寸 → PPI（像素密度）</p>
+<label for="w">水平解析度（像素）</label>
+<input type="number" id="w" placeholder="例如：1920" min="1" step="1">
+<label for="h">垂直解析度（像素）</label>
+<input type="number" id="h" placeholder="例如：1080" min="1" step="1">
+<label for="size">螢幕尺寸（英吋，對角線）</label>
+<input type="number" id="size" placeholder="例如：27" min="0.1" step="0.1">
+<button class="calc-btn" onclick="calculate()">計算 PPI</button>
+<div class="result" id="result">
+  <div class="ppi-val" id="rPpi"></div>
+  <div class="ppi-label">PPI（像素/英吋）</div>
+  <div class="ppi-rank" id="rRank"></div>
+  <div class="result-row"><span class="result-label">解析度</span><span class="result-value" id="rRes"></span></div>
+  <div class="result-row"><span class="result-label">對角像素數</span><span class="result-value" id="rDiag"></span></div>
+</div>
+</div>
+<script>
+function calculate(){
+  var w=parseFloat(document.getElementById('w').value);
+  var h=parseFloat(document.getElementById('h').value);
+  var s=parseFloat(document.getElementById('size').value);
+  if(!w||!h||!s||w<=0||h<=0||s<=0){alert('請輸入有效數值');return;}
+  var diag=Math.sqrt(w*w+h*h);
+  var ppi=diag/s;
+  var rank,color;
+  if(ppi>=400){rank='頂級 Retina';color='#c44569';}
+  else if(ppi>=250){rank='優秀（Retina 等級）';color='#4aad8e';}
+  else if(ppi>=150){rank='良好';color='#4a8fd4';}
+  else if(ppi>=100){rank='普通';color='#d4a520';}
+  else{rank='偏低';color='#d05a5a';}
+  document.getElementById('rPpi').textContent=Math.round(ppi);
+  var rRank=document.getElementById('rRank');
+  rRank.textContent=rank;rRank.style.background=color;
+  document.getElementById('rRes').textContent=w+' × '+h;
+  document.getElementById('rDiag').textContent=Math.round(diag)+' px';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

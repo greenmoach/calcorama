@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="每日建議喝水量計算機，根據體重與活動量計算每天應喝的水量（毫升與杯數）。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/health/water-intake.html">
+<meta property="og:title" content="喝水量計算機 | 夢幻計算機大全">
+<meta property="og:description" content="每日建議喝水量計算機，根據體重與活動量計算每天應喝的水量（毫升與杯數）。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/health/water-intake.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"喝水量計算機","description":"每日建議喝水量計算機，根據體重與活動量計算每天應喝的水量（毫升與杯數）。","url":"https://calc.sotshau.fun/calculators/health/water-intake.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>喝水量計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8f5e6 0%,#a0e8d0 30%,#7ecfc0 60%,#5cb8a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#5cb8a8;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#4aad8e;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#2a8a6e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(60,160,130,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#2a8a6e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#6abfa8;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#3a9a80;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input,select{width:100%;padding:12px 16px;border:2px solid #b8e8d8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:rgba(255,255,255,.7);color:#2a8a6e;margin-bottom:18px}
+input:focus,select:focus{border-color:#4aad8e}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#5cb8a8,#3a9a80);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,160,130,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#e8faf5,#d0f5e8);border-radius:16px;padding:22px;display:none;text-align:center}
+.big{font-size:2.5rem;font-weight:800;color:#2a8a6e;margin-bottom:4px}
+.unit{font-size:1rem;color:#6abfa8;margin-bottom:12px}
+.cups{font-size:1.1rem;color:#3a9a80;font-weight:700;margin-bottom:12px}
+.tip{font-size:.82rem;color:#6abfa8;line-height:1.5}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4aad8e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>喝水量計算機</h1>
+<p class="subtitle">體重 / 活動量 → 建議每日喝水量</p>
+<label for="weight">體重（公斤）</label>
+<input type="number" id="weight" placeholder="例如：65" min="1" step="0.1">
+<label for="activity">活動程度</label>
+<select id="activity">
+  <option value="1">久坐（辦公室工作）</option>
+  <option value="1.2" selected>輕度活動（每週運動 1-3 天）</option>
+  <option value="1.4">中度活動（每週運動 3-5 天）</option>
+  <option value="1.6">高度活動（每天運動）</option>
+  <option value="1.8">非常高度（每天激烈運動）</option>
+</select>
+<label for="climate">氣候</label>
+<select id="climate">
+  <option value="0">溫和氣候</option>
+  <option value="300">炎熱氣候（+300ml）</option>
+</select>
+<button class="calc-btn" onclick="calculate()">計算</button>
+<div class="result" id="result">
+  <div class="big" id="rMl"></div>
+  <div class="unit">毫升 / 天</div>
+  <div class="cups" id="rCups"></div>
+  <div class="tip">每天分 8~10 次飲用效果最佳<br>運動前後及起床後要補充水分</div>
+</div>
+</div>
+<script>
+function calculate(){
+  var w=parseFloat(document.getElementById('weight').value);
+  var act=parseFloat(document.getElementById('activity').value);
+  var climate=parseFloat(document.getElementById('climate').value);
+  if(!w||w<=0){alert('請輸入體重');return;}
+  var base=w*35*act+climate;
+  var cups=Math.ceil(base/250);
+  document.getElementById('rMl').textContent=Math.round(base);
+  document.getElementById('rCups').textContent='約 '+cups+' 杯（250ml）';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

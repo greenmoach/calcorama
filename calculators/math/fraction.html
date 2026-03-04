@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="分數加減乘除計算機，自動化簡分數，輸入分子分母即時計算結果。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/fraction.html">
+<meta property="og:title" content="分數計算機 | 夢幻計算機大全">
+<meta property="og:description" content="分數加減乘除計算機，自動化簡分數，輸入分子分母即時計算結果。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/fraction.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"分數計算機","description":"分數加減乘除計算機，自動化簡分數，輸入分子分母即時計算結果。","url":"https://calc.sotshau.fun/calculators/math/fraction.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>分數計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fbc2eb 0%,#e8a0d4 30%,#c9a0dc 60%,#a18cd1 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:28px;box-shadow:0 8px 32px rgba(180,100,160,0.25);padding:36px 32px;max-width:480px;width:100%}
+h1{text-align:center;color:#9b59b6;font-size:1.5rem;margin-bottom:20px}
+.frac-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.frac-box{display:flex;flex-direction:column;align-items:center;gap:2px}
+.frac-box input{width:70px;padding:8px;border:2px solid #e0b0d0;border-radius:10px;text-align:center;font-size:1.1rem;font-family:'Nunito',sans-serif;outline:none;transition:border .2s}
+.frac-box input:focus{border-color:#d4789c}
+.frac-line{width:70px;height:2px;background:#d4789c;margin:2px 0}
+.op-select{padding:10px;border:2px solid #e0b0d0;border-radius:10px;font-size:1.2rem;font-family:'Nunito',sans-serif;background:#f8e1f0;color:#7b3f8a;cursor:pointer}
+.op-label{font-size:1.5rem;color:#d4789c;font-weight:700}
+button{display:block;margin:16px auto 0;padding:12px 40px;background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border:none;border-radius:14px;font-size:1.1rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s}
+button:hover{transform:scale(1.05);opacity:0.9}
+.result{text-align:center;margin-top:20px;padding:20px;background:rgba(255,255,255,0.7);border-radius:16px}
+.result-frac{font-size:2rem;color:#6b3a7d;font-weight:700}
+.result-frac .num{display:block}
+.result-frac .line{display:block;height:3px;background:#d4789c;margin:4px auto;width:60px}
+.result-frac .den{display:block}
+.result-decimal{color:#9b59b6;margin-top:8px;font-size:0.95rem}
+.heart{position:fixed;color:#f5a0c0;opacity:0.3;animation:floatH 6s ease-in-out infinite;pointer-events:none;font-size:1.5rem}
+@keyframes floatH{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px) rotate(15deg)}}
+@media(max-width:480px){.card{padding:24px 16px}.frac-box input{width:55px}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4789c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<span class="heart" style="top:10%;left:5%">&#9829;</span>
+<span class="heart" style="top:25%;right:6%;animation-delay:1.5s">&#9733;</span>
+<span class="heart" style="bottom:12%;left:8%;animation-delay:2.5s">&#9829;</span>
+<div class="card">
+<h1>&#128290; 分數計算機</h1>
+<div class="frac-row">
+  <div class="frac-box">
+    <input type="number" id="n1" placeholder="分子">
+    <div class="frac-line"></div>
+    <input type="number" id="d1" placeholder="分母">
+  </div>
+  <select class="op-select" id="op">
+    <option value="add">+</option>
+    <option value="sub">−</option>
+    <option value="mul">×</option>
+    <option value="div">÷</option>
+  </select>
+  <div class="frac-box">
+    <input type="number" id="n2" placeholder="分子">
+    <div class="frac-line"></div>
+    <input type="number" id="d2" placeholder="分母">
+  </div>
+</div>
+<button onclick="calc()">計算</button>
+<div class="result" id="result" style="display:none">
+  <div class="result-frac">
+    <span class="num" id="rn"></span>
+    <span class="line"></span>
+    <span class="den" id="rd"></span>
+  </div>
+  <div class="result-decimal" id="rdec"></div>
+</div>
+</div>
+<script>
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){let t=b;b=a%b;a=t}return a}
+function simplify(n,d){if(d===0)return[NaN,NaN];if(n===0)return[0,1];let g=gcd(n,d);n/=g;d/=g;if(d<0){n=-n;d=-d}return[n,d]}
+function calc(){
+  let n1=parseInt(document.getElementById('n1').value)||0;
+  let d1=parseInt(document.getElementById('d1').value);
+  let n2=parseInt(document.getElementById('n2').value)||0;
+  let d2=parseInt(document.getElementById('d2').value);
+  if(!d1||!d2){alert('分母不可為零或空白');return}
+  let op=document.getElementById('op').value;
+  let rn,rd;
+  if(op==='add'){rn=n1*d2+n2*d1;rd=d1*d2}
+  else if(op==='sub'){rn=n1*d2-n2*d1;rd=d1*d2}
+  else if(op==='mul'){rn=n1*n2;rd=d1*d2}
+  else{rn=n1*d2;rd=d1*n2}
+  let[sn,sd]=simplify(rn,rd);
+  document.getElementById('rn').textContent=sn;
+  document.getElementById('rd').textContent=sd;
+  document.getElementById('rdec').textContent='≈ '+(sn/sd).toFixed(6);
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

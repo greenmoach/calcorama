@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="信用卡循環利息計算機，計算最低應繳、每月利息與預估還清所需時間。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/finance/credit-card.html">
+<meta property="og:title" content="信用卡循環利息計算機 | 夢幻計算機大全">
+<meta property="og:description" content="信用卡循環利息計算機，計算最低應繳、每月利息與預估還清所需時間。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/finance/credit-card.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"信用卡循環利息計算機","description":"信用卡循環利息計算機，計算最低應繳、每月利息與預估還清所需時間。","url":"https://calc.sotshau.fun/calculators/finance/credit-card.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>信用卡循環利息計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#e8d0f0 0%,#d4b0e0 30%,#c9a0dc 60%,#b088c8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#9b59b6;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#8e44ad;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#a569bd;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(120,60,160,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#6a3d7d;font-size:1.55rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#9b7fb5;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#6a3d7d;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #d8c0e8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#faf5ff;color:#4a2d5e;margin-bottom:18px}
+input:focus{border-color:#9b59b6}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#9b59b6,#8e44ad);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(142,68,173,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#f3e8fa,#ead0f5);border-radius:16px;padding:22px;display:none}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(160,120,200,.15)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:#8b6aaa;font-size:.9rem}
+.result-value{color:#6a3d7d;font-weight:800;font-size:1.05rem}
+.warn{color:#d05a5a;font-size:.85rem;text-align:center;margin-top:10px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#8e6aaf;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>信用卡循環利息</h1>
+<p class="subtitle">最低應繳 → 實際利息成本</p>
+<label for="balance">欠款餘額（元）</label>
+<input type="number" id="balance" placeholder="例如：50000" min="0" step="any">
+<label for="rate">年利率（%，通常 10%~20%）</label>
+<input type="number" id="rate" placeholder="例如：15" min="0" step="any" value="15">
+<label for="minPct">最低應繳比例（%）</label>
+<input type="number" id="minPct" placeholder="例如：10" min="1" max="100" step="any" value="10">
+<button class="calc-btn" onclick="calculate()">計算</button>
+<div class="result" id="result">
+  <div class="result-row"><span class="result-label">本月最低應繳</span><span class="result-value" id="rMin"></span></div>
+  <div class="result-row"><span class="result-label">本月利息</span><span class="result-value" id="rInterest"></span></div>
+  <div class="result-row"><span class="result-label">實際還款金額（本金）</span><span class="result-value" id="rPrin"></span></div>
+  <div class="result-row"><span class="result-label">預估還清月數</span><span class="result-value" id="rMonths"></span></div>
+  <div class="result-row"><span class="result-label">預估總利息</span><span class="result-value" id="rTotalInt"></span></div>
+  <div class="warn">⚠️ 建議每月多還本金，可大幅減少利息支出</div>
+</div>
+</div>
+<script>
+function calculate(){
+  var bal=parseFloat(document.getElementById('balance').value);
+  var annualRate=parseFloat(document.getElementById('rate').value);
+  var minPct=parseFloat(document.getElementById('minPct').value);
+  if(isNaN(bal)||isNaN(annualRate)||isNaN(minPct)||bal<=0){alert('請輸入有效數值');return;}
+  var monthlyRate=annualRate/100/12;
+  var interest=bal*monthlyRate;
+  var minPayment=bal*minPct/100;
+  var principal=minPayment-interest;
+  var months=0,totalInt=0,b=bal;
+  while(b>0.01&&months<600){
+    var i=b*monthlyRate;totalInt+=i;
+    var pay=Math.max(b*minPct/100,50);
+    b=b+i-pay;months++;
+    if(b<0)b=0;
+  }
+  document.getElementById('rMin').textContent='$'+fmt(minPayment);
+  document.getElementById('rInterest').textContent='$'+fmt(interest);
+  document.getElementById('rPrin').textContent='$'+fmt(Math.max(0,principal));
+  document.getElementById('rMonths').textContent=months>=600?'超過50年':months+' 個月（約 '+Math.ceil(months/12)+' 年）';
+  document.getElementById('rTotalInt').textContent='$'+fmt(totalInt);
+  document.getElementById('result').style.display='block';
+}
+function fmt(n){return Math.round(n).toLocaleString('zh-TW');}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

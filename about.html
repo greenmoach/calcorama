@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="關於夢幻計算機大全 — 72種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
+<link rel="canonical" href="https://calc.sotshau.fun/about.html">
+<meta property="og:title" content="關於本站 | 夢幻計算機大全">
+<meta property="og:description" content="關於夢幻計算機大全 — 72種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
+<meta property="og:url" content="https://calc.sotshau.fun/about.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<title>關於本站 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 25%, #c2e9fb 50%, #fbc2eb 75%, #a18cd1 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: #4a3060;
+  padding: 80px 20px 80px;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.back-link {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 100;
+  color: #d4789c;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 20px;
+  padding: 7px 16px;
+  transition: background 0.2s;
+}
+.back-link:hover { background: rgba(255,255,255,0.65); }
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 20px 0 36px;
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #d4789c, #a855a0, #7c5cbf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 1.05rem;
+  color: #8b6a9e;
+  font-weight: 600;
+}
+
+/* Cards */
+.card {
+  background: rgba(255,255,255,0.38);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #7c5cbf;
+  margin-bottom: 16px;
+}
+
+/* About list */
+.about-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.about-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.97rem;
+  color: #5a3a7a;
+  line-height: 1.55;
+}
+.about-list li::before {
+  content: '✓';
+  font-weight: 700;
+  color: #a855a0;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Category chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chip {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(160,100,200,0.25);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #7c5cbf;
+}
+
+/* AI card — purple gradient border */
+.card-ai {
+  background: rgba(255,255,255,0.38);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 3px;
+  margin-bottom: 24px;
+  background-image: linear-gradient(rgba(255,255,255,0.38), rgba(255,255,255,0.38)),
+    linear-gradient(135deg, #c084fc, #818cf8, #a855f7);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: 3px solid transparent;
+  background: linear-gradient(rgba(255,255,255,0) 0 0) padding-box,
+    linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #a855f7 100%) border-box;
+  background-color: rgba(255,255,255,0.38);
+}
+.card-ai-inner {
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 17px;
+  padding: 28px 32px;
+}
+.card-ai-inner h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #7c5cbf;
+  margin-bottom: 16px;
+}
+
+.ai-meta {
+  font-size: 0.9rem;
+  color: #8b6a9e;
+  margin-bottom: 14px;
+}
+.ai-meta strong { color: #6b3a9e; }
+
+.ai-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+.ai-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #5a3a7a;
+  line-height: 1.5;
+}
+.ai-list li::before {
+  content: '▸';
+  color: #a855a0;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ai-note {
+  font-size: 0.85rem;
+  color: #9e7ab8;
+  margin-bottom: 18px;
+  font-style: italic;
+}
+
+.btn-anthropic {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, #c084fc, #818cf8);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 9px 20px;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+}
+.btn-anthropic:hover { opacity: 0.88; }
+
+/* Tech */
+.tech-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tech-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #5a3a7a;
+  line-height: 1.5;
+}
+.tech-item .label {
+  font-weight: 700;
+  color: #7c5cbf;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: #7c5cbf;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(160,100,200,0.3);
+  border-radius: 16px;
+  padding: 7px 16px;
+  transition: background 0.2s;
+}
+.github-link:hover { background: rgba(255,255,255,0.7); }
+
+@media (max-width: 520px) {
+  .hero h1 { font-size: 1.7rem; }
+  .card, .card-ai-inner { padding: 22px 20px; }
+  .tech-item .label { min-width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← 返回首頁</a>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>✨ 關於夢幻計算機大全</h1>
+    <p>免費・無廣告・為日常計算而生</p>
+  </div>
+
+  <!-- 關於本站 -->
+  <div class="card">
+    <h2>📖 關於本站</h2>
+    <ul class="about-list">
+      <li>72 種免費計算機，涵蓋 9 大類別，滿足日常各種計算需求</li>
+      <li>所有計算在瀏覽器本地執行，不傳送任何資料至伺服器</li>
+      <li>無廣告、無需登入、無需安裝，開箱即用</li>
+      <li>介面使用繁體中文（zh-TW），簡單直覺，適合各年齡使用</li>
+    </ul>
+  </div>
+
+  <!-- 9 大類別 -->
+  <div class="card">
+    <h2>🗂️ 9 大類別總覽</h2>
+    <div class="chips">
+      <span class="chip">🔢 數學與科學</span>
+      <span class="chip">💰 財務金融</span>
+      <span class="chip">💪 健康身體</span>
+      <span class="chip">📅 日期時間</span>
+      <span class="chip">🎓 學業成績</span>
+      <span class="chip">🏠 生活實用</span>
+      <span class="chip">⚙️ 工程程式</span>
+      <span class="chip">🎉 趣味社交</span>
+      <span class="chip">📐 幾何空間</span>
+    </div>
+  </div>
+
+  <!-- AI 協助建置 -->
+  <div class="card-ai">
+    <div class="card-ai-inner">
+      <h2>🤖 由 Claude AI 協助建置</h2>
+      <p class="ai-meta">使用模型：<strong>Anthropic Claude（claude-sonnet）</strong></p>
+      <ul class="ai-list">
+        <li>HTML / CSS / JavaScript 程式碼撰寫</li>
+        <li>玻璃擬態（Glassmorphism）UI 設計</li>
+        <li>SEO meta tags 與 JSON-LD schema 結構化資料</li>
+        <li>72 個計算機的邏輯實作與計算驗證</li>
+      </ul>
+      <p class="ai-note">所有程式碼均由人工審閱確認後發布。</p>
+      <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener" class="btn-anthropic">
+        🔗 前往 Anthropic 官網
+      </a>
+    </div>
+  </div>
+
+  <!-- 技術說明 -->
+  <div class="card">
+    <h2>⚙️ 技術說明</h2>
+    <div class="tech-items">
+      <div class="tech-item">
+        <span class="label">技術架構</span>
+        <span>Vanilla HTML / CSS / JavaScript，無框架、無依賴、無建置工具</span>
+      </div>
+      <div class="tech-item">
+        <span class="label">資料隱私</span>
+        <span>全部計算在本地瀏覽器執行，不傳送任何資料至外部伺服器</span>
+      </div>
+      <div class="tech-item">
+        <span class="label">開放原始碼</span>
+        <span>原始碼公開於 GitHub，歡迎參考與貢獻</span>
+      </div>
+    </div>
+    <a href="https://github.com/greenmoach/calcorama" target="_blank" rel="noopener" class="github-link">
+      ⭐ GitHub — greenmoach/calcorama
+    </a>
+  </div>
+
+</div>
+
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+
+</body>
+</html>

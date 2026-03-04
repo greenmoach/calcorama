@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="統計計算機，輸入數據自動計算平均數、中位數、眾數、標準差與變異數。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/statistics.html">
+<meta property="og:title" content="統計計算機 | 夢幻計算機大全">
+<meta property="og:description" content="統計計算機，輸入數據自動計算平均數、中位數、眾數、標準差與變異數。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/statistics.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"統計計算機","description":"統計計算機，輸入數據自動計算平均數、中位數、眾數、標準差與變異數。","url":"https://calc.sotshau.fun/calculators/math/statistics.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>統計計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fbc2eb 0%,#e8a0d4 30%,#c9a0dc 60%,#a18cd1 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:28px;box-shadow:0 8px 32px rgba(180,100,160,0.25);padding:36px 32px;max-width:480px;width:100%}
+h1{text-align:center;color:#9b59b6;font-size:1.5rem;margin-bottom:16px}
+label{display:block;color:#7b3f8a;font-weight:600;margin-bottom:6px;font-size:0.95rem}
+textarea{width:100%;padding:12px;border:2px solid #e0b0d0;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;resize:vertical;min-height:80px;transition:border .2s}
+textarea:focus{border-color:#d4789c}
+.hint{color:#b08aad;font-size:0.8rem;margin-top:4px}
+button{display:block;margin:16px auto 0;padding:12px 40px;background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border:none;border-radius:14px;font-size:1.1rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s}
+button:hover{transform:scale(1.05);opacity:0.9}
+.result{margin-top:18px;padding:20px;background:rgba(255,255,255,0.7);border-radius:16px;color:#6b3a7d}
+.stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e8d0e8}
+.stat-row:last-child{border:none}
+.stat-label{font-weight:600;color:#9b59b6}
+.stat-value{font-weight:700;color:#d4789c}
+.heart{position:fixed;color:#f5a0c0;opacity:0.3;animation:floatH 6s ease-in-out infinite;pointer-events:none;font-size:1.5rem}
+@keyframes floatH{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px) rotate(15deg)}}
+@media(max-width:480px){.card{padding:24px 16px}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4789c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<span class="heart" style="top:10%;left:5%">&#9829;</span>
+<span class="heart" style="top:20%;right:8%;animation-delay:1s">&#9733;</span>
+<span class="heart" style="bottom:15%;left:10%;animation-delay:2.5s">&#9829;</span>
+<div class="card">
+<h1>&#128202; 統計計算機</h1>
+<label>輸入數據</label>
+<textarea id="data" placeholder="例如：10, 20, 30, 40, 50">10, 20, 30, 40, 50</textarea>
+<div class="hint">請用逗號分隔數字</div>
+<button onclick="calc()">計算統計量</button>
+<div class="result" id="result" style="display:none"></div>
+</div>
+<script>
+function calc(){
+  let raw=document.getElementById('data').value;
+  let nums=raw.split(/[,\s]+/).map(s=>parseFloat(s.trim())).filter(n=>!isNaN(n));
+  let r=document.getElementById('result');
+  if(nums.length===0){r.style.display='block';r.innerHTML='<div style="text-align:center">請輸入有效數字</div>';return}
+  nums.sort((a,b)=>a-b);
+  let n=nums.length;
+  let sum=nums.reduce((a,b)=>a+b,0);
+  let mean=sum/n;
+  let median;
+  if(n%2===0)median=(nums[n/2-1]+nums[n/2])/2;else median=nums[Math.floor(n/2)];
+  let freq={};nums.forEach(v=>{freq[v]=(freq[v]||0)+1});
+  let maxFreq=Math.max(...Object.values(freq));
+  let modes=Object.keys(freq).filter(k=>freq[k]===maxFreq).map(Number);
+  let modeStr=maxFreq===1?'無（所有值出現次數相同）':modes.join(', ');
+  let range=nums[n-1]-nums[0];
+  let variance=nums.reduce((s,v)=>s+(v-mean)*(v-mean),0)/n;
+  let sd=Math.sqrt(variance);
+  let html='';
+  const row=(l,v)=>'<div class="stat-row"><span class="stat-label">'+l+'</span><span class="stat-value">'+v+'</span></div>';
+  html+=row('資料筆數',n);
+  html+=row('平均數 (Mean)',mean.toFixed(4));
+  html+=row('中位數 (Median)',median.toFixed(4));
+  html+=row('眾數 (Mode)',modeStr);
+  html+=row('全距 (Range)',range.toFixed(4));
+  html+=row('變異數 (Variance)',variance.toFixed(4));
+  html+=row('標準差 (SD)',sd.toFixed(4));
+  html+=row('總和',sum.toFixed(4));
+  r.innerHTML=html;r.style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

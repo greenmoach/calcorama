@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="免費線上科學計算機，支援三角函數、對數、次方、階乘等進階數學運算。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/scientific.html">
+<meta property="og:title" content="科學計算機 | 夢幻計算機大全">
+<meta property="og:description" content="免費線上科學計算機，支援三角函數、對數、次方、階乘等進階數學運算。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/scientific.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"科學計算機","description":"免費線上科學計算機，支援三角函數、對數、次方、階乘等進階數學運算。","url":"https://calc.sotshau.fun/calculators/math/scientific.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>科學計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fbc2eb 0%,#e8a0d4 30%,#c9a0dc 60%,#a18cd1 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:28px;box-shadow:0 8px 32px rgba(180,100,160,0.25);padding:32px 28px;max-width:420px;width:100%;position:relative}
+h1{text-align:center;color:#9b59b6;font-size:1.5rem;margin-bottom:16px}
+#display{width:100%;background:rgba(255,255,255,0.9);border:2px solid #e0b0d0;border-radius:14px;padding:14px;font-size:1.4rem;text-align:right;margin-bottom:14px;min-height:52px;word-break:break-all;color:#6b3a7d}
+.btn-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.btn-grid button{padding:12px 4px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-num{background:#f8e1f0;color:#7b3f8a}.btn-num:hover{background:#f0c4e0;transform:scale(1.05)}
+.btn-fn{background:#e6c4f0;color:#6b3a7d}.btn-fn:hover{background:#d8a8e6;transform:scale(1.05)}
+.btn-op{background:#d4789c;color:#fff}.btn-op:hover{background:#c06088;transform:scale(1.05)}
+.btn-eq{background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;grid-column:span 2}.btn-eq:hover{opacity:0.85;transform:scale(1.05)}
+.btn-clr{background:#f5a0c0;color:#fff}.btn-clr:hover{background:#e888a8}
+.heart{position:fixed;color:#f5a0c0;opacity:0.3;animation:floatH 6s ease-in-out infinite;pointer-events:none;font-size:1.5rem}
+@keyframes floatH{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-30px) rotate(15deg)}}
+@media(max-width:480px){.card{padding:20px 14px}.btn-grid{gap:5px}.btn-grid button{padding:10px 2px;font-size:0.75rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4789c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<span class="heart" style="top:10%;left:5%">&#9829;</span>
+<span class="heart" style="top:20%;right:8%;animation-delay:1s">&#9733;</span>
+<span class="heart" style="bottom:15%;left:10%;animation-delay:2s">&#9829;</span>
+<span class="heart" style="bottom:25%;right:5%;animation-delay:3s">&#9733;</span>
+<div class="card">
+<h1>&#128300; 科學計算機</h1>
+<div id="display">0</div>
+<div class="btn-grid">
+<button class="btn-fn" onclick="appendFn('sin(')">sin</button>
+<button class="btn-fn" onclick="appendFn('cos(')">cos</button>
+<button class="btn-fn" onclick="appendFn('tan(')">tan</button>
+<button class="btn-fn" onclick="appendFn('log(')">log</button>
+<button class="btn-fn" onclick="appendFn('ln(')">ln</button>
+<button class="btn-fn" onclick="appendFn('sqrt(')">&#8730;</button>
+<button class="btn-fn" onclick="appendFn('pow(')">x^y</button>
+<button class="btn-fn" onclick="appendFn('fact(')">n!</button>
+<button class="btn-fn" onclick="append('3.141592653589793')">&#960;</button>
+<button class="btn-fn" onclick="append('2.718281828459045')">e</button>
+<button class="btn-num" onclick="append('7')">7</button>
+<button class="btn-num" onclick="append('8')">8</button>
+<button class="btn-num" onclick="append('9')">9</button>
+<button class="btn-op" onclick="appendOp('+')">+</button>
+<button class="btn-op" onclick="appendOp('-')">-</button>
+<button class="btn-num" onclick="append('4')">4</button>
+<button class="btn-num" onclick="append('5')">5</button>
+<button class="btn-num" onclick="append('6')">6</button>
+<button class="btn-op" onclick="appendOp('*')">&#215;</button>
+<button class="btn-op" onclick="appendOp('/')">&#247;</button>
+<button class="btn-num" onclick="append('1')">1</button>
+<button class="btn-num" onclick="append('2')">2</button>
+<button class="btn-num" onclick="append('3')">3</button>
+<button class="btn-num" onclick="append('(')">(</button>
+<button class="btn-num" onclick="append(')')">)</button>
+<button class="btn-num" onclick="append('0')">0</button>
+<button class="btn-num" onclick="append('.')">.</button>
+<button class="btn-clr" onclick="clearAll()">C</button>
+<button class="btn-eq" onclick="calculate()">=</button>
+</div>
+</div>
+<script>
+let expr='';let fresh=true;
+const d=document.getElementById('display');
+function append(v){if(fresh){expr='';fresh=false}expr+=v;d.textContent=expr}
+function appendOp(o){fresh=false;expr+=o;d.textContent=expr}
+function appendFn(f){if(fresh){expr='';fresh=false}expr+=f;d.textContent=expr}
+function clearAll(){expr='';d.textContent='0';fresh=true}
+function factorial(n){if(n<0)return NaN;if(n===0||n===1)return 1;let r=1;for(let i=2;i<=n;i++)r*=i;return r}
+function calculate(){
+  try{
+    let e=expr;
+    e=e.replace(/sin\(([^)]+)\)/g,(_,a)=>Math.sin(parseFloat(a)*Math.PI/180));
+    e=e.replace(/cos\(([^)]+)\)/g,(_,a)=>Math.cos(parseFloat(a)*Math.PI/180));
+    e=e.replace(/tan\(([^)]+)\)/g,(_,a)=>Math.tan(parseFloat(a)*Math.PI/180));
+    e=e.replace(/log\(([^)]+)\)/g,(_,a)=>Math.log10(parseFloat(a)));
+    e=e.replace(/ln\(([^)]+)\)/g,(_,a)=>Math.log(parseFloat(a)));
+    e=e.replace(/sqrt\(([^)]+)\)/g,(_,a)=>Math.sqrt(parseFloat(a)));
+    e=e.replace(/pow\(([^)]+)\)/g,(_,a)=>{let p=a.split(',');return Math.pow(parseFloat(p[0]),parseFloat(p[1]))});
+    e=e.replace(/fact\(([^)]+)\)/g,(_,a)=>factorial(parseInt(a)));
+    let result=safeMath(e);
+    d.textContent=result;expr=String(result);fresh=true;
+  }catch(_){d.textContent='錯誤';expr='';fresh=true}
+}
+function safeMath(e){
+  let tokens=[];let cur='';
+  for(let i=0;i<e.length;i++){
+    let c=e[i];
+    if('+-*/()'.includes(c)){
+      if(cur)tokens.push(cur);tokens.push(c);cur='';
+    } else {cur+=c}
+  }
+  if(cur)tokens.push(cur);
+  return parseExpr(tokens,{pos:0});
+}
+function parseExpr(t,s){
+  let left=parseTerm(t,s);
+  while(s.pos<t.length&&(t[s.pos]==='+'||t[s.pos]==='-')){
+    let op=t[s.pos++];let right=parseTerm(t,s);
+    left=op==='+'?left+right:left-right;
+  }
+  return left;
+}
+function parseTerm(t,s){
+  let left=parseFactor(t,s);
+  while(s.pos<t.length&&(t[s.pos]==='*'||t[s.pos]==='/')){
+    let op=t[s.pos++];let right=parseFactor(t,s);
+    left=op==='*'?left*right:left/right;
+  }
+  return left;
+}
+function parseFactor(t,s){
+  if(t[s.pos]==='('){s.pos++;let v=parseExpr(t,s);s.pos++;return v}
+  if(t[s.pos]==='-'){s.pos++;return -parseFactor(t,s)}
+  return parseFloat(t[s.pos++]);
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

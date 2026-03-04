@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="愛情配對計算機，輸入兩人姓名筆畫，趣味計算愛情配對分數，僅供娛樂參考。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/fun/love-match.html">
+<meta property="og:title" content="愛情配對計算機 | 夢幻計算機大全">
+<meta property="og:description" content="愛情配對計算機，輸入兩人姓名筆畫，趣味計算愛情配對分數，僅供娛樂參考。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/fun/love-match.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"愛情配對計算機","description":"愛情配對計算機，輸入兩人姓名筆畫，趣味計算愛情配對分數，僅供娛樂參考。","url":"https://calc.sotshau.fun/calculators/fun/love-match.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>愛情配對計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fd79a8 0%,#fdcb6e 25%,#55efc4 50%,#74b9ff 75%,#a29bfe 100%);background-size:400% 400%;animation:gradientShift 12s ease infinite;display:flex;align-items:center;justify-content:center;padding:20px;}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,0.12);padding:48px 40px;max-width:480px;width:100%;text-align:center;position:relative;overflow:hidden;}
+.card h1{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#e84393,#fd79a8,#fdcb6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.card .subtitle{color:#636e72;font-size:0.95rem;margin-bottom:28px;}
+label{display:block;text-align:left;font-weight:700;color:#636e72;margin-bottom:6px;font-size:0.9rem;}
+input[type="text"]{width:100%;padding:14px 18px;border:2px solid #dfe6e9;border-radius:14px;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;transition:border-color 0.3s;margin-bottom:18px;}
+input[type="text"]:focus{border-color:#e84393;}
+.btn{background:linear-gradient(135deg,#e84393,#fd79a8);color:#fff;border:none;padding:14px 36px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 6px 20px rgba(232,67,147,0.3);}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,67,147,0.4);}
+.btn:active{transform:translateY(0);}
+.result{margin-top:28px;display:none;}
+.score-circle{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,#e84393,#fd79a8,#fdcb6e);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:pulse 1.5s ease infinite;position:relative;}
+.score-circle .inner{width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.score-circle .score-num{font-size:2.4rem;font-weight:800;color:#e84393;}
+.score-circle .score-label{font-size:0.75rem;color:#636e72;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.description{font-size:1rem;color:#2d3436;margin-top:12px;line-height:1.6;}
+.hearts{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;}
+.heart{position:absolute;font-size:1.2rem;animation:floatHeart 3s ease-in forwards;opacity:0;}
+@keyframes floatHeart{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-300px) scale(0.5)}}
+.float-deco{position:fixed;border-radius:50%;opacity:0.15;pointer-events:none;}
+.float-deco:nth-child(1){width:200px;height:200px;background:#e84393;top:-60px;right:-60px;animation:floatDeco 8s ease-in-out infinite;}
+.float-deco:nth-child(2){width:150px;height:150px;background:#fdcb6e;bottom:-40px;left:-40px;animation:floatDeco 10s ease-in-out infinite reverse;}
+.float-deco:nth-child(3){width:100px;height:100px;background:#74b9ff;top:40%;left:-30px;animation:floatDeco 7s ease-in-out infinite 2s;}
+@keyframes floatDeco{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+@media(max-width:520px){.card{padding:32px 24px;margin:10px;}.card h1{font-size:1.5rem;}}
+</style>
+</head>
+<body>
+<div class="float-deco"></div>
+<div class="float-deco"></div>
+<div class="float-deco"></div>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#e84393;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="card">
+<div class="hearts" id="hearts"></div>
+<h1>愛情配對計算機</h1>
+<p class="subtitle">輸入兩個名字，看看你們的愛情指數吧！</p>
+<label for="name1">名字一</label>
+<input type="text" id="name1" placeholder="請輸入第一個名字">
+<label for="name2">名字二</label>
+<input type="text" id="name2" placeholder="請輸入第二個名字">
+<button class="btn" onclick="calculate()">開始配對 ❤️</button>
+<div class="result" id="result">
+<div class="score-circle">
+<div class="inner">
+<div class="score-num" id="scoreNum">0</div>
+<div class="score-label">配對分數</div>
+</div>
+</div>
+<div class="description" id="desc"></div>
+</div>
+</div>
+<script>
+function hashNames(a, b) {
+  var combined = (a + b).split('').sort().join('');
+  var hash = 0;
+  for (var i = 0; i < combined.length; i++) {
+    var c = combined.charCodeAt(i);
+    hash = ((hash << 5) - hash + c * 31 + i * 7) | 0;
+  }
+  hash = Math.abs(hash);
+  return hash % 101;
+}
+
+function getDescription(score) {
+  if (score >= 90) return '天作之合！你們簡直是命中注定的一對，彼此之間有著不可思議的默契與吸引力。珍惜這份緣分吧！';
+  if (score >= 75) return '非常般配！你們之間有著很強的化學反應，只要用心經營，一定能擁有美好的未來。';
+  if (score >= 60) return '相當不錯！你們之間有著良好的基礎，多一點包容和理解，感情會越來越甜蜜。';
+  if (score >= 40) return '還算可以！雖然會有些小摩擦，但只要願意溝通和付出，也能發展出美好的關係。';
+  if (score >= 20) return '需要努力！你們之間可能有些差異，但愛情的力量是偉大的，多花點心思在彼此身上吧。';
+  return '挑戰重重！也許你們的個性差異較大，但別灰心，世界上沒有不可能的事情，真愛需要勇氣！';
+}
+
+function spawnHearts() {
+  var container = document.getElementById('hearts');
+  container.innerHTML = '';
+  for (var i = 0; i < 15; i++) {
+    var h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = ['❤️','💕','💖','💗','💘'][Math.floor(Math.random()*5)];
+    h.style.left = (Math.random() * 100) + '%';
+    h.style.bottom = '0';
+    h.style.animationDelay = (Math.random() * 2) + 's';
+    h.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    container.appendChild(h);
+  }
+}
+
+function animateScore(target) {
+  var el = document.getElementById('scoreNum');
+  var current = 0;
+  var step = Math.max(1, Math.floor(target / 40));
+  var timer = setInterval(function() {
+    current += step;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    el.textContent = current;
+  }, 30);
+}
+
+function calculate() {
+  var n1 = document.getElementById('name1').value.trim();
+  var n2 = document.getElementById('name2').value.trim();
+  if (!n1 || !n2) { alert('請輸入兩個名字！'); return; }
+  var score = hashNames(n1, n2);
+  var resultEl = document.getElementById('result');
+  resultEl.style.display = 'block';
+  document.getElementById('scoreNum').textContent = '0';
+  document.getElementById('desc').textContent = getDescription(score);
+  spawnHearts();
+  animateScore(score);
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

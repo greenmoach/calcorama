@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="油耗計算機，輸入加油量與行駛里程，計算每公升幾公里的油耗效率。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/fuel.html">
+<meta property="og:title" content="油耗計算機 | 夢幻計算機大全">
+<meta property="og:description" content="油耗計算機，輸入加油量與行駛里程，計算每公升幾公里的油耗效率。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/fuel.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"油耗計算機","description":"油耗計算機，輸入加油量與行駛里程，計算每公升幾公里的油耗效率。","url":"https://calc.sotshau.fun/calculators/life/fuel.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>油耗計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fff8e0 0%,#f5e6b8 30%,#f5d76e 60%,#e8c840 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;}
+.f1{width:180px;height:180px;background:#e8c840;top:-40px;right:-40px;}
+.f2{width:120px;height:120px;background:#f5d76e;bottom:60px;left:-30px;}
+.f3{width:90px;height:90px;background:#c4960e;top:40%;right:10%;}
+.f4{width:60px;height:60px;background:#f5e6b8;bottom:20%;left:15%;}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,170,50,0.18);max-width:520px;width:100%;padding:40px 34px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#a07800;font-size:1.65rem;margin-bottom:6px;}
+.subtitle{text-align:center;color:#b89a30;font-size:0.92rem;margin-bottom:22px;}
+.tabs{display:flex;gap:8px;margin-bottom:20px;}
+.tab-btn{flex:1;padding:10px 0;border:2px solid #e8c840;background:transparent;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;color:#a07800;cursor:pointer;font-size:0.92rem;transition:all 0.2s;}
+.tab-btn.active{background:#f5d76e;color:#7a5c00;border-color:#d4b030;}
+.group{margin-bottom:16px;}
+.group label{display:block;font-weight:700;color:#8a6d00;margin-bottom:5px;font-size:0.93rem;}
+.group input{width:100%;padding:12px 14px;border:2px solid #e8d88a;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;background:#fffef5;outline:none;transition:border 0.2s;}
+.group input:focus{border-color:#d4b030;}
+button.calc{width:100%;padding:13px;border:none;border-radius:14px;background:linear-gradient(135deg,#f5d76e,#e8c840);color:#7a5c00;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(200,170,50,0.25);transition:transform 0.15s;}
+button.calc:hover{transform:scale(1.02);}
+.result{margin-top:18px;background:#fffde8;border-radius:16px;padding:18px;display:none;}
+.result h3{color:#a07800;font-size:1rem;margin-bottom:8px;}
+.result .val{font-size:1.5rem;font-weight:800;color:#7a5c00;margin-bottom:4px;}
+.result .detail{color:#9a8030;font-size:0.9rem;}
+.panel{display:none;}
+.panel.active{display:block;}
+@media(max-width:500px){.card{padding:28px 18px 28px;}h1{font-size:1.35rem;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#c4960e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+<h1>油耗計算機</h1>
+<p class="subtitle">計算您的車輛油耗效率</p>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab(0)">計算油耗</button>
+<button class="tab-btn" onclick="switchTab(1)">計算所需油量</button>
+</div>
+<div id="panel0" class="panel active">
+<div class="group"><label>加油量（公升）</label><input type="number" id="fuel" min="0" step="0.1" placeholder="例：40"></div>
+<div class="group"><label>行駛距離（公里）</label><input type="number" id="dist" min="0" step="0.1" placeholder="例：500"></div>
+<button class="calc" onclick="calcEfficiency()">計算油耗</button>
+<div class="result" id="res0">
+<h3>油耗結果</h3>
+<div class="val" id="kml"></div>
+<div class="detail" id="l100"></div>
+</div>
+</div>
+<div id="panel1" class="panel">
+<div class="group"><label>油耗效率（km/L）</label><input type="number" id="eff" min="0" step="0.1" placeholder="例：12.5"></div>
+<div class="group"><label>預計行駛距離（公里）</label><input type="number" id="dist2" min="0" step="0.1" placeholder="例：300"></div>
+<button class="calc" onclick="calcFuelNeeded()">計算所需油量</button>
+<div class="result" id="res1">
+<h3>所需油量</h3>
+<div class="val" id="fuelNeeded"></div>
+<div class="detail" id="fuelDetail"></div>
+</div>
+</div>
+</div>
+<script>
+function switchTab(i){
+  document.querySelectorAll('.tab-btn').forEach(function(b,idx){b.classList.toggle('active',idx===i);});
+  document.querySelectorAll('.panel').forEach(function(p,idx){p.classList.toggle('active',idx===i);});
+}
+function calcEfficiency(){
+  var f=parseFloat(document.getElementById('fuel').value);
+  var d=parseFloat(document.getElementById('dist').value);
+  if(!f||!d||f<=0||d<=0){alert('請輸入有效的數值');return;}
+  var kml=d/f;
+  var l100=f/d*100;
+  document.getElementById('kml').textContent=kml.toFixed(2)+' km/L';
+  document.getElementById('l100').textContent='每百公里油耗：'+l100.toFixed(2)+' L/100km';
+  document.getElementById('res0').style.display='block';
+}
+function calcFuelNeeded(){
+  var e=parseFloat(document.getElementById('eff').value);
+  var d=parseFloat(document.getElementById('dist2').value);
+  if(!e||!d||e<=0||d<=0){alert('請輸入有效的數值');return;}
+  var needed=d/e;
+  document.getElementById('fuelNeeded').textContent=needed.toFixed(2)+' 公升';
+  document.getElementById('fuelDetail').textContent='以油耗 '+e+' km/L 行駛 '+d+' 公里';
+  document.getElementById('res1').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

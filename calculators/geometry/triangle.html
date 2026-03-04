@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="三角形面積計算機，支援底×高公式與海龍公式，輸入三邊或底高快速計算面積。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/geometry/triangle.html">
+<meta property="og:title" content="三角形面積計算機 | 夢幻計算機大全">
+<meta property="og:description" content="三角形面積計算機，支援底×高公式與海龍公式，輸入三邊或底高快速計算面積。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/geometry/triangle.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"三角形面積計算機","description":"三角形面積計算機，支援底×高公式與海龍公式，輸入三邊或底高快速計算面積。","url":"https://calc.sotshau.fun/calculators/geometry/triangle.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>三角形面積計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Nunito',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#b8f0e0 0%,#7ee8d0 30%,#55efc4 60%,#48c9b0 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  overflow-x:hidden;
+}
+.floating{position:fixed;border-radius:50%;opacity:0.15;pointer-events:none;animation:floatAnim 6s ease-in-out infinite;}
+.f1{width:120px;height:120px;background:#00b894;top:10%;left:5%;animation-delay:0s;}
+.f2{width:80px;height:80px;background:#00cec9;top:60%;right:8%;animation-delay:2s;}
+.f3{width:60px;height:60px;background:#81ecec;bottom:15%;left:15%;animation-delay:4s;}
+.f4{width:100px;height:100px;background:#55efc4;top:20%;right:20%;animation-delay:1s;}
+@keyframes floatAnim{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(10deg);}}
+.card{
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:28px;
+  box-shadow:0 8px 32px rgba(0,180,148,0.18),0 2px 8px rgba(0,0,0,0.06);
+  padding:40px 36px;
+  max-width:520px;width:100%;
+  position:relative;z-index:2;
+}
+h1{text-align:center;color:#00b894;font-size:1.7rem;font-weight:800;margin-bottom:6px;}
+.subtitle{text-align:center;color:#48c9b0;font-size:0.9rem;margin-bottom:24px;}
+.mode-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.mode-tab{
+  flex:1;padding:10px;border:2px solid #55efc4;border-radius:14px;
+  background:transparent;color:#00b894;font-family:'Nunito',sans-serif;
+  font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.3s;
+}
+.mode-tab.active{background:linear-gradient(135deg,#55efc4,#00b894);color:#fff;border-color:transparent;}
+.mode-tab:hover:not(.active){background:rgba(85,239,196,0.15);}
+.input-group{margin-bottom:16px;}
+.input-group label{display:block;color:#00b894;font-weight:700;font-size:0.85rem;margin-bottom:6px;}
+.input-group input{
+  width:100%;padding:12px 16px;border:2px solid #b8f0e0;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-size:1rem;color:#2d3436;
+  background:rgba(255,255,255,0.7);outline:none;transition:border-color 0.3s;
+}
+.input-group input:focus{border-color:#00b894;}
+.btn{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#55efc4,#00b894);
+  color:#fff;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+  margin-top:8px;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,184,148,0.35);}
+.btn:active{transform:translateY(0);}
+.result{
+  margin-top:20px;padding:20px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(85,239,196,0.12),rgba(0,184,148,0.08));
+  border:1px solid rgba(85,239,196,0.3);
+  display:none;
+}
+.result h3{color:#00b894;font-size:1rem;margin-bottom:10px;}
+.result-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(85,239,196,0.15);}
+.result-row:last-child{border-bottom:none;}
+.result-label{color:#636e72;font-size:0.9rem;}
+.result-value{color:#00b894;font-weight:700;font-size:0.95rem;}
+.error{color:#d63031;font-size:0.85rem;margin-top:8px;display:none;text-align:center;font-weight:600;}
+.mode-section{display:none;}
+.mode-section.active{display:block;}
+.row{display:flex;gap:12px;}
+.row .input-group{flex:1;}
+@media(max-width:480px){
+  .card{padding:28px 20px;}
+  h1{font-size:1.4rem;}
+  .row{flex-direction:column;gap:0;}
+}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#00b894;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+  <h1>三角形面積計算機</h1>
+  <p class="subtitle">計算三角形的面積與周長</p>
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="switchMode('bh')">底 × 高</button>
+    <button class="mode-tab" onclick="switchMode('heron')">三邊（海倫公式）</button>
+  </div>
+  <div id="mode-bh" class="mode-section active">
+    <div class="input-group">
+      <label>底邊長度</label>
+      <input type="number" id="base" min="0" step="any" placeholder="請輸入底邊長度">
+    </div>
+    <div class="input-group">
+      <label>高度</label>
+      <input type="number" id="height" min="0" step="any" placeholder="請輸入高度">
+    </div>
+    <button class="btn" onclick="calcBH()">計算面積</button>
+  </div>
+  <div id="mode-heron" class="mode-section">
+    <div class="row">
+      <div class="input-group">
+        <label>邊 a</label>
+        <input type="number" id="sideA" min="0" step="any" placeholder="邊 a">
+      </div>
+      <div class="input-group">
+        <label>邊 b</label>
+        <input type="number" id="sideB" min="0" step="any" placeholder="邊 b">
+      </div>
+      <div class="input-group">
+        <label>邊 c</label>
+        <input type="number" id="sideC" min="0" step="any" placeholder="邊 c">
+      </div>
+    </div>
+    <button class="btn" onclick="calcHeron()">計算面積</button>
+  </div>
+  <div class="error" id="error"></div>
+  <div class="result" id="result"></div>
+</div>
+<script>
+function switchMode(mode){
+  document.querySelectorAll('.mode-tab').forEach(function(t,i){t.classList.toggle('active',i===(mode==='bh'?0:1));});
+  document.getElementById('mode-bh').classList.toggle('active',mode==='bh');
+  document.getElementById('mode-heron').classList.toggle('active',mode==='heron');
+  document.getElementById('result').style.display='none';
+  document.getElementById('error').style.display='none';
+}
+function showError(msg){var e=document.getElementById('error');e.textContent=msg;e.style.display='block';document.getElementById('result').style.display='none';}
+function showResult(html){var r=document.getElementById('result');r.innerHTML=html;r.style.display='block';document.getElementById('error').style.display='none';}
+function fmt(n){return parseFloat(n.toFixed(6)).toString();}
+function calcBH(){
+  var b=parseFloat(document.getElementById('base').value);
+  var h=parseFloat(document.getElementById('height').value);
+  if(isNaN(b)||isNaN(h)||b<=0||h<=0){showError('請輸入有效的正數值');return;}
+  var area=0.5*b*h;
+  showResult('<h3>計算結果</h3>'+
+    '<div class="result-row"><span class="result-label">底邊</span><span class="result-value">'+fmt(b)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">高度</span><span class="result-value">'+fmt(h)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">面積 (½ × b × h)</span><span class="result-value">'+fmt(area)+'</span></div>');
+}
+function calcHeron(){
+  var a=parseFloat(document.getElementById('sideA').value);
+  var b=parseFloat(document.getElementById('sideB').value);
+  var c=parseFloat(document.getElementById('sideC').value);
+  if(isNaN(a)||isNaN(b)||isNaN(c)||a<=0||b<=0||c<=0){showError('請輸入三個有效的正數值');return;}
+  if(a+b<=c||a+c<=b||b+c<=a){showError('這三個邊無法構成三角形（不符合三角不等式）');return;}
+  var s=(a+b+c)/2;
+  var area=Math.sqrt(s*(s-a)*(s-b)*(s-c));
+  var perimeter=a+b+c;
+  showResult('<h3>計算結果（海倫公式）</h3>'+
+    '<div class="result-row"><span class="result-label">邊 a</span><span class="result-value">'+fmt(a)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">邊 b</span><span class="result-value">'+fmt(b)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">邊 c</span><span class="result-value">'+fmt(c)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">半周長 s</span><span class="result-value">'+fmt(s)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">周長</span><span class="result-value">'+fmt(perimeter)+'</span></div>'+
+    '<div class="result-row"><span class="result-label">面積</span><span class="result-value">'+fmt(area)+'</span></div>');
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

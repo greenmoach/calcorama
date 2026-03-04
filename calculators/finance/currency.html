@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="匯率計算機，輸入金額與貨幣種類，快速換算各主要國家貨幣匯率。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/finance/currency.html">
+<meta property="og:title" content="匯率計算機 | 夢幻計算機大全">
+<meta property="og:description" content="匯率計算機，輸入金額與貨幣種類，快速換算各主要國家貨幣匯率。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/finance/currency.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"匯率計算機","description":"匯率計算機，輸入金額與貨幣種類，快速換算各主要國家貨幣匯率。","url":"https://calc.sotshau.fun/calculators/finance/currency.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>匯率計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#e8d0f0 0%,#d4b0e0 30%,#c9a0dc 60%,#b088c8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#9b59b6;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#8e44ad;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#a569bd;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(120,60,160,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#6a3d7d;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#9b7fb5;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#6a3d7d;font-weight:700;margin-bottom:6px;font-size:.9rem}
+select,input[type="number"]{width:100%;padding:12px 16px;border:2px solid #d8c0e8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#faf5ff;color:#4a2d5e;-webkit-appearance:none;appearance:none}
+select{background:#faf5ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238e6aaf' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center}
+select:focus,input:focus{border-color:#9b59b6}
+.row{display:flex;gap:12px;margin-bottom:18px}
+.row>div{flex:1}
+.swap-btn{display:block;margin:0 auto 18px;background:none;border:2px solid #c9a0dc;border-radius:50%;width:42px;height:42px;cursor:pointer;font-size:1.2rem;color:#8e6aaf;transition:all .3s}
+.swap-btn:hover{background:#e8d0f0;transform:rotate(180deg)}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#9b59b6,#8e44ad);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(142,68,173,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#f3e8fa,#ead0f5);border-radius:16px;padding:22px;text-align:center;display:none}
+.result .amount{font-size:1.8rem;color:#6a3d7d;font-weight:800}
+.result .detail{color:#8b6aaa;font-size:.88rem;margin-top:6px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}.result .amount{font-size:1.4rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#8e6aaf;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>匯率計算機</h1>
+<p class="subtitle">快速換算各國貨幣匯率</p>
+<div class="row">
+<div>
+<label for="fromCurrency">從</label>
+<select id="fromCurrency"></select>
+</div>
+<div>
+<label for="toCurrency">到</label>
+<select id="toCurrency"></select>
+</div>
+</div>
+<button class="swap-btn" onclick="swapCurrency()" title="交換貨幣">&#8645;</button>
+<div style="margin-bottom:18px">
+<label for="amount">金額</label>
+<input type="number" id="amount" placeholder="輸入金額" min="0" step="any">
+</div>
+<button class="calc-btn" onclick="calculate()">換算</button>
+<div class="result" id="result">
+<div class="amount" id="resultAmount"></div>
+<div class="detail" id="resultDetail"></div>
+</div>
+</div>
+<script>
+const rates={USD:1,TWD:31.5,EUR:0.92,JPY:149.8,GBP:0.79,CNY:7.24,KRW:1330};
+const names={USD:'美元 USD',TWD:'新台幣 TWD',EUR:'歐元 EUR',JPY:'日圓 JPY',GBP:'英鎊 GBP',CNY:'人民幣 CNY',KRW:'韓元 KRW'};
+function populateSelects(){
+  var keys=Object.keys(rates);
+  var s1=document.getElementById('fromCurrency'),s2=document.getElementById('toCurrency');
+  keys.forEach(function(k){
+    s1.appendChild(new Option(names[k],k));
+    s2.appendChild(new Option(names[k],k));
+  });
+  s1.value='USD';s2.value='TWD';
+}
+populateSelects();
+function swapCurrency(){
+  var s1=document.getElementById('fromCurrency'),s2=document.getElementById('toCurrency');
+  var t=s1.value;s1.value=s2.value;s2.value=t;
+}
+function calculate(){
+  var amt=parseFloat(document.getElementById('amount').value);
+  if(isNaN(amt)||amt<0)return;
+  var from=document.getElementById('fromCurrency').value;
+  var to=document.getElementById('toCurrency').value;
+  var inUSD=amt/rates[from];
+  var result=inUSD*rates[to];
+  document.getElementById('resultAmount').textContent=formatNum(result)+' '+to;
+  document.getElementById('resultDetail').textContent=formatNum(amt)+' '+from+' = '+formatNum(result)+' '+to+'\n匯率: 1 '+from+' = '+formatNum(rates[to]/rates[from])+' '+to;
+  document.getElementById('result').style.display='block';
+}
+function formatNum(n){return n.toLocaleString('zh-TW',{minimumFractionDigits:2,maximumFractionDigits:4})}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

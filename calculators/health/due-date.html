@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="預產期計算機，輸入末次月經第一天，計算預產期、目前懷孕週數與各孕期時程。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/health/due-date.html">
+<meta property="og:title" content="預產期計算機 | 夢幻計算機大全">
+<meta property="og:description" content="預產期計算機，輸入末次月經第一天，計算預產期、目前懷孕週數與各孕期時程。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/health/due-date.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"預產期計算機","description":"預產期計算機，輸入末次月經第一天，計算預產期、目前懷孕週數與各孕期時程。","url":"https://calc.sotshau.fun/calculators/health/due-date.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>預產期計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8f5e6 0%,#a0e8d0 30%,#7ecfc0 60%,#5cb8a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#5cb8a8;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#4aad8e;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#2a8a6e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(60,160,130,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#2a8a6e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#6abfa8;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#3a9a80;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #b8e8d8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:rgba(255,255,255,.7);color:#2a8a6e;margin-bottom:18px}
+input:focus{border-color:#4aad8e}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#5cb8a8,#3a9a80);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,160,130,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#e8faf5,#d0f5e8);border-radius:16px;padding:22px;display:none}
+.due-date{font-size:1.8rem;font-weight:800;color:#2a8a6e;text-align:center;margin-bottom:8px}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(60,160,130,.12)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:#6abfa8;font-size:.9rem}
+.result-value{color:#2a8a6e;font-weight:800}
+.note{font-size:.8rem;color:#6abfa8;text-align:center;margin-top:10px}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4aad8e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>預產期計算機</h1>
+<p class="subtitle">末次月經日 → 預產期</p>
+<label for="lmp">末次月經第一天</label>
+<input type="date" id="lmp">
+<button class="calc-btn" onclick="calculate()">計算預產期</button>
+<div class="result" id="result">
+  <div class="due-date" id="rDue"></div>
+  <div class="result-row"><span class="result-label">末次月經日</span><span class="result-value" id="rLmp"></span></div>
+  <div class="result-row"><span class="result-label">目前懷孕週數</span><span class="result-value" id="rWeeks"></span></div>
+  <div class="result-row"><span class="result-label">距預產期</span><span class="result-value" id="rDays"></span></div>
+  <div class="result-row"><span class="result-label">第一孕期結束</span><span class="result-value" id="rTri1"></span></div>
+  <div class="result-row"><span class="result-label">第二孕期結束</span><span class="result-value" id="rTri2"></span></div>
+  <div class="note">※ 以 Naegele 法則（LMP + 280天）計算，實際預產期請諮詢醫師</div>
+</div>
+</div>
+<script>
+var wdays=['日','一','二','三','四','五','六'];
+function fmtDate(d){return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日（週'+wdays[d.getDay()]+'）';}
+function calculate(){
+  var lmpVal=document.getElementById('lmp').value;
+  if(!lmpVal){alert('請選擇末次月經日期');return;}
+  var lmp=new Date(lmpVal);
+  var due=new Date(lmp);due.setDate(due.getDate()+280);
+  var today=new Date();today.setHours(0,0,0,0);
+  var diffMs=today-lmp;
+  var diffDays=Math.floor(diffMs/86400000);
+  var weeks=Math.floor(diffDays/7);
+  var extraDays=diffDays%7;
+  var daysLeft=Math.ceil((due-today)/86400000);
+  var tri1=new Date(lmp);tri1.setDate(tri1.getDate()+84);
+  var tri2=new Date(lmp);tri2.setDate(tri2.getDate()+196);
+  document.getElementById('rDue').textContent='預產期：'+fmtDate(due);
+  document.getElementById('rLmp').textContent=fmtDate(lmp);
+  document.getElementById('rWeeks').textContent=diffDays>=0?weeks+'週'+extraDays+'天':'尚未開始計算';
+  document.getElementById('rDays').textContent=daysLeft>0?daysLeft+' 天':daysLeft===0?'今天！':'已過預產期';
+  document.getElementById('rTri1').textContent=fmtDate(tri1)+' (第12週)';
+  document.getElementById('rTri2').textContent=fmtDate(tri2)+' (第28週)';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

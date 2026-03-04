@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="網速換算計算機，Mbps、MB/s、Gbps、KB/s 等網路速度單位快速互相換算。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/network-speed.html">
+<meta property="og:title" content="網速換算計算機 | 夢幻計算機大全">
+<meta property="og:description" content="網速換算計算機，Mbps、MB/s、Gbps、KB/s 等網路速度單位快速互相換算。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/network-speed.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"網速換算計算機","description":"網速換算計算機，Mbps、MB/s、Gbps、KB/s 等網路速度單位快速互相換算。","url":"https://calc.sotshau.fun/calculators/life/network-speed.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>網速換算計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fef9d0 0%,#faeea8 30%,#f5d76e 60%,#d4a520 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#f5d76e;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#d4a520;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#8a6a10;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(180,140,20,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#8a6a10;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#b89030;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#8a6a10;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input,select{width:100%;padding:12px 16px;border:2px solid #f0d888;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:#fffdf0;color:#8a6a10;margin-bottom:18px}
+input:focus,select:focus{border-color:#d4a520}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f5d76e,#d4a520);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(180,140,20,.35)}
+.result{margin-top:22px;background:linear-gradient(135deg,#fefce8,#fef5c0);border-radius:16px;padding:22px;display:none}
+.result-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(180,140,20,.15)}
+.result-row:last-child{border-bottom:none}
+.result-label{color:#b89030;font-size:.9rem}
+.result-value{color:#8a6a10;font-weight:800;font-size:1rem}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4a520;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>網速換算計算機</h1>
+<p class="subtitle">Mbps ↔ MB/s 及其他單位互轉</p>
+<label for="inputVal">數值</label>
+<input type="number" id="inputVal" placeholder="例如：100" min="0" step="any">
+<label for="fromUnit">單位</label>
+<select id="fromUnit">
+  <option value="mbps">Mbps（百萬位元/秒）</option>
+  <option value="gbps">Gbps（十億位元/秒）</option>
+  <option value="kbps">Kbps（千位元/秒）</option>
+  <option value="mbs">MB/s（百萬位元組/秒）</option>
+  <option value="gbs">GB/s（十億位元組/秒）</option>
+  <option value="kbs">KB/s（千位元組/秒）</option>
+</select>
+<button class="calc-btn" onclick="convert()">換算</button>
+<div class="result" id="result">
+  <div class="result-row"><span class="result-label">Gbps</span><span class="result-value" id="rGbps"></span></div>
+  <div class="result-row"><span class="result-label">Mbps</span><span class="result-value" id="rMbps"></span></div>
+  <div class="result-row"><span class="result-label">Kbps</span><span class="result-value" id="rKbps"></span></div>
+  <div class="result-row"><span class="result-label">GB/s</span><span class="result-value" id="rGbs"></span></div>
+  <div class="result-row"><span class="result-label">MB/s</span><span class="result-value" id="rMbs"></span></div>
+  <div class="result-row"><span class="result-label">KB/s</span><span class="result-value" id="rKbs"></span></div>
+</div>
+</div>
+<script>
+function convert(){
+  var v=parseFloat(document.getElementById('inputVal').value);
+  var u=document.getElementById('fromUnit').value;
+  if(isNaN(v)||v<0){alert('請輸入有效數值');return;}
+  var bps;
+  if(u==='mbps')bps=v*1e6;
+  else if(u==='gbps')bps=v*1e9;
+  else if(u==='kbps')bps=v*1e3;
+  else if(u==='mbs')bps=v*8e6;
+  else if(u==='gbs')bps=v*8e9;
+  else bps=v*8e3;
+  function fmt(n){return n>=1?+n.toPrecision(5):n.toExponential(3);}
+  document.getElementById('rGbps').textContent=fmt(bps/1e9)+' Gbps';
+  document.getElementById('rMbps').textContent=fmt(bps/1e6)+' Mbps';
+  document.getElementById('rKbps').textContent=fmt(bps/1e3)+' Kbps';
+  document.getElementById('rGbs').textContent=fmt(bps/8e9)+' GB/s';
+  document.getElementById('rMbs').textContent=fmt(bps/8e6)+' MB/s';
+  document.getElementById('rKbs').textContent=fmt(bps/8e3)+' KB/s';
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

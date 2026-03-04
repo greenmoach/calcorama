@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="及格分數倒推計算機，輸入目標成績，算出期末考至少要考幾分才能達標。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/school/final-exam.html">
+<meta property="og:title" content="及格分數倒推計算機 | 夢幻計算機大全">
+<meta property="og:description" content="及格分數倒推計算機，輸入目標成績，算出期末考至少要考幾分才能達標。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/school/final-exam.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"及格分數倒推計算機","description":"及格分數倒推計算機，輸入目標成績，算出期末考至少要考幾分才能達標。","url":"https://calc.sotshau.fun/calculators/school/final-exam.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+    <title>及格分數倒推計算機 | 夢幻計算機大全</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe0cc 0%, #f8c8a8 30%, #f8a978 60%, #e89060 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .floating {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: floatAnim 8s ease-in-out infinite;
+        }
+        .floating:nth-child(1) { width: 120px; height: 120px; background: #f8a978; top: 10%; left: 5%; animation-delay: 0s; }
+        .floating:nth-child(2) { width: 80px; height: 80px; background: #e07845; top: 60%; right: 8%; animation-delay: 2s; }
+        .floating:nth-child(3) { width: 150px; height: 150px; background: #f8c8a8; bottom: 10%; left: 15%; animation-delay: 4s; }
+        .floating:nth-child(4) { width: 60px; height: 60px; background: #ffe0cc; top: 30%; right: 20%; animation-delay: 6s; }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(224, 120, 69, 0.18);
+            padding: 40px 36px;
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            text-align: center;
+            color: #d06030;
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #c07850;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            color: #c07850;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .form-group .hint {
+            color: #c09070;
+            font-size: 0.78rem;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        .form-group input {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            padding: 12px 16px;
+            border: 2px solid #f0c8a8;
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255,255,255,0.8);
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+        .form-group input:focus { border-color: #e07845; }
+        .btn-calc {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #f0a060, #e07845);
+            color: #fff;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(224, 120, 69, 0.3);
+            margin-top: 8px;
+        }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(224, 120, 69, 0.4); }
+        .result-area {
+            margin-top: 24px;
+            padding: 24px 20px;
+            background: rgba(248, 169, 120, 0.12);
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+        }
+        .result-area.show { display: block; }
+        .result-label { color: #c07850; font-size: 0.9rem; font-weight: 600; }
+        .result-value { color: #d06030; font-size: 2.4rem; font-weight: 800; margin: 8px 0; }
+        .result-status {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .status-ok { background: rgba(100, 200, 120, 0.2); color: #3a8a4a; }
+        .status-hard { background: rgba(240, 180, 60, 0.2); color: #a08020; }
+        .status-impossible { background: rgba(230, 80, 80, 0.15); color: #c04040; }
+        .status-easy { background: rgba(100, 180, 230, 0.2); color: #3070a0; }
+        .result-detail { color: #b08060; font-size: 0.85rem; margin-top: 10px; line-height: 1.6; }
+        .formula-box {
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: #a07050;
+            line-height: 1.6;
+        }
+        .formula-box strong { color: #c07050; }
+        @media (max-width: 520px) {
+            .card { padding: 28px 18px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#e07845;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="card">
+        <h1>及格分數倒推計算機</h1>
+        <p class="subtitle">算出期末考至少需要幾分才能及格</p>
+
+        <div class="form-group">
+            <label>目前平均成績 <span class="hint">（作業、期中考等已知成績的加權平均）</span></label>
+            <input type="number" id="currentAvg" placeholder="例如：72" min="0" max="100" step="any">
+        </div>
+
+        <div class="form-group">
+            <label>期末考佔比 (%) <span class="hint">（期末考在總成績中的百分比）</span></label>
+            <input type="number" id="finalWeight" placeholder="例如：40" min="0" max="100" step="any">
+        </div>
+
+        <div class="form-group">
+            <label>目標總成績 <span class="hint">（想達到的最低分數）</span></label>
+            <input type="number" id="targetGrade" value="60" min="0" max="100" step="any">
+        </div>
+
+        <button class="btn-calc" onclick="calculate()">計算所需分數</button>
+
+        <div class="result-area" id="result">
+            <div class="result-label">期末考至少需要</div>
+            <div class="result-value" id="neededScore">--</div>
+            <div id="statusBadge"></div>
+            <div class="result-detail" id="detail"></div>
+        </div>
+
+        <div class="formula-box">
+            <strong>計算公式：</strong><br>
+            總成績 = 目前平均 × (1 - 期末佔比) + 期末分數 × 期末佔比<br>
+            期末所需 = (目標總成績 - 目前平均 × (1 - 期末佔比)) ÷ 期末佔比
+        </div>
+    </div>
+    <script>
+        function calculate() {
+            var currentAvg = parseFloat(document.getElementById('currentAvg').value);
+            var finalWeightPct = parseFloat(document.getElementById('finalWeight').value);
+            var target = parseFloat(document.getElementById('targetGrade').value);
+
+            var resultEl = document.getElementById('result');
+            resultEl.classList.add('show');
+
+            if (isNaN(currentAvg) || isNaN(finalWeightPct) || isNaN(target)) {
+                document.getElementById('neededScore').textContent = '--';
+                document.getElementById('statusBadge').innerHTML = '';
+                document.getElementById('detail').textContent = '請填寫所有欄位';
+                return;
+            }
+
+            if (finalWeightPct <= 0 || finalWeightPct > 100) {
+                document.getElementById('neededScore').textContent = '--';
+                document.getElementById('statusBadge').innerHTML = '';
+                document.getElementById('detail').textContent = '期末考佔比必須在 1% 到 100% 之間';
+                return;
+            }
+
+            var fw = finalWeightPct / 100;
+            var otherWeight = 1 - fw;
+
+            // target = currentAvg * otherWeight + finalScore * fw
+            // finalScore = (target - currentAvg * otherWeight) / fw
+            var needed = (target - currentAvg * otherWeight) / fw;
+
+            document.getElementById('neededScore').textContent = needed.toFixed(1);
+
+            var badge = document.getElementById('statusBadge');
+            var detail = document.getElementById('detail');
+
+            if (needed <= 0) {
+                badge.innerHTML = '<span class="result-status status-easy">不用考也能過！</span>';
+                detail.textContent = '你目前的成績已經足以達到目標，期末考拿 0 分也能過關。繼續保持！';
+            } else if (needed <= 60) {
+                badge.innerHTML = '<span class="result-status status-ok">輕鬆達成</span>';
+                detail.textContent = '只需要 ' + needed.toFixed(1) + ' 分，好好準備應該沒問題！';
+            } else if (needed <= 85) {
+                badge.innerHTML = '<span class="result-status status-ok">可以達成</span>';
+                detail.textContent = '需要 ' + needed.toFixed(1) + ' 分，努力複習就能達到目標。';
+            } else if (needed <= 100) {
+                badge.innerHTML = '<span class="result-status status-hard">有挑戰性</span>';
+                detail.textContent = '需要 ' + needed.toFixed(1) + ' 分，雖然困難但理論上可行，全力以赴吧！';
+            } else {
+                badge.innerHTML = '<span class="result-status status-impossible">無法達成</span>';
+                detail.textContent = '即使期末考拿滿分 100 分，總成績也只能達到 ' +
+                    (currentAvg * otherWeight + 100 * fw).toFixed(1) + ' 分，無法達到目標 ' + target + ' 分。';
+            }
+        }
+    </script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

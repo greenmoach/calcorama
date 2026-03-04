@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="心率區間計算機，根據年齡計算最大心率與各運動強度心率區間，優化健身效果。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/health/heart-rate.html">
+<meta property="og:title" content="心率區間計算機 | 夢幻計算機大全">
+<meta property="og:description" content="心率區間計算機，根據年齡計算最大心率與各運動強度心率區間，優化健身效果。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/health/heart-rate.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"心率區間計算機","description":"心率區間計算機，根據年齡計算最大心率與各運動強度心率區間，優化健身效果。","url":"https://calc.sotshau.fun/calculators/health/heart-rate.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>心率區間計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8f5e6 0%,#a0e8d0 30%,#7ecfc0 60%,#5cb8a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.floating{position:fixed;border-radius:50%;opacity:.12;pointer-events:none;animation:floatAnim 6s ease-in-out infinite}
+.floating:nth-child(1){width:120px;height:120px;background:#5cb8a8;top:10%;left:5%;animation-delay:0s}
+.floating:nth-child(2){width:80px;height:80px;background:#4aad8e;top:60%;right:8%;animation-delay:2s}
+.floating:nth-child(3){width:60px;height:60px;background:#2a8a6e;bottom:15%;left:15%;animation-delay:4s}
+@keyframes floatAnim{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.card{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(60,160,130,.18);padding:40px 36px;max-width:480px;width:100%;position:relative;z-index:2}
+h1{text-align:center;color:#2a8a6e;font-size:1.65rem;font-weight:800;margin-bottom:8px}
+.subtitle{text-align:center;color:#6abfa8;font-size:.9rem;margin-bottom:28px}
+label{display:block;color:#3a9a80;font-weight:700;margin-bottom:6px;font-size:.9rem}
+input{width:100%;padding:12px 16px;border:2px solid #b8e8d8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:rgba(255,255,255,.7);color:#2a8a6e;margin-bottom:18px}
+input:focus{border-color:#4aad8e}
+.calc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#5cb8a8,#3a9a80);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,160,130,.35)}
+.result{margin-top:22px;display:none}
+.mhr-box{background:linear-gradient(135deg,#e8faf5,#d0f5e8);border-radius:16px;padding:16px;text-align:center;margin-bottom:12px}
+.mhr-val{font-size:2rem;font-weight:800;color:#2a8a6e}
+.mhr-label{font-size:.85rem;color:#6abfa8}
+.zone{border-radius:12px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.zone-name{font-weight:700;font-size:.9rem;color:#fff}
+.zone-desc{font-size:.75rem;color:rgba(255,255,255,.85)}
+.zone-range{font-weight:800;font-size:1rem;color:#fff}
+@media(max-width:500px){.card{padding:28px 20px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4aad8e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating"></div><div class="floating"></div><div class="floating"></div>
+<div class="card">
+<h1>心率區間計算機</h1>
+<p class="subtitle">年齡 → 最大心率 ＋ 運動心率區間</p>
+<label for="age">年齡（歲）</label>
+<input type="number" id="age" placeholder="例如：30" min="10" max="100" step="1">
+<label for="rhr">靜息心率（選填，bpm）</label>
+<input type="number" id="rhr" placeholder="例如：65（可留空）" min="30" max="120" step="1">
+<button class="calc-btn" onclick="calculate()">計算</button>
+<div class="result" id="result">
+  <div class="mhr-box"><div class="mhr-val" id="rMhr"></div><div class="mhr-label">最大心率 (MHR = 220 - 年齡)</div></div>
+  <div id="rZones"></div>
+</div>
+</div>
+<script>
+var zones=[
+  {name:'熱身區',desc:'熱身/恢復',pct:[50,60],color:'#74b9ff'},
+  {name:'有氧燃脂',desc:'燃脂/提升心肺',pct:[60,70],color:'#55efc4'},
+  {name:'有氧耐力',desc:'增加耐力',pct:[70,80],color:'#f9ca24'},
+  {name:'無氧閾值',desc:'提升速度表現',pct:[80,90],color:'#fd79a8'},
+  {name:'最大強度',desc:'爆發力訓練',pct:[90,100],color:'#d63031'}
+];
+function calculate(){
+  var age=parseInt(document.getElementById('age').value);
+  var rhr=parseInt(document.getElementById('rhr').value)||null;
+  if(!age||age<10){alert('請輸入有效年齡');return;}
+  var mhr=220-age;
+  document.getElementById('rMhr').textContent=mhr+' bpm';
+  var html='';
+  zones.forEach(function(z){
+    var low,high;
+    if(rhr){low=Math.round((mhr-rhr)*z.pct[0]/100+rhr);high=Math.round((mhr-rhr)*z.pct[1]/100+rhr);}
+    else{low=Math.round(mhr*z.pct[0]/100);high=Math.round(mhr*z.pct[1]/100);}
+    html+='<div class="zone" style="background:'+z.color+'"><div><div class="zone-name">'+z.name+' ('+z.pct[0]+'-'+z.pct[1]+'%)</div><div class="zone-desc">'+z.desc+'</div></div><div class="zone-range">'+low+'-'+high+' bpm</div></div>';
+  });
+  document.getElementById('rZones').innerHTML=html;
+  document.getElementById('result').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

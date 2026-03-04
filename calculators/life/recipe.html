@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="料理份量換算計算機，依人數比例自動調整食譜中所有食材的用量。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/life/recipe.html">
+<meta property="og:title" content="料理份量換算 | 夢幻計算機大全">
+<meta property="og:description" content="料理份量換算計算機，依人數比例自動調整食譜中所有食材的用量。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/life/recipe.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"料理份量換算","description":"料理份量換算計算機，依人數比例自動調整食譜中所有食材的用量。","url":"https://calc.sotshau.fun/calculators/life/recipe.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>料理份量換算 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fff8e0 0%,#f5e6b8 30%,#f5d76e 60%,#e8c840 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.floating{position:fixed;border-radius:50%;opacity:0.13;pointer-events:none;}
+.f1{width:180px;height:180px;background:#e8c840;top:-40px;right:-40px;}
+.f2{width:120px;height:120px;background:#f5d76e;bottom:60px;left:-30px;}
+.f3{width:90px;height:90px;background:#c4960e;top:40%;right:10%;}
+.f4{width:60px;height:60px;background:#f5e6b8;bottom:20%;left:15%;}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(200,170,50,0.18);max-width:560px;width:100%;padding:40px 34px 36px;position:relative;z-index:2;}
+h1{text-align:center;color:#a07800;font-size:1.65rem;margin-bottom:6px;}
+.subtitle{text-align:center;color:#b89a30;font-size:0.92rem;margin-bottom:22px;}
+.row{display:flex;gap:12px;margin-bottom:18px;}
+.row .group{flex:1;}
+.group{margin-bottom:14px;}
+.group label{display:block;font-weight:700;color:#8a6d00;margin-bottom:5px;font-size:0.9rem;}
+.group input{width:100%;padding:11px 14px;border:2px solid #e8d88a;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;background:#fffef5;outline:none;transition:border 0.2s;}
+.group input:focus{border-color:#d4b030;}
+.section-title{font-weight:700;color:#8a6d00;font-size:1rem;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid #f0dfa0;}
+.ingr-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+.ingr-row input:nth-child(1){flex:2;}
+.ingr-row input:nth-child(2){flex:1;}
+.ingr-row input:nth-child(3){flex:1;}
+.ingr-row input{padding:10px 10px;border:2px solid #e8d88a;border-radius:12px;font-size:0.92rem;font-family:'Nunito',sans-serif;background:#fffef5;outline:none;}
+.ingr-row input:focus{border-color:#d4b030;}
+.btn-rm{background:none;border:none;color:#c49000;font-weight:800;cursor:pointer;font-size:1.1rem;padding:0 4px;line-height:1;}
+.btn-add{background:none;border:2px dashed #d4b030;border-radius:12px;padding:9px;width:100%;color:#a07800;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;font-size:0.9rem;margin-bottom:16px;transition:background 0.2s;}
+.btn-add:hover{background:#fffde8;}
+button.calc{width:100%;padding:13px;border:none;border-radius:14px;background:linear-gradient(135deg,#f5d76e,#e8c840);color:#7a5c00;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(200,170,50,0.25);transition:transform 0.15s;}
+button.calc:hover{transform:scale(1.02);}
+.result{margin-top:18px;background:#fffde8;border-radius:16px;padding:18px;display:none;}
+.result h3{color:#a07800;font-size:1rem;margin-bottom:10px;}
+.r-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0dfa0;color:#7a5c00;font-size:0.95rem;}
+.r-row:last-child{border:none;}
+.r-row .rv{font-weight:800;}
+@media(max-width:500px){.card{padding:26px 16px 26px;}h1{font-size:1.3rem;}.row{flex-direction:column;gap:0;}.ingr-row{flex-wrap:wrap;}.ingr-row input:nth-child(1){flex:1 1 100%;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#c4960e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="floating f1"></div><div class="floating f2"></div><div class="floating f3"></div><div class="floating f4"></div>
+<div class="card">
+<h1>料理份量換算</h1>
+<p class="subtitle">輕鬆調整食譜份量</p>
+<div class="row">
+<div class="group"><label>原始份數（人份）</label><input type="number" id="origServ" min="1" step="1" placeholder="例：4" value="4"></div>
+<div class="group"><label>目標份數（人份）</label><input type="number" id="targetServ" min="1" step="1" placeholder="例：6" value="6"></div>
+</div>
+<div class="section-title">食材清單</div>
+<div id="ingredients">
+<div class="ingr-row"><input type="text" placeholder="食材名稱" class="iname"><input type="number" placeholder="數量" min="0" step="0.1" class="iamt"><input type="text" placeholder="單位" class="iunit"><button class="btn-rm" onclick="removeIngr(this)">&times;</button></div>
+<div class="ingr-row"><input type="text" placeholder="食材名稱" class="iname"><input type="number" placeholder="數量" min="0" step="0.1" class="iamt"><input type="text" placeholder="單位" class="iunit"><button class="btn-rm" onclick="removeIngr(this)">&times;</button></div>
+<div class="ingr-row"><input type="text" placeholder="食材名稱" class="iname"><input type="number" placeholder="數量" min="0" step="0.1" class="iamt"><input type="text" placeholder="單位" class="iunit"><button class="btn-rm" onclick="removeIngr(this)">&times;</button></div>
+</div>
+<button class="btn-add" onclick="addIngr()">+ 新增食材</button>
+<button class="calc" onclick="calculate()">換算份量</button>
+<div class="result" id="res">
+<h3 id="resTitle"></h3>
+<div id="resContent"></div>
+</div>
+</div>
+<script>
+function addIngr(){
+  var d=document.createElement('div');
+  d.className='ingr-row';
+  d.innerHTML='<input type="text" placeholder="食材名稱" class="iname"><input type="number" placeholder="數量" min="0" step="0.1" class="iamt"><input type="text" placeholder="單位" class="iunit"><button class="btn-rm" onclick="removeIngr(this)">&times;</button>';
+  document.getElementById('ingredients').appendChild(d);
+}
+function removeIngr(btn){
+  var rows=document.getElementById('ingredients').querySelectorAll('.ingr-row');
+  if(rows.length>1) btn.parentElement.remove();
+}
+function calculate(){
+  var orig=parseFloat(document.getElementById('origServ').value);
+  var target=parseFloat(document.getElementById('targetServ').value);
+  if(!orig||!target||orig<=0||target<=0){alert('請輸入有效的份數');return;}
+  var ratio=target/orig;
+  var rows=document.getElementById('ingredients').querySelectorAll('.ingr-row');
+  var html='';
+  var hasData=false;
+  for(var i=0;i<rows.length;i++){
+    var name=rows[i].querySelector('.iname').value.trim();
+    var amt=parseFloat(rows[i].querySelector('.iamt').value);
+    var unit=rows[i].querySelector('.iunit').value.trim();
+    if(name&&!isNaN(amt)){
+      hasData=true;
+      var newAmt=amt*ratio;
+      var display=newAmt%1===0?newAmt.toString():newAmt.toFixed(2);
+      html+='<div class="r-row"><span>'+name+'</span><span class="rv">'+display+' '+unit+'</span></div>';
+    }
+  }
+  if(!hasData){alert('請至少輸入一項食材');return;}
+  document.getElementById('resTitle').textContent='換算結果（'+orig+' 人份 → '+target+' 人份，比例 '+ratio.toFixed(2)+'）';
+  document.getElementById('resContent').innerHTML=html;
+  document.getElementById('res').style.display='block';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

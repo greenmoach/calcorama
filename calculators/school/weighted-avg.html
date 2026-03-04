@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="加權平均計算機，輸入各項數值與對應權重，計算加權平均分數或成績。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/school/weighted-avg.html">
+<meta property="og:title" content="加權平均計算機 | 夢幻計算機大全">
+<meta property="og:description" content="加權平均計算機，輸入各項數值與對應權重，計算加權平均分數或成績。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/school/weighted-avg.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"加權平均計算機","description":"加權平均計算機，輸入各項數值與對應權重，計算加權平均分數或成績。","url":"https://calc.sotshau.fun/calculators/school/weighted-avg.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+    <title>加權平均計算機 | 夢幻計算機大全</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe0cc 0%, #f8c8a8 30%, #f8a978 60%, #e89060 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .floating {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: floatAnim 8s ease-in-out infinite;
+        }
+        .floating:nth-child(1) { width: 120px; height: 120px; background: #f8a978; top: 10%; left: 5%; animation-delay: 0s; }
+        .floating:nth-child(2) { width: 80px; height: 80px; background: #e07845; top: 60%; right: 8%; animation-delay: 2s; }
+        .floating:nth-child(3) { width: 150px; height: 150px; background: #f8c8a8; bottom: 10%; left: 15%; animation-delay: 4s; }
+        .floating:nth-child(4) { width: 60px; height: 60px; background: #ffe0cc; top: 30%; right: 20%; animation-delay: 6s; }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(224, 120, 69, 0.18);
+            padding: 40px 36px;
+            max-width: 520px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            text-align: center;
+            color: #d06030;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #c07850;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+        .header-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding: 0 4px;
+            font-weight: 700;
+            color: #c07850;
+            font-size: 0.85rem;
+        }
+        .header-row span:nth-child(1) { flex: 1; }
+        .header-row span:nth-child(2) { flex: 1; }
+        .header-row span:nth-child(3) { width: 32px; flex-shrink: 0; }
+        .data-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .data-row input {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            padding: 10px 14px;
+            border: 2px solid #f0c8a8;
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255,255,255,0.8);
+            transition: border-color 0.3s;
+            flex: 1;
+            min-width: 0;
+        }
+        .data-row input:focus { border-color: #e07845; }
+        .remove-btn {
+            background: #f0a080;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+        .remove-btn:hover { background: #d06030; }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-add {
+            background: rgba(240, 168, 120, 0.3);
+            color: #d06030;
+            flex: 1;
+        }
+        .btn-add:hover { background: rgba(240, 168, 120, 0.5); }
+        .btn-calc {
+            background: linear-gradient(135deg, #f0a060, #e07845);
+            color: #fff;
+            flex: 2;
+            box-shadow: 0 4px 15px rgba(224, 120, 69, 0.3);
+        }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(224, 120, 69, 0.4); }
+        .result-area {
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(248, 169, 120, 0.12);
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+        }
+        .result-area.show { display: block; }
+        .result-label { color: #c07850; font-size: 0.9rem; font-weight: 600; }
+        .result-value { color: #d06030; font-size: 2.2rem; font-weight: 800; margin: 8px 0; }
+        .result-detail { color: #b08060; font-size: 0.85rem; }
+        @media (max-width: 520px) {
+            .card { padding: 28px 18px; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#e07845;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="card">
+        <h1>加權平均計算機</h1>
+        <p class="subtitle">輸入數值與權重，計算加權平均值</p>
+        <div class="header-row">
+            <span>數值</span>
+            <span>權重</span>
+            <span></span>
+        </div>
+        <div id="dataList"></div>
+        <div class="btn-group">
+            <button class="btn btn-add" onclick="addRow()">+ 新增項目</button>
+            <button class="btn btn-calc" onclick="calculate()">計算加權平均</button>
+        </div>
+        <div class="result-area" id="result">
+            <div class="result-label">加權平均值</div>
+            <div class="result-value" id="avgValue">--</div>
+            <div class="result-detail" id="avgDetail"></div>
+        </div>
+    </div>
+    <script>
+        function addRow() {
+            var list = document.getElementById('dataList');
+            var row = document.createElement('div');
+            row.className = 'data-row';
+
+            var valInput = document.createElement('input');
+            valInput.type = 'number';
+            valInput.placeholder = '數值';
+            valInput.step = 'any';
+            valInput.className = 'val-input';
+
+            var weightInput = document.createElement('input');
+            weightInput.type = 'number';
+            weightInput.placeholder = '權重';
+            weightInput.step = 'any';
+            weightInput.min = '0';
+            weightInput.className = 'weight-input';
+
+            var removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.textContent = '\u00D7';
+            removeBtn.onclick = function() { row.remove(); };
+
+            row.appendChild(valInput);
+            row.appendChild(weightInput);
+            row.appendChild(removeBtn);
+            list.appendChild(row);
+        }
+
+        function calculate() {
+            var rows = document.querySelectorAll('.data-row');
+            var sumVW = 0;
+            var sumW = 0;
+            var count = 0;
+            for (var i = 0; i < rows.length; i++) {
+                var v = parseFloat(rows[i].querySelector('.val-input').value);
+                var w = parseFloat(rows[i].querySelector('.weight-input').value);
+                if (isNaN(v) || isNaN(w) || w <= 0) continue;
+                sumVW = sumVW + v * w;
+                sumW = sumW + w;
+                count++;
+            }
+            var resultEl = document.getElementById('result');
+            resultEl.classList.add('show');
+            if (sumW === 0 || count === 0) {
+                document.getElementById('avgValue').textContent = '--';
+                document.getElementById('avgDetail').textContent = '請至少輸入一組有效的數值與權重';
+                return;
+            }
+            var avg = sumVW / sumW;
+            document.getElementById('avgValue').textContent = avg.toFixed(2);
+            document.getElementById('avgDetail').textContent = '有效項目數：' + count + ' ｜ 總權重：' + sumW.toFixed(2);
+        }
+
+        addRow();
+        addRow();
+        addRow();
+    </script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

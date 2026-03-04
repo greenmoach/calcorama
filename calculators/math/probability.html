@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="基本機率、條件機率、貝氏定理計算機，快速算出事件發生的機率。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/math/probability.html">
+<meta property="og:title" content="機率計算機 | 夢幻計算機大全">
+<meta property="og:description" content="基本機率、條件機率、貝氏定理計算機，快速算出事件發生的機率。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/math/probability.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"機率計算機","description":"基本機率、條件機率、貝氏定理計算機，快速算出事件發生的機率。","url":"https://calc.sotshau.fun/calculators/math/probability.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>機率計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#fbc2eb 0%,#e8a0d4 30%,#c9a0dc 60%,#a18cd1 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:28px;box-shadow:0 8px 32px rgba(180,100,160,0.25);padding:36px 28px;max-width:480px;width:100%}
+h1{text-align:center;color:#9b59b6;font-size:1.5rem;margin-bottom:14px}
+.tabs{display:flex;gap:6px;margin-bottom:18px;justify-content:center}
+.tabs button{padding:8px 14px;border:2px solid #e0b0d0;border-radius:10px;background:#f8e1f0;color:#7b3f8a;font-family:'Nunito',sans-serif;font-weight:600;cursor:pointer;font-size:0.85rem;transition:all .2s}
+.tabs button.active{background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border-color:transparent}
+.section{display:none}.section.active{display:block}
+label{display:block;color:#7b3f8a;font-weight:600;margin:8px 0 4px;font-size:0.9rem}
+input[type=number]{width:100%;padding:10px;border:2px solid #e0b0d0;border-radius:10px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none}
+input:focus{border-color:#d4789c}
+.formula-box{background:#f8e1f0;border-radius:12px;padding:12px;text-align:center;color:#7b3f8a;font-size:0.9rem;margin:10px 0;font-style:italic}
+.calc-btn{display:block;margin:14px auto 0;padding:10px 36px;background:linear-gradient(135deg,#d4789c,#a18cd1);color:#fff;border:none;border-radius:14px;font-size:1rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s}
+.calc-btn:hover{transform:scale(1.05);opacity:0.9}
+.result{margin-top:14px;padding:16px;background:rgba(255,255,255,0.7);border-radius:14px;text-align:center;color:#6b3a7d;font-size:1.1rem;font-weight:700}
+.heart{position:fixed;color:#f5a0c0;opacity:0.3;animation:floatH 6s ease-in-out infinite;pointer-events:none;font-size:1.5rem}
+@keyframes floatH{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px) rotate(15deg)}}
+@media(max-width:480px){.card{padding:24px 14px}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#d4789c;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<span class="heart" style="top:10%;left:5%">&#9829;</span>
+<span class="heart" style="bottom:18%;right:6%;animation-delay:2s">&#9733;</span>
+<div class="card">
+<h1>&#127920; 機率計算機</h1>
+<div class="tabs">
+  <button class="active" onclick="switchTab('basic')">基本機率</button>
+  <button onclick="switchTab('cond')">條件機率</button>
+  <button onclick="switchTab('bayes')">貝氏定理</button>
+</div>
+<div id="basic" class="section active">
+  <div class="formula-box">P(A) = 有利結果數 / 總結果數</div>
+  <label>有利結果數</label><input type="number" id="bFav" min="0" step="1">
+  <label>總結果數</label><input type="number" id="bTot" min="1" step="1">
+  <button class="calc-btn" onclick="calcBasic()">計算</button>
+  <div class="result" id="bRes" style="display:none"></div>
+</div>
+<div id="cond" class="section">
+  <div class="formula-box">P(A|B) = P(A∩B) / P(B)</div>
+  <label>P(A∩B)</label><input type="number" id="cAB" min="0" max="1" step="0.001">
+  <label>P(B)</label><input type="number" id="cB" min="0" max="1" step="0.001">
+  <button class="calc-btn" onclick="calcCond()">計算</button>
+  <div class="result" id="cRes" style="display:none"></div>
+</div>
+<div id="bayes" class="section">
+  <div class="formula-box">P(A|B) = P(B|A)·P(A) / P(B)</div>
+  <label>P(B|A) — B 在 A 發生下的機率</label><input type="number" id="yBA" min="0" max="1" step="0.001">
+  <label>P(A) — A 的先驗機率</label><input type="number" id="yA" min="0" max="1" step="0.001">
+  <label>P(B) — B 的總機率</label><input type="number" id="yB" min="0" max="1" step="0.001">
+  <button class="calc-btn" onclick="calcBayes()">計算</button>
+  <div class="result" id="yRes" style="display:none"></div>
+</div>
+</div>
+<script>
+function switchTab(t){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+  event.target.classList.add('active');
+}
+function calcBasic(){
+  let f=parseFloat(document.getElementById('bFav').value),t=parseFloat(document.getElementById('bTot').value);
+  let r=document.getElementById('bRes');r.style.display='block';
+  if(isNaN(f)||isNaN(t)||t<=0){r.textContent='請輸入有效數值';return}
+  let p=f/t;
+  r.innerHTML='P(A) = '+f+' / '+t+' = <strong>'+p.toFixed(6)+'</strong><br>('+( (p*100).toFixed(2) )+'%)';
+}
+function calcCond(){
+  let ab=parseFloat(document.getElementById('cAB').value),b=parseFloat(document.getElementById('cB').value);
+  let r=document.getElementById('cRes');r.style.display='block';
+  if(isNaN(ab)||isNaN(b)||b<=0){r.textContent='請輸入有效數值';return}
+  let p=ab/b;
+  r.innerHTML='P(A|B) = '+ab+' / '+b+' = <strong>'+p.toFixed(6)+'</strong><br>('+((p*100).toFixed(2))+'%)';
+}
+function calcBayes(){
+  let ba=parseFloat(document.getElementById('yBA').value),a=parseFloat(document.getElementById('yA').value),b=parseFloat(document.getElementById('yB').value);
+  let r=document.getElementById('yRes');r.style.display='block';
+  if(isNaN(ba)||isNaN(a)||isNaN(b)||b<=0){r.textContent='請輸入有效數值';return}
+  let p=(ba*a)/b;
+  r.innerHTML='P(A|B) = ('+ba+' × '+a+') / '+b+' = <strong>'+p.toFixed(6)+'</strong><br>('+((p*100).toFixed(2))+'%)';
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>

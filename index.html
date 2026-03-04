@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="72種免費線上計算機大全，涵蓋數學、財務、健康、日期、工程等各類計算工具，簡單易用，立即開始計算。">
+<link rel="canonical" href="https://calc.sotshau.fun/">
+<meta property="og:title" content="夢幻計算機大全 | 72種免費線上計算機">
+<meta property="og:description" content="72種免費線上計算機大全，涵蓋數學、財務、健康、日期、工程等各類計算工具，簡單易用，立即開始計算。">
+<meta property="og:url" content="https://calc.sotshau.fun/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"夢幻計算機大全","url":"https://calc.sotshau.fun","description":"72種免費線上計算機大全，涵蓋數學、財務、健康、日期、工程等各類計算工具，簡單易用，立即開始計算。","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://calc.sotshau.fun/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+<title>夢幻計算機大全 | 72種免費線上計算機</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 25%, #c2e9fb 50%, #fbc2eb 75%, #a18cd1 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: #4a3060;
+  padding-bottom: 60px;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.deco {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 0;
+  animation: float 6s ease-in-out infinite;
+  font-size: 1.4rem;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(8deg); }
+}
+
+header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #d4789c, #a855a0, #7c5cbf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+header p {
+  font-size: 1rem;
+  color: #8b6a9e;
+  margin-bottom: 24px;
+}
+
+.search-box {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 20px 14px 48px;
+  border: none;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: #4a3060;
+  box-shadow: 0 4px 20px rgba(160,100,180,0.2);
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+.search-box input::placeholder { color: #b8a0c8; }
+.search-box input:focus { box-shadow: 0 4px 28px rgba(160,100,180,0.35); }
+
+.search-box .search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #b8a0c8;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.category {
+  margin-top: 36px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.category-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.category-header .count {
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.6);
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: #8b6a9e;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 20px 18px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 16px rgba(140,100,160,0.12);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(140,100,160,0.25);
+}
+
+.card .card-icon {
+  font-size: 1.6rem;
+}
+
+.card .card-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card .card-desc {
+  font-size: 0.8rem;
+  color: #9080a0;
+  line-height: 1.4;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #b8a0c8;
+  font-size: 1.1rem;
+  display: none;
+}
+
+/* Category colors */
+.cat-math .category-icon { background: linear-gradient(135deg, #f78fb3, #c44569); }
+.cat-math .card { border-left: 3px solid #f78fb3; }
+
+.cat-finance .category-icon { background: linear-gradient(135deg, #c9a0dc, #8e6aaf); }
+.cat-finance .card { border-left: 3px solid #c9a0dc; }
+
+.cat-health .category-icon { background: linear-gradient(135deg, #7ecfc0, #4aad8e); }
+.cat-health .card { border-left: 3px solid #7ecfc0; }
+
+.cat-date .category-icon { background: linear-gradient(135deg, #74b9ff, #4a8fd4); }
+.cat-date .card { border-left: 3px solid #74b9ff; }
+
+.cat-school .category-icon { background: linear-gradient(135deg, #f8a978, #e07845); }
+.cat-school .card { border-left: 3px solid #f8a978; }
+
+.cat-life .category-icon { background: linear-gradient(135deg, #f5d76e, #d4a520); }
+.cat-life .card { border-left: 3px solid #f5d76e; }
+
+.cat-engineering .category-icon { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+.cat-engineering .card { border-left: 3px solid #a29bfe; }
+
+.cat-fun .category-icon { background: linear-gradient(135deg, #fd79a8, #fdcb6e, #55efc4, #74b9ff, #a29bfe); }
+.cat-fun .card { border-left: 3px solid #fd79a8; }
+
+.cat-geometry .category-icon { background: linear-gradient(135deg, #55efc4, #00b894); }
+.cat-geometry .card { border-left: 3px solid #55efc4; }
+
+@media (max-width: 600px) {
+  header h1 { font-size: 1.7rem; }
+  .cards { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .card { padding: 16px 14px; border-radius: 14px; }
+}
+</style>
+</head>
+<body>
+
+<span class="deco" style="top:5%;left:8%;animation-delay:0s;">&#10084;</span>
+<span class="deco" style="top:12%;right:10%;animation-delay:1.2s;font-size:1rem;">&#9733;</span>
+<span class="deco" style="top:60%;left:5%;animation-delay:2.5s;">&#9733;</span>
+<span class="deco" style="top:75%;right:8%;animation-delay:0.8s;">&#10084;</span>
+<span class="deco" style="top:35%;left:3%;animation-delay:3s;font-size:0.9rem;">&#10084;</span>
+<span class="deco" style="top:50%;right:4%;animation-delay:1.8s;font-size:1rem;">&#9733;</span>
+
+<header>
+  <h1>&#10023; 夢幻計算機大全 &#10023;</h1>
+  <p>72 種實用計算機，滿足你的所有需求</p>
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="搜尋計算機...">
+  </div>
+</header>
+
+<div class="container" id="container">
+
+  <!-- 數學與科學 -->
+  <div class="category cat-math" data-category="math">
+    <div class="category-header">
+      <div class="category-icon">&#128300;</div>
+      <h2>數學與科學</h2>
+      <span class="count">12 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculator.html"><span class="card-icon">&#128290;</span><span class="card-name">基本計算機</span><span class="card-desc">加減乘除基本運算</span></a>
+      <a class="card" href="calculators/math/scientific.html"><span class="card-icon">&#128300;</span><span class="card-name">科學計算機</span><span class="card-desc">三角函數、對數、次方、階乘</span></a>
+      <a class="card" href="calculators/math/fraction.html"><span class="card-icon">&#189;</span><span class="card-name">分數計算機</span><span class="card-desc">分數加減乘除、化簡</span></a>
+      <a class="card" href="calculators/math/equation.html"><span class="card-icon">&#10006;</span><span class="card-name">方程式求解器</span><span class="card-desc">一元一次/二次方程式求解</span></a>
+      <a class="card" href="calculators/math/matrix.html"><span class="card-icon">&#9638;</span><span class="card-name">矩陣計算機</span><span class="card-desc">矩陣加減乘、行列式、轉置</span></a>
+      <a class="card" href="calculators/math/permutation.html"><span class="card-icon">&#127922;</span><span class="card-name">排列組合計算機</span><span class="card-desc">P(n,r) / C(n,r) 計算</span></a>
+      <a class="card" href="calculators/math/probability.html"><span class="card-icon">&#127919;</span><span class="card-name">機率計算機</span><span class="card-desc">基本機率、條件機率、貝氏定理</span></a>
+      <a class="card" href="calculators/math/statistics.html"><span class="card-icon">&#128200;</span><span class="card-name">統計計算機</span><span class="card-desc">平均數、中位數、標準差</span></a>
+      <a class="card" href="calculators/math/base-converter.html"><span class="card-icon">&#128290;</span><span class="card-name">進位轉換計算機</span><span class="card-desc">二/八/十/十六進位互轉</span></a>
+      <a class="card" href="calculators/math/prime-factor.html"><span class="card-icon">&#128270;</span><span class="card-name">質因數分解計算機</span><span class="card-desc">質因數分解、判斷質數</span></a>
+      <a class="card" href="calculators/math/gcd-lcm.html"><span class="card-icon">&#247;</span><span class="card-name">最大公因數/最小公倍數</span><span class="card-desc">GCD/LCM 計算</span></a>
+      <a class="card" href="calculators/math/unit-converter.html"><span class="card-icon">&#128207;</span><span class="card-name">單位換算計算機</span><span class="card-desc">長度/重量/溫度/面積/體積</span></a>
+      <a class="card" href="calculators/math/vector.html"><span class="card-icon">&#10132;</span><span class="card-name">向量計算機</span><span class="card-desc">向量加減、內積、外積</span></a>
+    </div>
+  </div>
+
+  <!-- 財務與金融 -->
+  <div class="category cat-finance" data-category="finance">
+    <div class="category-header">
+      <div class="category-icon">&#128176;</div>
+      <h2>財務與金融</h2>
+      <span class="count">14 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/finance/currency.html"><span class="card-icon">&#128177;</span><span class="card-name">匯率計算機</span><span class="card-desc">主要貨幣匯率換算</span></a>
+      <a class="card" href="calculators/finance/loan.html"><span class="card-icon">&#127974;</span><span class="card-name">貸款月付金計算機</span><span class="card-desc">本金/利率/期數→月付金</span></a>
+      <a class="card" href="calculators/finance/mortgage.html"><span class="card-icon">&#127968;</span><span class="card-name">房貸計算機</span><span class="card-desc">房貸試算、本息攤還表</span></a>
+      <a class="card" href="calculators/finance/compound-interest.html"><span class="card-icon">&#128200;</span><span class="card-name">複利計算機</span><span class="card-desc">本金×利率×期數的複利計算</span></a>
+      <a class="card" href="calculators/finance/simple-interest.html"><span class="card-icon">&#128178;</span><span class="card-name">單利計算機</span><span class="card-desc">簡單利息計算</span></a>
+      <a class="card" href="calculators/finance/roi.html"><span class="card-icon">&#128202;</span><span class="card-name">投資報酬率計算機</span><span class="card-desc">ROI 百分比計算</span></a>
+      <a class="card" href="calculators/finance/savings-goal.html"><span class="card-icon">&#127919;</span><span class="card-name">儲蓄目標計算機</span><span class="card-desc">每月需存多少達到目標</span></a>
+      <a class="card" href="calculators/finance/discount.html"><span class="card-icon">&#127991;</span><span class="card-name">折扣計算機</span><span class="card-desc">原價×折扣→最終價格</span></a>
+      <a class="card" href="calculators/finance/tip.html"><span class="card-icon">&#128179;</span><span class="card-name">小費計算機</span><span class="card-desc">金額×比例→小費＋總計</span></a>
+      <a class="card" href="calculators/finance/split-bill.html"><span class="card-icon">&#129309;</span><span class="card-name">AA 制分帳計算機</span><span class="card-desc">總金額÷人數、含小費分帳</span></a>
+      <a class="card" href="calculators/finance/tax.html"><span class="card-icon">&#128203;</span><span class="card-name">稅金計算機</span><span class="card-desc">含稅/未稅互算</span></a>
+      <a class="card" href="calculators/finance/credit-card.html"><span class="card-icon">&#128179;</span><span class="card-name">信用卡循環利息</span><span class="card-desc">最低應繳→實際利息成本</span></a>
+      <a class="card" href="calculators/finance/retirement.html"><span class="card-icon">&#127796;</span><span class="card-name">退休金計算機</span><span class="card-desc">退休需要準備多少錢</span></a>
+      <a class="card" href="calculators/finance/inflation.html"><span class="card-icon">&#128184;</span><span class="card-name">通膨計算機</span><span class="card-desc">購買力換算</span></a>
+    </div>
+  </div>
+
+  <!-- 健康與身體 -->
+  <div class="category cat-health" data-category="health">
+    <div class="category-header">
+      <div class="category-icon">&#128154;</div>
+      <h2>健康與身體</h2>
+      <span class="count">10 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/health/bmi.html"><span class="card-icon">&#9878;</span><span class="card-name">BMI 計算機</span><span class="card-desc">身高體重→BMI＋健康分類</span></a>
+      <a class="card" href="calculators/health/bmr.html"><span class="card-icon">&#128293;</span><span class="card-name">BMR 基礎代謝率</span><span class="card-desc">性別/年齡/身高/體重→基礎代謝</span></a>
+      <a class="card" href="calculators/health/tdee.html"><span class="card-icon">&#9889;</span><span class="card-name">TDEE 計算機</span><span class="card-desc">BMR×活動係數→每日消耗</span></a>
+      <a class="card" href="calculators/health/calorie.html"><span class="card-icon">&#127829;</span><span class="card-name">卡路里計算機</span><span class="card-desc">食物卡路里查詢/加總</span></a>
+      <a class="card" href="calculators/health/ideal-weight.html"><span class="card-icon">&#128170;</span><span class="card-name">理想體重計算機</span><span class="card-desc">身高→理想體重範圍</span></a>
+      <a class="card" href="calculators/health/body-fat.html"><span class="card-icon">&#128201;</span><span class="card-name">體脂率計算機</span><span class="card-desc">身體數據→估算體脂率</span></a>
+      <a class="card" href="calculators/health/water-intake.html"><span class="card-icon">&#128167;</span><span class="card-name">喝水量計算機</span><span class="card-desc">體重/活動量→建議喝水量</span></a>
+      <a class="card" href="calculators/health/due-date.html"><span class="card-icon">&#128118;</span><span class="card-name">預產期計算機</span><span class="card-desc">末次月經日→預產期</span></a>
+      <a class="card" href="calculators/health/sleep-cycle.html"><span class="card-icon">&#128164;</span><span class="card-name">睡眠週期計算機</span><span class="card-desc">入睡時間→最佳起床時間</span></a>
+      <a class="card" href="calculators/health/heart-rate.html"><span class="card-icon">&#128147;</span><span class="card-name">心率區間計算機</span><span class="card-desc">年齡→運動心率區間</span></a>
+    </div>
+  </div>
+
+  <!-- 日期與時間 -->
+  <div class="category cat-date" data-category="date">
+    <div class="category-header">
+      <div class="category-icon">&#128197;</div>
+      <h2>日期與時間</h2>
+      <span class="count">8 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/date/countdown.html"><span class="card-icon">&#9201;</span><span class="card-name">倒數日計算機</span><span class="card-desc">目標日期→即時倒數</span></a>
+      <a class="card" href="calculators/date/age.html"><span class="card-icon">&#127874;</span><span class="card-name">年齡計算機</span><span class="card-desc">生日→精確年月日歲數</span></a>
+      <a class="card" href="calculators/date/date-diff.html"><span class="card-icon">&#128198;</span><span class="card-name">日期差計算機</span><span class="card-desc">兩日期→間隔天數</span></a>
+      <a class="card" href="calculators/date/date-add.html"><span class="card-icon">&#128197;</span><span class="card-name">日期加減計算機</span><span class="card-desc">日期 ± N 天</span></a>
+      <a class="card" href="calculators/date/timezone.html"><span class="card-icon">&#127760;</span><span class="card-name">時區轉換計算機</span><span class="card-desc">各時區時間互轉</span></a>
+      <a class="card" href="calculators/date/workdays.html"><span class="card-icon">&#128188;</span><span class="card-name">工作日計算機</span><span class="card-desc">排除週末計算工作天數</span></a>
+      <a class="card" href="calculators/date/zodiac.html"><span class="card-icon">&#9812;</span><span class="card-name">星座計算機</span><span class="card-desc">生日→星座＋特質</span></a>
+      <a class="card" href="calculators/date/chinese-zodiac.html"><span class="card-icon">&#128009;</span><span class="card-name">生肖計算機</span><span class="card-desc">出生年→生肖＋運勢</span></a>
+    </div>
+  </div>
+
+  <!-- 學業與成績 -->
+  <div class="category cat-school" data-category="school">
+    <div class="category-header">
+      <div class="category-icon">&#127891;</div>
+      <h2>學業與成績</h2>
+      <span class="count">4 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/school/gpa.html"><span class="card-icon">&#127942;</span><span class="card-name">GPA 計算機</span><span class="card-desc">各科成績→加權 GPA</span></a>
+      <a class="card" href="calculators/school/weighted-avg.html"><span class="card-icon">&#9878;</span><span class="card-name">加權平均計算機</span><span class="card-desc">值×權重→加權平均</span></a>
+      <a class="card" href="calculators/school/semester-grade.html"><span class="card-icon">&#128218;</span><span class="card-name">學期成績計算機</span><span class="card-desc">期中+期末+平時→總成績</span></a>
+      <a class="card" href="calculators/school/final-exam.html"><span class="card-icon">&#128161;</span><span class="card-name">及格分數倒推計算機</span><span class="card-desc">目標分數→期末至少要幾分</span></a>
+    </div>
+  </div>
+
+  <!-- 生活實用 -->
+  <div class="category cat-life" data-category="life">
+    <div class="category-header">
+      <div class="category-icon">&#127968;</div>
+      <h2>生活實用</h2>
+      <span class="count">8 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/life/fuel.html"><span class="card-icon">&#9981;</span><span class="card-name">油耗計算機</span><span class="card-desc">油量/里程→油耗</span></a>
+      <a class="card" href="calculators/life/paint.html"><span class="card-icon">&#127912;</span><span class="card-name">塗料面積計算機</span><span class="card-desc">牆面尺寸→需要幾罐漆</span></a>
+      <a class="card" href="calculators/life/recipe.html"><span class="card-icon">&#127859;</span><span class="card-name">料理份量換算</span><span class="card-desc">食譜人數調整</span></a>
+      <a class="card" href="calculators/life/electricity.html"><span class="card-icon">&#9889;</span><span class="card-name">電費計算機</span><span class="card-desc">電器瓦數×時間→電費</span></a>
+      <a class="card" href="calculators/life/network-speed.html"><span class="card-icon">&#128246;</span><span class="card-name">網速換算計算機</span><span class="card-desc">Mbps↔MB/s 互轉</span></a>
+      <a class="card" href="calculators/life/ppi.html"><span class="card-icon">&#128187;</span><span class="card-name">螢幕 PPI 計算機</span><span class="card-desc">解析度/尺寸→PPI</span></a>
+      <a class="card" href="calculators/life/photo-print.html"><span class="card-icon">&#128247;</span><span class="card-name">照片沖印尺寸</span><span class="card-desc">像素→可印尺寸</span></a>
+      <a class="card" href="calculators/life/fabric.html"><span class="card-icon">&#129525;</span><span class="card-name">布料用量計算機</span><span class="card-desc">版型→需要多少布</span></a>
+    </div>
+  </div>
+
+  <!-- 工程與程式 -->
+  <div class="category cat-engineering" data-category="engineering">
+    <div class="category-header">
+      <div class="category-icon">&#128295;</div>
+      <h2>工程與程式</h2>
+      <span class="count">5 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/engineering/color-converter.html"><span class="card-icon">&#127752;</span><span class="card-name">色碼轉換計算機</span><span class="card-desc">HEX/RGB/HSL 互轉＋預覽</span></a>
+      <a class="card" href="calculators/engineering/px-rem.html"><span class="card-icon">&#128207;</span><span class="card-name">PX↔REM 換算</span><span class="card-desc">像素與 REM/EM 互轉</span></a>
+      <a class="card" href="calculators/engineering/resistor.html"><span class="card-icon">&#9876;</span><span class="card-name">電阻色環計算機</span><span class="card-desc">色環→電阻值</span></a>
+      <a class="card" href="calculators/engineering/ohm.html"><span class="card-icon">&#9889;</span><span class="card-name">歐姆定律計算機</span><span class="card-desc">V=IR 三值互算</span></a>
+      <a class="card" href="calculators/engineering/data-storage.html"><span class="card-icon">&#128190;</span><span class="card-name">資料容量換算</span><span class="card-desc">KB/MB/GB/TB 互轉</span></a>
+    </div>
+  </div>
+
+  <!-- 趣味與社交 -->
+  <div class="category cat-fun" data-category="fun">
+    <div class="category-header">
+      <div class="category-icon">&#127881;</div>
+      <h2>趣味與社交</h2>
+      <span class="count">6 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/fun/love-match.html"><span class="card-icon">&#128150;</span><span class="card-name">愛情配對計算機</span><span class="card-desc">姓名筆畫→配對分數</span></a>
+      <a class="card" href="calculators/fun/random-number.html"><span class="card-icon">&#127922;</span><span class="card-name">隨機數產生器</span><span class="card-desc">範圍→隨機數字</span></a>
+      <a class="card" href="calculators/fun/password-strength.html"><span class="card-icon">&#128272;</span><span class="card-name">密碼強度計算機</span><span class="card-desc">密碼→強度評分</span></a>
+      <a class="card" href="calculators/fun/lottery.html"><span class="card-icon">&#127915;</span><span class="card-name">抽籤計算機</span><span class="card-desc">名單→隨機抽選</span></a>
+      <a class="card" href="calculators/fun/zodiac-match.html"><span class="card-icon">&#128171;</span><span class="card-name">星座配對計算機</span><span class="card-desc">兩星座→配對分析</span></a>
+      <a class="card" href="calculators/fun/lucky-number.html"><span class="card-icon">&#127808;</span><span class="card-name">幸運數字計算機</span><span class="card-desc">生日→幸運數字</span></a>
+    </div>
+  </div>
+
+  <!-- 幾何與空間 -->
+  <div class="category cat-geometry" data-category="geometry">
+    <div class="category-header">
+      <div class="category-icon">&#128316;</div>
+      <h2>幾何與空間</h2>
+      <span class="count">5 個</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="calculators/geometry/triangle.html"><span class="card-icon">&#9650;</span><span class="card-name">三角形面積計算機</span><span class="card-desc">底×高、海龍公式</span></a>
+      <a class="card" href="calculators/geometry/circle.html"><span class="card-icon">&#9711;</span><span class="card-name">圓面積/周長計算機</span><span class="card-desc">半徑→面積＋周長</span></a>
+      <a class="card" href="calculators/geometry/polygon.html"><span class="card-icon">&#11039;</span><span class="card-name">多邊形面積計算機</span><span class="card-desc">正多邊形面積</span></a>
+      <a class="card" href="calculators/geometry/volume.html"><span class="card-icon">&#9634;</span><span class="card-name">體積計算機</span><span class="card-desc">球/圓柱/圓錐體積</span></a>
+      <a class="card" href="calculators/geometry/pythagorean.html"><span class="card-icon">&#8895;</span><span class="card-name">畢氏定理計算機</span><span class="card-desc">a²+b²=c² 求任一邊</span></a>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">找不到符合的計算機 :(</div>
+</div>
+
+<footer style="text-align:center;padding:32px 20px 24px;color:rgba(74,48,96,0.7);font-size:0.85rem;">
+  <div style="margin-bottom:8px;font-size:1.1rem;font-weight:700;color:#a18cd1;">✨ 夢幻計算機大全</div>
+  <div style="margin-bottom:12px;">72 種免費線上計算機，涵蓋數學、財務、健康、日期、工程等領域</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.4);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.6);border-radius:20px;padding:6px 14px;color:#7c5cbf;text-decoration:none;font-weight:600;font-size:0.82rem;">
+      🤖 由 Claude AI 協助建置 · Built with Claude AI
+    </a>
+    <a href="about.html" style="color:rgba(74,48,96,0.6);text-decoration:none;font-weight:600;">關於本站</a>
+    <span style="color:rgba(74,48,96,0.4);">·</span>
+    <span>© 2025 夢幻計算機大全</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+  var searchInput = document.getElementById('searchInput');
+  var categories = document.querySelectorAll('.category');
+  var noResults = document.getElementById('noResults');
+
+  searchInput.addEventListener('input', function() {
+    var query = this.value.trim().toLowerCase();
+    var anyVisible = false;
+
+    categories.forEach(function(cat) {
+      var cards = cat.querySelectorAll('.card');
+      var catVisible = false;
+
+      cards.forEach(function(card) {
+        var name = card.querySelector('.card-name').textContent.toLowerCase();
+        var desc = card.querySelector('.card-desc').textContent.toLowerCase();
+        var match = !query || name.indexOf(query) !== -1 || desc.indexOf(query) !== -1;
+        card.style.display = match ? '' : 'none';
+        if (match) catVisible = true;
+      });
+
+      cat.style.display = catVisible ? '' : 'none';
+      if (catVisible) anyVisible = true;
+    });
+
+    noResults.style.display = anyVisible ? 'none' : 'block';
+  });
+})();
+</script>
+</body>
+</html>

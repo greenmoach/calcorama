@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="卡路里計算機，查詢常見食物熱量，計算每日飲食卡路里攝取總量。">
+<link rel="canonical" href="https://calc.sotshau.fun/calculators/health/calorie.html">
+<meta property="og:title" content="卡路里計算機 | 夢幻計算機大全">
+<meta property="og:description" content="卡路里計算機，查詢常見食物熱量，計算每日飲食卡路里攝取總量。">
+<meta property="og:url" content="https://calc.sotshau.fun/calculators/health/calorie.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="夢幻計算機大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"卡路里計算機","description":"卡路里計算機，查詢常見食物熱量，計算每日飲食卡路里攝取總量。","url":"https://calc.sotshau.fun/calculators/health/calorie.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"}}
+</script>
+<title>卡路里計算機 | 夢幻計算機大全</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;background:linear-gradient(135deg,#c8f5e6 0%,#a0e8d0 30%,#7ecfc0 60%,#5cb8a8 100%);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;}
+.float-circle{position:fixed;border-radius:50%;background:rgba(255,255,255,0.12);pointer-events:none;animation:floatUp 8s ease-in-out infinite;}
+.fc1{width:120px;height:120px;top:10%;left:5%;animation-delay:0s;}
+.fc2{width:80px;height:80px;top:60%;right:8%;animation-delay:2s;}
+.fc3{width:60px;height:60px;bottom:15%;left:15%;animation-delay:4s;}
+.fc4{width:100px;height:100px;top:25%;right:20%;animation-delay:1s;}
+.fc5{width:45px;height:45px;bottom:30%;right:30%;animation-delay:3s;}
+@keyframes floatUp{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.08);}}
+.card{background:rgba(255,255,255,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 8px 32px rgba(60,160,130,0.18);padding:48px 40px;max-width:520px;width:100%;position:relative;z-index:2;}
+h1{text-align:center;color:#2a8a6e;font-size:1.8rem;margin-bottom:8px;font-weight:800;}
+.subtitle{text-align:center;color:#6abfa8;font-size:0.95rem;margin-bottom:28px;}
+label{display:block;color:#3a9a80;font-weight:700;margin-bottom:6px;font-size:0.92rem;}
+select,input{width:100%;padding:14px 16px;border:2px solid #b8e8d8;border-radius:14px;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;transition:border-color .3s;background:rgba(255,255,255,0.7);margin-bottom:18px;-webkit-appearance:none;}
+select:focus,input:focus{border-color:#4aad8e;}
+.row{display:flex;gap:12px;}
+.row>*{flex:1;}
+.btn{width:100%;padding:15px;background:linear-gradient(135deg,#5cb8a8,#3a9a80);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .2s,box-shadow .2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,160,130,0.35);}
+.btn-sm{padding:10px 16px;font-size:0.9rem;border-radius:10px;}
+.food-list{margin-top:20px;}
+.food-item{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(74,173,142,0.07);border-radius:12px;margin-bottom:8px;font-size:0.92rem;}
+.food-item .name{color:#3a9a80;font-weight:600;}
+.food-item .cal{color:#2a8a6e;font-weight:800;}
+.food-item .remove{color:#d05a5a;cursor:pointer;font-weight:700;padding:2px 8px;border-radius:8px;transition:background .2s;}
+.food-item .remove:hover{background:rgba(208,90,90,0.1);}
+.total-bar{display:flex;justify-content:space-between;align-items:center;padding:16px;background:linear-gradient(135deg,rgba(74,173,142,0.15),rgba(42,138,110,0.12));border-radius:14px;margin-top:12px;}
+.total-label{color:#3a9a80;font-weight:700;font-size:1rem;}
+.total-val{color:#2a8a6e;font-weight:800;font-size:1.4rem;}
+.empty-msg{text-align:center;color:#aaa;padding:20px;font-size:0.9rem;}
+@media(max-width:500px){.card{padding:32px 20px;border-radius:20px;}h1{font-size:1.5rem;}.row{flex-direction:column;gap:0;}}
+</style>
+</head>
+<body>
+<a href="../../index.html" style="position:fixed;top:18px;left:18px;z-index:10;color:#4aad8e;text-decoration:none;font-weight:700;font-size:0.95rem;">&#10094; 返回首頁</a>
+<div class="float-circle fc1"></div>
+<div class="float-circle fc2"></div>
+<div class="float-circle fc3"></div>
+<div class="float-circle fc4"></div>
+<div class="float-circle fc5"></div>
+<div class="card">
+<h1>卡路里計算機</h1>
+<p class="subtitle">記錄每日食物熱量攝取</p>
+<label for="food">選擇食物</label>
+<select id="food">
+<option value="">-- 請選擇 --</option>
+</select>
+<div class="row">
+<div>
+<label for="qty">份數</label>
+<input type="number" id="qty" value="1" min="0.1" step="0.1">
+</div>
+<div>
+<label>&nbsp;</label>
+<button class="btn btn-sm" onclick="addFood()">加入清單</button>
+</div>
+</div>
+<div class="food-list" id="foodList">
+<div class="empty-msg" id="emptyMsg">尚未加入任何食物</div>
+</div>
+<div class="total-bar">
+<span class="total-label">總熱量</span>
+<span class="total-val" id="totalCal">0 大卡</span>
+</div>
+</div>
+<script>
+var foods=[
+  {name:'白飯（1碗）',cal:280},
+  {name:'吐司（1片）',cal:130},
+  {name:'雞胸肉（100g）',cal:165},
+  {name:'雞蛋（1顆）',cal:75},
+  {name:'蘋果（1顆）',cal:95},
+  {name:'香蕉（1根）',cal:105},
+  {name:'全脂牛奶（240ml）',cal:150},
+  {name:'豆漿（240ml）',cal:100},
+  {name:'滷肉飯（1碗）',cal:510},
+  {name:'便當（一般）',cal:700},
+  {name:'水餃（10顆）',cal:400},
+  {name:'泡麵（1包）',cal:450},
+  {name:'牛肉麵（1碗）',cal:550},
+  {name:'珍珠奶茶（大杯）',cal:480},
+  {name:'豆腐（1塊）',cal:80},
+  {name:'沙拉（1份）',cal:120},
+  {name:'三明治（1個）',cal:320},
+  {name:'薯條（中份）',cal:380}
+];
+var sel=document.getElementById('food');
+foods.forEach(function(f,i){
+  var opt=document.createElement('option');
+  opt.value=i;
+  opt.textContent=f.name+' — '+f.cal+' 大卡';
+  sel.appendChild(opt);
+});
+var added=[];
+function render(){
+  var list=document.getElementById('foodList');
+  var empty=document.getElementById('emptyMsg');
+  if(added.length===0){
+    list.innerHTML='';
+    list.appendChild(empty);
+    empty.style.display='block';
+    document.getElementById('totalCal').textContent='0 大卡';
+    return;
+  }
+  list.innerHTML='';
+  var total=0;
+  added.forEach(function(item,idx){
+    var cal=Math.round(item.cal*item.qty);
+    total+=cal;
+    var div=document.createElement('div');
+    div.className='food-item';
+    div.innerHTML='<span class="name">'+item.name+' x'+item.qty+'</span><span><span class="cal">'+cal+' 大卡</span> <span class="remove" onclick="removeFood('+idx+')">✕</span></span>';
+    list.appendChild(div);
+  });
+  document.getElementById('totalCal').textContent=total.toLocaleString()+' 大卡';
+}
+function addFood(){
+  var idx=document.getElementById('food').value;
+  var qty=parseFloat(document.getElementById('qty').value);
+  if(idx===''||!qty||qty<=0){alert('請選擇食物並輸入份數');return;}
+  var f=foods[parseInt(idx)];
+  added.push({name:f.name,cal:f.cal,qty:qty});
+  render();
+}
+function removeFood(i){
+  added.splice(i,1);
+  render();
+}
+</script>
+<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
+   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
+  🤖 由 Claude AI 協助建置
+</a>
+</body>
+</html>
