@@ -5,347 +5,709 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#a18cd1">
-<meta name="description" content="關於夢幻計算機大全 — 72種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
+<meta name="theme-color" content="#4b162b">
+<meta name="description" content="關於夢幻計算機大全 — 73種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
 <link rel="canonical" href="https://calc.sotshau.fun/about.html">
 <meta property="og:title" content="關於本站 | 夢幻計算機大全">
-<meta property="og:description" content="關於夢幻計算機大全 — 72種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
+<meta property="og:description" content="關於夢幻計算機大全 — 73種免費線上計算機，無廣告、無需登入，所有計算在瀏覽器本地執行，由 Claude AI 協助建置。">
 <meta property="og:url" content="https://calc.sotshau.fun/about.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="夢幻計算機大全">
 <title>關於本站 | 夢幻計算機大全</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  min-height: 100vh;
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 25%, #c2e9fb 50%, #fbc2eb 75%, #a18cd1 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  color: #4a3060;
-  padding: 80px 20px 80px;
+:root {
+  --bg: oklch(95% 0.02 42);
+  --bg-strong: oklch(31% 0.07 355);
+  --surface: oklch(97% 0.018 40);
+  --surface-soft: oklch(92% 0.03 32);
+  --surface-dark: oklch(27% 0.05 350);
+  --ink: oklch(24% 0.05 352);
+  --ink-soft: oklch(43% 0.04 352);
+  --line: oklch(80% 0.04 34);
+  --accent: oklch(50% 0.19 18);
+  --accent-deep: oklch(39% 0.14 10);
+  --accent-gold: oklch(80% 0.12 78);
+  --shadow-lg: 0 32px 80px color-mix(in oklab, var(--bg-strong) 22%, transparent);
+  --shadow-md: 0 18px 42px color-mix(in oklab, var(--bg-strong) 14%, transparent);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 12%, oklch(88% 0.11 32) 0, transparent 28%),
+    radial-gradient(circle at 84% 10%, oklch(82% 0.12 78) 0, transparent 22%),
+    radial-gradient(circle at 50% 100%, oklch(72% 0.13 15 / 0.18) 0, transparent 34%),
+    linear-gradient(150deg, oklch(95% 0.02 42) 0%, oklch(92% 0.03 28) 46%, oklch(90% 0.032 58) 100%);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background:
+    linear-gradient(120deg, transparent 0 38%, oklch(32% 0.05 350 / 0.08) 38% 40%, transparent 40% 100%),
+    repeating-linear-gradient(90deg, transparent 0 92px, oklch(34% 0.05 350 / 0.03) 92px 93px, transparent 93px 186px);
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  background: radial-gradient(circle at center, transparent 0 60%, oklch(30% 0.06 352 / 0.12) 100%);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--accent) 74%, white);
+  outline-offset: 4px;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 22px 0 56px;
 }
 
 .back-link {
-  position: fixed;
-  top: 18px;
-  left: 18px;
-  z-index: 100;
-  color: #d4789c;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 18px;
+  color: var(--ink);
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.95rem;
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.6);
-  border-radius: 20px;
-  padding: 7px 16px;
-  transition: background 0.2s;
-}
-.back-link:hover { background: rgba(255,255,255,0.65); }
-
-.container {
-  max-width: 760px;
-  margin: 0 auto;
+  background: color-mix(in oklab, var(--surface) 86%, var(--accent-gold) 14%);
+  border: 1px solid color-mix(in oklab, var(--accent) 12%, var(--line));
+  box-shadow: var(--shadow-md);
+  transition: transform 220ms var(--ease-out), background-color 220ms var(--ease-out), border-color 220ms var(--ease-out);
 }
 
-/* Hero */
+.back-link:hover {
+  transform: translateY(-3px);
+  background: color-mix(in oklab, var(--surface) 74%, var(--accent-gold) 26%);
+  border-color: color-mix(in oklab, var(--accent) 28%, var(--line));
+}
+
 .hero {
-  text-align: center;
-  padding: 20px 0 36px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: clamp(28px, 4vw, 56px);
+  padding: clamp(30px, 5vw, 56px) 0 54px;
 }
+
+.hero-copy {
+  display: grid;
+  gap: 22px;
+  align-content: start;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 54px;
+  height: 1px;
+  background: color-mix(in oklab, var(--accent) 54%, var(--ink-soft));
+}
+
 .hero h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #d4789c, #a855a0, #7c5cbf);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 10px;
-}
-.hero p {
-  font-size: 1.05rem;
-  color: #8b6a9e;
-  font-weight: 600;
+  margin: 0;
+  max-width: 9ch;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3.4rem, 9vw, 7.2rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
 }
 
-/* Cards */
-.card {
-  background: rgba(255,255,255,0.38);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.6);
-  border-radius: 20px;
-  padding: 28px 32px;
-  margin-bottom: 24px;
-}
-.card h2 {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #7c5cbf;
-  margin-bottom: 16px;
+.hero h1 span {
+  display: block;
+  color: color-mix(in oklab, var(--accent) 84%, var(--bg-strong));
 }
 
-/* About list */
-.about-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.about-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.97rem;
-  color: #5a3a7a;
-  line-height: 1.55;
-}
-.about-list li::before {
-  content: '✓';
-  font-weight: 700;
-  color: #a855a0;
-  flex-shrink: 0;
-  margin-top: 1px;
+.hero-lead {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1vw + 0.9rem, 1.24rem);
+  line-height: 1.8;
 }
 
-/* Category chips */
-.chips {
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-}
-.chip {
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(160,100,200,0.25);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #7c5cbf;
+  gap: 12px;
 }
 
-/* AI card — purple gradient border */
-.card-ai {
-  background: rgba(255,255,255,0.38);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 20px;
-  padding: 3px;
-  margin-bottom: 24px;
-  background-image: linear-gradient(rgba(255,255,255,0.38), rgba(255,255,255,0.38)),
-    linear-gradient(135deg, #c084fc, #818cf8, #a855f7);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border: 3px solid transparent;
-  background: linear-gradient(rgba(255,255,255,0) 0 0) padding-box,
-    linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #a855f7 100%) border-box;
-  background-color: rgba(255,255,255,0.38);
-}
-.card-ai-inner {
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 17px;
-  padding: 28px 32px;
-}
-.card-ai-inner h2 {
-  font-size: 1.2rem;
+.cta,
+.ghost-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  text-decoration: none;
   font-weight: 800;
-  color: #7c5cbf;
-  margin-bottom: 16px;
+  transition: transform 220ms var(--ease-out), background-color 220ms var(--ease-out), color 220ms var(--ease-out), border-color 220ms var(--ease-out);
 }
 
-.ai-meta {
-  font-size: 0.9rem;
-  color: #8b6a9e;
-  margin-bottom: 14px;
+.cta {
+  color: oklch(95% 0.02 44);
+  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in oklab, var(--accent) 72%, var(--accent-gold)) 100%);
+  box-shadow: var(--shadow-md);
 }
-.ai-meta strong { color: #6b3a9e; }
 
-.ai-list {
+.cta:hover {
+  transform: translateY(-3px);
+}
+
+.ghost-link {
+  color: var(--ink);
+  border: 1px solid color-mix(in oklab, var(--accent) 16%, var(--line));
+  background: color-mix(in oklab, var(--surface) 82%, var(--accent-gold) 18%);
+}
+
+.ghost-link:hover {
+  transform: translateY(-3px);
+  background: color-mix(in oklab, var(--surface) 70%, var(--accent-gold) 30%);
+}
+
+.hero-note {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: clamp(22px, 3vw, 30px);
+  color: oklch(94% 0.015 42);
+  background: linear-gradient(180deg, oklch(34% 0.08 352) 0%, oklch(27% 0.05 352) 100%);
+  box-shadow: var(--shadow-lg);
+  overflow: clip;
+}
+
+.hero-note::before {
+  content: '';
+  display: block;
+  width: 88px;
+  height: 2px;
+  background: color-mix(in oklab, var(--accent-gold) 84%, transparent);
+}
+
+.hero-note p,
+.hero-note h2 {
+  margin: 0;
+}
+
+.note-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--accent-gold) 84%, white);
+}
+
+.hero-note h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 2vw + 1rem, 2.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.hero-note p {
+  color: oklch(86% 0.02 40);
+  line-height: 1.8;
+}
+
+.hero-note strong {
+  color: color-mix(in oklab, var(--accent-gold) 86%, white);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: start;
+  padding: 28px 0 42px;
+}
+
+.section-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.section-copy h2,
+.story-stage h2,
+.makers-stage h2,
+.closing h2 {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.section-copy p,
+.closing p,
+.makers-stage p,
+.story-stage p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+
+.manifesto {
+  display: grid;
+  gap: 18px;
+}
+
+.manifesto-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in oklab, var(--accent) 12%, var(--line));
+}
+
+.manifesto-item strong {
+  font-family: 'Fraunces', serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: color-mix(in oklab, var(--accent) 72%, var(--accent-deep));
+}
+
+.manifesto-item p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.story-stage {
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 3vw, 30px);
+  background: color-mix(in oklab, var(--surface) 88%, var(--accent-gold) 12%);
+  border: 1px solid color-mix(in oklab, var(--accent) 14%, var(--line));
+  box-shadow: var(--shadow-md);
+}
+
+.story-stage ul {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  margin-bottom: 16px;
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
 }
-.ai-list li {
+
+.story-stage li {
+  padding-left: 18px;
+  position: relative;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.story-stage li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: color-mix(in oklab, var(--accent) 72%, var(--accent-deep));
+  font-weight: 800;
+}
+
+.catalogue-strip {
+  display: grid;
+  gap: 18px;
+  padding: 18px 0 48px;
+}
+
+.catalogue-header {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+}
+
+.catalogue-header p,
+.catalogue-header h2 {
+  margin: 0;
+}
+
+.catalogue-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.catalogue-header p {
+  max-width: 36ch;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.realms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.realm {
+  display: grid;
   gap: 10px;
-  font-size: 0.95rem;
-  color: #5a3a7a;
-  line-height: 1.5;
-}
-.ai-list li::before {
-  content: '▸';
-  color: #a855a0;
-  flex-shrink: 0;
-  margin-top: 1px;
+  padding: 18px;
+  background: color-mix(in oklab, var(--surface) 94%, var(--accent-gold) 6%);
+  border-top: 4px solid color-mix(in oklab, var(--accent) 48%, var(--accent-gold));
+  box-shadow: var(--shadow-md);
+  transition: transform 220ms var(--ease-out), background-color 220ms var(--ease-out);
 }
 
-.ai-note {
-  font-size: 0.85rem;
-  color: #9e7ab8;
-  margin-bottom: 18px;
-  font-style: italic;
+.realm:hover {
+  transform: translateY(-4px);
+  background: color-mix(in oklab, var(--surface) 82%, var(--accent-gold) 18%);
 }
 
-.btn-anthropic {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: linear-gradient(135deg, #c084fc, #818cf8);
-  color: #fff;
+.realm strong {
+  font-size: 1.02rem;
+}
+
+.realm span {
+  color: var(--ink-soft);
+  line-height: 1.65;
+  font-size: 0.92rem;
+}
+
+.makers-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
+  gap: clamp(24px, 4vw, 46px);
+  padding: clamp(26px, 4vw, 40px);
+  margin: 12px 0 48px;
+  color: oklch(93% 0.02 42);
+  background: linear-gradient(180deg, oklch(33% 0.08 352) 0%, oklch(24% 0.04 352) 100%);
+  box-shadow: var(--shadow-lg);
+  overflow: clip;
+}
+
+.makers-stage::before {
+  content: '';
+  position: absolute;
+  inset: 18px;
+  border: 1px solid color-mix(in oklab, var(--accent-gold) 55%, transparent);
+  pointer-events: none;
+}
+
+.makers-stage::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -20px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(80% 0.12 78 / 0.3) 0%, transparent 70%);
+}
+
+.makers-copy,
+.makers-facts {
+  position: relative;
+  z-index: 1;
+}
+
+.makers-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.makers-copy p,
+.makers-facts p,
+.makers-facts li {
+  color: oklch(86% 0.02 40);
+}
+
+.makers-facts {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.fact-box {
+  padding: 18px;
+  background: color-mix(in oklab, white 8%, transparent);
+  border-left: 4px solid color-mix(in oklab, var(--accent-gold) 80%, transparent);
+}
+
+.fact-box strong,
+.fact-box p {
+  display: block;
+  margin: 0;
+}
+
+.fact-box strong {
+  margin-bottom: 8px;
+  color: color-mix(in oklab, var(--accent-gold) 86%, white);
+}
+
+.fact-box p {
+  line-height: 1.7;
+}
+
+.makers-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.makers-links a {
+  color: oklch(95% 0.02 42);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent-gold) 60%, transparent);
+}
+
+.closing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+  padding: 28px 0 12px;
+  border-top: 1px solid color-mix(in oklab, var(--accent) 14%, var(--line));
+}
+
+.footer-note {
+  color: var(--ink-soft);
   font-size: 0.9rem;
-  padding: 9px 20px;
-  border-radius: 20px;
-  transition: opacity 0.2s;
-}
-.btn-anthropic:hover { opacity: 0.88; }
-
-/* Tech */
-.tech-items {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.tech-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.95rem;
-  color: #5a3a7a;
-  line-height: 1.5;
-}
-.tech-item .label {
-  font-weight: 700;
-  color: #7c5cbf;
-  min-width: 130px;
-  flex-shrink: 0;
 }
 
-.github-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  color: #7c5cbf;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(160,100,200,0.3);
-  border-radius: 16px;
-  padding: 7px 16px;
-  transition: background 0.2s;
+.reveal {
+  animation: rise-in 720ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
 }
-.github-link:hover { background: rgba(255,255,255,0.7); }
 
-@media (max-width: 520px) {
-  .hero h1 { font-size: 1.7rem; }
-  .card, .card-ai-inner { padding: 22px 20px; }
-  .tech-item .label { min-width: 100px; }
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 940px) {
+  .hero,
+  .story-grid,
+  .makers-stage,
+  .closing {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .hero {
+    padding: 22px 0 40px;
+  }
+
+  .hero h1,
+  .section-copy h2,
+  .story-stage h2,
+  .makers-stage h2,
+  .catalogue-header h2,
+  .closing h2 {
+    font-size: clamp(2.4rem, 12vw, 4rem);
+  }
+
+  .hero-actions,
+  .makers-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
 <body>
+<div class="page">
+  <a href="index.html" class="back-link reveal" style="--i:0;">← 返回首頁</a>
 
-<a href="index.html" class="back-link">← 返回首頁</a>
-
-<div class="container">
-
-  <!-- Hero -->
-  <div class="hero">
-    <h1>✨ 關於夢幻計算機大全</h1>
-    <p>免費・無廣告・為日常計算而生</p>
-  </div>
-
-  <!-- 關於本站 -->
-  <div class="card">
-    <h2>📖 關於本站</h2>
-    <ul class="about-list">
-      <li>72 種免費計算機，涵蓋 9 大類別，滿足日常各種計算需求</li>
-      <li>所有計算在瀏覽器本地執行，不傳送任何資料至伺服器</li>
-      <li>無廣告、無需登入、無需安裝，開箱即用</li>
-      <li>介面使用繁體中文（zh-TW），簡單直覺，適合各年齡使用</li>
-    </ul>
-  </div>
-
-  <!-- 9 大類別 -->
-  <div class="card">
-    <h2>🗂️ 9 大類別總覽</h2>
-    <div class="chips">
-      <span class="chip">🔢 數學與科學</span>
-      <span class="chip">💰 財務金融</span>
-      <span class="chip">💪 健康身體</span>
-      <span class="chip">📅 日期時間</span>
-      <span class="chip">🎓 學業成績</span>
-      <span class="chip">🏠 生活實用</span>
-      <span class="chip">⚙️ 工程程式</span>
-      <span class="chip">🎉 趣味社交</span>
-      <span class="chip">📐 幾何空間</span>
+  <header class="hero">
+    <div class="hero-copy reveal" style="--i:1;">
+      <p class="eyebrow">About the brand</p>
+      <h1>這不是一張說明頁，<span>而是夢幻計算機大全的開場白。</span></h1>
+      <p class="hero-lead">夢幻計算機大全想做的，不只是把工具塞滿頁面，而是把原本零散、無聊、常常難找的日常計算，整理成一座任何人都能立刻走進去的數字舞台。免費、直接、好看，而且真的有用。</p>
+      <div class="hero-actions">
+        <a class="cta" href="index.html">立刻逛 73 款計算機</a>
+        <a class="ghost-link" href="https://github.com/greenmoach/calcorama" target="_blank" rel="noopener">查看 GitHub 原始碼</a>
+      </div>
     </div>
-  </div>
 
-  <!-- AI 協助建置 -->
-  <div class="card-ai">
-    <div class="card-ai-inner">
-      <h2>🤖 由 Claude AI 協助建置</h2>
-      <p class="ai-meta">使用模型：<strong>Anthropic Claude（claude-sonnet）</strong></p>
-      <ul class="ai-list">
-        <li>HTML / CSS / JavaScript 程式碼撰寫</li>
-        <li>玻璃擬態（Glassmorphism）UI 設計</li>
-        <li>SEO meta tags 與 JSON-LD schema 結構化資料</li>
-        <li>72 個計算機的邏輯實作與計算驗證</li>
+    <aside class="hero-note reveal" style="--i:2;" aria-label="網站核心承諾">
+      <p class="note-label">Core promise</p>
+      <h2>日常需要答案的時候，這裡不讓你排隊。</h2>
+      <p><strong>73 種工具、9 大類別、全程免登入。</strong> 所有計算都在瀏覽器本地完成，不必把資料交出去，也不用先忍受廣告、跳窗或安裝流程。</p>
+      <p>它應該像拿起一支順手的筆：不必學習、不必等待、直接開始。</p>
+    </aside>
+  </header>
+
+  <section class="story-grid">
+    <div class="section-copy reveal" style="--i:3;">
+      <p class="kicker">Why it exists</p>
+      <h2>為什麼把計算機做得像一場品牌演出？</h2>
+      <p>因為大多數工具網站都只滿足了「能用」，卻沒有處理「想用」。它們常常拼湊、雜亂、冷冰冰，讓人像在翻舊抽屜。夢幻計算機大全反過來思考：如果每一次換算、試算、推算，都能更順、更輕、更有記憶點呢？</p>
+      <p>這個網站的故事，不是炫耀複雜技術，而是把複雜留在背後，把清楚和愉悅搬到前台。它服務學生、上班族、家庭使用者，也服務那些只想趕快得到答案的人。</p>
+      <div class="manifesto">
+        <div class="manifesto-item">
+          <strong>01</strong>
+          <p>把「常用」放在前面。先讓人找到答案，再慢慢發現這個站比想像中更完整。</p>
+        </div>
+        <div class="manifesto-item">
+          <strong>02</strong>
+          <p>把資料留在本地。無需登入、不追著你要資訊，降低每一次使用的心理成本。</p>
+        </div>
+        <div class="manifesto-item">
+          <strong>03</strong>
+          <p>把工具做得有風格。不是為了裝飾，而是讓實用網站也可以有辨識度、有態度。</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="story-stage reveal" style="--i:4;">
+      <p class="kicker">Audience fit</p>
+      <h2>給很廣的人，卻不做成平淡的樣子。</h2>
+      <p>這個站面向的是日常生活中的大眾使用者，因此介面要夠直覺；但它也故意保留戲劇感，因為「實用」不代表只能看起來像表單倉庫。</p>
+      <ul>
+        <li>學生可以快速處理 GPA、方程式、日期差與單位換算。</li>
+        <li>生活與財務需求可以一站解決，從房貸、電費到複利都找得到。</li>
+        <li>趣味工具保留網站的玩心，讓品牌不只可靠，也更有人味。</li>
       </ul>
-      <p class="ai-note">所有程式碼均由人工審閱確認後發布。</p>
-      <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener" class="btn-anthropic">
-        🔗 前往 Anthropic 官網
-      </a>
-    </div>
-  </div>
+    </aside>
+  </section>
 
-  <!-- 技術說明 -->
-  <div class="card">
-    <h2>⚙️ 技術說明</h2>
-    <div class="tech-items">
-      <div class="tech-item">
-        <span class="label">技術架構</span>
-        <span>Vanilla HTML / CSS / JavaScript，無框架、無依賴、無建置工具</span>
+  <section class="catalogue-strip reveal" style="--i:5;">
+    <div class="catalogue-header">
+      <div>
+        <p class="kicker">Nine realms</p>
+        <h2>73 種工具，被排成九個容易記住的世界。</h2>
       </div>
-      <div class="tech-item">
-        <span class="label">資料隱私</span>
-        <span>全部計算在本地瀏覽器執行，不傳送任何資料至外部伺服器</span>
-      </div>
-      <div class="tech-item">
-        <span class="label">開放原始碼</span>
-        <span>原始碼公開於 GitHub，歡迎參考與貢獻</span>
+      <p>分類不是為了看起來完整，而是讓搜尋之前就先有方向。你不需要猜站長把工具藏在哪裡，光看分類名稱就知道下一步往哪走。</p>
+    </div>
+
+    <div class="realms" aria-label="計算機分類總覽">
+      <div class="realm"><strong>數學與科學</strong><span>從基本運算到矩陣、統計、向量與科學計算，處理最硬派的基礎需求。</span></div>
+      <div class="realm"><strong>財務與金融</strong><span>貸款、房貸、複利、稅金與退休試算，讓數字決策更快落地。</span></div>
+      <div class="realm"><strong>健康與身體</strong><span>BMI、BMR、TDEE、喝水量與睡眠週期，日常健康資訊不用再東拼西找。</span></div>
+      <div class="realm"><strong>日期與時間</strong><span>生日、倒數、工作日、時區與生肖，一切跟時間有關的答案都能即刻取得。</span></div>
+      <div class="realm"><strong>學業與成績</strong><span>GPA、加權平均、學期成績與及格倒推，讓分數不再只能用猜的。</span></div>
+      <div class="realm"><strong>生活實用</strong><span>油耗、電費、網速、照片沖印與食譜換算，把小事也做得很順手。</span></div>
+      <div class="realm"><strong>工程與程式</strong><span>色碼、資料容量、PX/REM、歐姆定律，照顧到技術向使用情境。</span></div>
+      <div class="realm"><strong>趣味與社交</strong><span>愛情配對、抽籤、幸運數字與星座配對，讓網站保留一點玩樂與分享性。</span></div>
+      <div class="realm"><strong>幾何與空間</strong><span>三角形、圓形、多邊形、體積與畢氏定理，直覺處理最常用的圖形公式。</span></div>
+    </div>
+  </section>
+
+  <section class="makers-stage reveal" style="--i:6;">
+    <div class="makers-copy">
+      <p class="kicker">How it was made</p>
+      <h2>由 Claude AI 協助建置，但不是把責任丟給 AI。</h2>
+      <p>這個專案使用 Anthropic Claude 協助撰寫 HTML、CSS、JavaScript，並建立 SEO 與結構化資料。但它不是「按一下就完成」的產物，而是一個有人在意細節、審閱內容、調整體驗的製作過程。</p>
+      <p>AI 在這裡扮演的是放大器：幫助產出速度更快、變化更多、覆蓋更廣；而一致性、正確性與最後呈現，仍然需要人來決定。</p>
+      <div class="makers-links">
+        <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">前往 Anthropic 官網</a>
+        <a href="https://github.com/greenmoach/calcorama" target="_blank" rel="noopener">瀏覽公開原始碼</a>
       </div>
     </div>
-    <a href="https://github.com/greenmoach/calcorama" target="_blank" rel="noopener" class="github-link">
-      ⭐ GitHub — greenmoach/calcorama
-    </a>
-  </div>
 
+    <div class="makers-facts" aria-label="技術與透明度">
+      <div class="fact-box">
+        <strong>技術架構</strong>
+        <p>Vanilla HTML / CSS / JavaScript，沒有框架、沒有依賴、沒有建置工具，打開就能執行。</p>
+      </div>
+      <div class="fact-box">
+        <strong>資料隱私</strong>
+        <p>所有計算都在本地瀏覽器完成，不把輸入內容送到外部伺服器。</p>
+      </div>
+      <div class="fact-box">
+        <strong>發佈原則</strong>
+        <p>內容與程式碼經人工審閱後再上線，保留公開透明與可驗證的來源。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="closing reveal" style="--i:7;">
+    <div>
+      <p class="kicker">Next move</p>
+      <h2>故事說完了，現在回去找你的答案。</h2>
+      <p>如果你是第一次來，從首頁直接搜尋最省時間。如果你已經知道要算什麼，現在就是最好的開始。</p>
+      <p class="footer-note">夢幻計算機大全 © 2025</p>
+    </div>
+    <a class="cta" href="index.html">返回首頁開始計算</a>
+  </footer>
 </div>
-
-<a href="https://www.anthropic.com/claude" target="_blank" rel="noopener"
-   style="position:fixed;bottom:16px;right:16px;z-index:10;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.55);border-radius:16px;padding:5px 11px;color:rgba(100,60,150,0.8);text-decoration:none;font-size:0.75rem;font-weight:600;font-family:'Nunito',sans-serif;">
-  🤖 由 Claude AI 協助建置
-</a>
-
 </body>
 </html>
